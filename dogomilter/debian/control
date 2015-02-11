@@ -1,0 +1,15 @@
+Source: dogomail-milter
+Section: mail
+Priority: optional
+Maintainer: M. Andres Gironacci <mgironacci@itecnis.com>
+Build-Depends: debhelper (>= 8.1), quilt (>= 0.46-7), python
+Standards-Version: 3.9.4
+Homepage: http://www.itecnis.com/
+
+Package: dogomail-milter
+Architecture: all
+Depends: python, ${misc:Depends}, python-milter (>= 0.9.3), python-spf (>= 2.0), lsb-base, adduser 
+Suggests: postfix (>= 2.3) | sendmail (>= 8.13)
+Description: Dogomail Milter
+ The Python mail filter for Dogomail antispam system
+
