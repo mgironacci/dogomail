@@ -1,0 +1,22 @@
+html, body {
+	color: #444444;
+	background-color: white;
+	font: small "Verdana", Helvetica, sans-serif;
+	font-size: small;
+	margin: 0;
+	padding: 0;
+}
+
+img {
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+pre {
+	font-family: monospace;
+	font-size: x-small;
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
