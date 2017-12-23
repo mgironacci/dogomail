@@ -2,8 +2,3 @@
 
 %:
 	dh $@
-	#dh $@ --with quilt
-
-#override_dh_auto_build:
-#	rm -rf makefile
-#	dh_auto_build

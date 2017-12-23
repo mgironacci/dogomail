@@ -8,8 +8,7 @@ Homepage: http://www.itecnis.com/
 
 Package: dogomail-milter
 Architecture: all
-Depends: python, ${misc:Depends}, python-milter (>= 0.9.3), python-spf (>= 2.0), lsb-base, adduser 
-Suggests: postfix (>= 2.3) | sendmail (>= 8.13)
+Depends: python, ${misc:Depends}, python-milter (>= 0.9.3), python-spf (>= 2.0), python-srs (>= 1.0), python-dkim (>= 0.5), python-authres, lsb-base, adduser, postfix (>= 2.3)
 Description: Dogomail Milter
  The Python mail filter for Dogomail antispam system
 
