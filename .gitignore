@@ -1,0 +1,14 @@
+#python byte-compiled files
+*.pyc
+#vim swap files
+*.swl
+*.swm
+*.swn
+*.swp
+*.swo
+# Repositorios bazaar
+.bzr
+# Proyectos pycharm
+.idea
+# Varios que no deben guardarse
+varios
