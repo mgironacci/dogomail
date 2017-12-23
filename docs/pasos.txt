@@ -1,0 +1,17 @@
+Planificacion de versiones:
+
+1.0: motor de correo original funcionando, interfaz web minima en php
+
+1.5: motor de correo corregido con misma base de datos o muy similar, interfaz web en TG con agregados php originales
+
+1.6: mejoras varias, graficas y controles. Productivo en NBSF
+
+1.7: pasaje de etch a squeeze, mejoras multidominio y acceso de clientes, paquetes debian
+
+1.8: sistema base postfix configurado con pymilter funcional, interfaz web en django
+
+1.9: interfaz web: autenticacion externa, modulos simples (spf, listas), envio de configuración y log de mensajes
+
+2.0: version final con todos los módulos
+
+

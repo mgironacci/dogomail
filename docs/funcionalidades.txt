@@ -1,0 +1,217 @@
+Detección de errores (IMPORTANTISIMO!!):
+- Antivirus fuera de fecha o no funcionales (que siga entregando correo en estos casos)
+- Otros módulos con errores que no permiten el ingreso
+- Estado actual del sistema de demonios
+
+Configuraciones globales:
+- Correo notificaciones
+- Tiempo post-cola
+- Verificación de destinatarios por omisión: LDAP/AD, SMTP, DB(myql, postgres, sqlite), ALL (recibir cualquier destinatario de los dominios)
+- Ruta entrega por omisión
+- Nivel depuración global
+- Máximo procesos en paralelo por omisión
+- Minimo procesos en paralelo por omisión
+- Máximo de mensajes procesados por un proceso por omisión (ver si hace falta)
+- Leyenda encabezado X-Scanned-By
+- Período estadísticas rápidas encabezado (mes, semana, dia, hora)
+- Borrado/Archivado automático de registros por omisión
+- Borrado/Archivado automático de correos por omisión (rechazados, enviados)
+- Maximo espacio archivado de correos por omisión
+
+Definiciones:
+- Acción: un procedimiento específico, que ya vienen programados. Algunas acciones son terminales, o sea que no se puede realizar otra después de ellas.
+- Cola: cola única donde se pueden dejar esperando correos que caigan con la acción "Encolar"
+- Política: conjunto de acciones que se usan como resultado a una regla.
+- Módulo: función que realiza una operación específica, puede retornar un rango de valores, y cada uno tiene una política
+- Regla: módulos/políticas que se aplican a los mensajes entrantes.
+- Dominio: dominios dns gestionados. Pueden tener una ruta de entrega distinta, y posibilidad de no ingresar desde internet, o inhabilitarlo.
+- Servidor: servidor físico que recibe correos.
+
+Acciones para políticas:
+- Aceptar (omisión, en caso de problemas?)
+- Rechazar (se rechaza definitivamente)
+- Diferir (se rechaza temporalmente)
+- Retener (se encola con estado retenido)
+- Encolar (se encola con estado encolado)
+- Destruir (se acepta y se elimina)
+
+Extensiones de acciones para políticas:
+- Acción básica de política basado en puntaje
+- Enviar copia a correo
+- Guardar copia en contenedor
+- Agregar adjunto al cuerpo
+- Quitar adjuntos del cuerpo
+- Agregar/Quitar encabezados
+- Filtrar/Reemplazar expresión regular (remitente, destinatario, asunto, cuerpo)
+- Aplicar regla específica (ojo con los bucles)
+- Avisar al destinatario/s con mensaje específico (permitir mensaje con variables)
+- Avisar al remitente con mensaje específico (permitir mensaje con variables)
+
+Reglas contienen: (siempre hay una por omisión)
+- Tipo: pre-cuerpo, post-cuerpo, post-cola
+- Orden
+- Criterio de uso: remitente, destinatario, tamaño, asunto, adjuntos
+- Módulo (con configuración sobrecargable)
+- Política
+
+En criterio, el remitente y destinatario puede ser por correo, dominio, usuario, e ip/rango
+El criterio sirve para por ejemplo utilizar módulos solamente en algunos dominios, u orígenes de ip, etc, con lo cual se puede realizar una delegación a personas por dominio (filtrando según usuario que ingresa al sistema)
+
+Dominios contienen:
+- Nombre dns del dominio
+- Verificación de destinatarios: LDAP/AD, SMTP, DB(myql, postgres, sqlite), ALL
+- Ruta de entrega
+- Habilitado
+- Lista de ips/redes permitidas para recibir correo desde este dominio.
+- Permisos de administración de seguridad (admin, oper, stats)
+
+Servidores contienen:
+- Nombre dns del servidor
+- URL de acceso
+- Habilitado
+- Nivel depuración
+- Máximo procesos en paralelo
+- Minimo procesos en paralelo
+- Máximo de mensajes procesados por un proceso (ver si hace falta)
+- Borrado automático de registros
+- Borrado automático de correos (rechazados, enviados)
+- Maximo espacio archivado de correos
+
+Módulos:
+- Nombre
+- Habilitado
+- Nombre de función de acceso
+- Parámetros de la función
+- Configuración por omisión
+
+Lista modulos específico:
+
+- SPF (pre-cuerpo,post-cuerpo)
+
+- SRS: reenvio de correo mapeado
+  * permitir configurar a usuarios (ver que, porque se supone es automático)
+
+- DKIM: firmado de mensajes por dominio (post-cuerpo)
+ * firma saliente
+ * verificacion de firmas en entrantes
+
+- ER en encabezados (post-cuerpo)
+ * ER predefinidas (backscatter)
+ * ER automáticas según otras opciones
+ * ER manuales globales
+
+- Verificación de MX: registro dns directo, registro reverso (pre-cuerpo)
+ * verificacion de la existencia de un MX o A
+ * comparacion registro reverso con directo
+
+- Verificación de remitente enviando correo de prueba DSN y CBV(pre-cuerpo)
+ * remitente <>
+
+- Sistemas de correo populares con registro de ips de origenes y otros datos (gmail, outlook, yahoo, etc)
+
+- Uso de virustotal.com
+ * Consulta de adjuntos desde el panel
+ * Guardado de hashes de forma local para bloqueos inmediatos
+
+- Uso de spamcop.net
+ * Reenvio de spams
+
+- Lista gris (pre-cuerpo)
+ * tripletes: ip,remitente,destinatario
+ * contador de conexiones o estado de verificacion?
+ * Tiempo de borrado de verificados (7 dias recomiendan)
+ * Tiempo de borrado de no verificados (1 dia recomiendan)
+ * Ignorar cuando SPF o DKIM funcionan, o con listas blancas
+ * Dejar en cuarentena en vez de descartar, asegurar la no repetición usando hash del cuerpo.
+ * Opción borrar de cuarentena en X dias
+ * Opción entregar en X minutos si no aparece la segunda confirmación
+ * Usar SPF para alternativa a campo ip en triplete (para que no falle de origines con multiples servidores)
+ * Opción de dejar pasar en dominios con buena reputación
+
+- Listas blancas y negras administradas (pre-cuerpo)
+ * Multiples listas con nombre y tipo (blanca o negra)
+ * Cada regla permite IPs tipo CIDR, dominios, direcciones
+
+- Listas blancas y negras DNS (pre-cuerpo)
+ * Multiples listas con nombre y tipo (blanca o negra)
+
+- Lista negra de URLs en el cuerpo (post-cuerpo)
+ * Spamhaus DBL, ver otros
+
+- GOSSIP: reputación de dominios (pre-cuerpo)
+- Lista automática de ips con reputación (pre-cuerpo)
+ * Cada ip tiene un conteo de total recibidos, total entregados y total rebotados
+ * Reglas configurables de relaciones entre entregados/rebotados y puntaje retornado
+
+- Regulación de remitente y destinatario (Throttling) (pre-cuerpo)
+ * total, por dominio, por dirección, por país de origen
+ * mensajes por segundos (minutos, horas, dias)
+
+- Spamtraps con baneo temporal inmediato (pre-cuerpo)
+ * Lista de destinatarios que son spamtrap
+ * Tiempo del baneo
+
+- Lista negra de HELOs automática para cuando se identifican con mi propio host (pre-cuerpo)
+ * Tiempo del baneo
+
+- HELO Randomization Prevention (HRP) (pre-cuerpo)
+ * Tiempo del baneo
+
+- Verificación de correos similares previamente encolados (remitente, destinatario, asunto, cuerpo) (desarrollo propio!)
+ * dos partes: parte pre-cola y parte post-cola
+
+- Antiviruses: CLAMAV, FPROT, etc. (post-cuerpo,post-cola)
+ * Multiples antivirus, configurado por regla/módulo, seleccionable de una lista
+
+- SpamAssassin (SA) (post-cuerpo, post-cola)
+  * Verificación de reglas (lint)
+  * Mostrado de todas las reglas usadas, con búsquedas e información de cada una.
+  * Posibilidad de sobrecargar reglas usadas del sistema.
+  * Posibilidad de crear reglas nuevas.
+  * Descarga directa temporizada via http o ftp desde una url.
+  * Ver si el fuzzyOCR tiene algo especial para configurar.
+  * Configuración base
+  * Configuración extendida
+  
+  Bajado de reglas:
+   + SA: Listado, selección, actualización manual y automática de reglas SARE:
+     http://www.rulesemporium.com/
+     Para obtener el listado, parchar el rules_du_jour para mostrar la lista
+
+   + SA: Blacklist para SA
+     http://www.sa-blacklist.stearns.org/sa-blacklist/
+     De aca bajar
+     http://www.sa-blacklist.stearns.org/sa-blacklist/sa-blacklist.current.uri.cf
+     y
+     http://www.sa-blacklist.stearns.org/sa-blacklist/random.current.cf
+
+   + SA: FuzzyOCR
+     http://www.howtoforge.org/fight_image_spam_with_fuzzyocr_spamassassin
+     Usar el modo experimental con mysql, armar un listado de imagenes, y ver si se pueden mostrar tales imágenes.
+
+- DSPAM ?
+
+- Estadísticas de palabras mencionadas (solo en administrador)
+
+Los módulos tienen una configuración, que se puede redefinir por regla. Se pueden definir globalmente valores por omisión, y si son modificables dentro de una regla.
+Cada módulo puede retornar un puntaje compatible con SA, o detener el procesamiento directamente rebotando el correo. Eso es configurable por regla/módulo.
+
+Implementación:
+- Pyro para RPC entre Admin y Motor, y posiblemente entre Motor y Trabajadores.
+- Multiples servidores con una sola interfaz
+- Base de datos administración única separada de base de datos motor múltiple
+- Cambio de configuración con botón "Aplicar", posibilidad de realizar "Deshacer"
+- Guardado/Cargado de configuraciones en respaldos via web.
+- Base de datos mysql para Admin, sqlite/CDB para Motor.
+
+Admin:
+- Interfaz: Django + WS (para señalizar los motores)
+- BD: mysql
+- DogoSync: servicio de escucha de motores para sincronizar datos de estado.
+
+Motor:
+- DogoMilter: servicio de Milter para correos entrantes, con libreria pymilter.
+- DogoLog: servicio de revisión del log de postfix.
+- DogoCheck: servicio de filtrado para correos ya encolados en cuarentena
+- DogoSet: servicio de mantenimiento/configuración de base de datos y archivos. Único servicio vinculado al DogoSync.
+

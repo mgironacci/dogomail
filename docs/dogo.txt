@@ -1,0 +1,59 @@
+Backend:
+* Poner pasaje de Run a Historico (10 días)
+* Borrar contenido mensajes (30 días o mas)
+* Borrar historial (6 meses o mas)
+* Rechazar retenidos SA (5 días o mas)
+* Hacer stats en cron y no en pizarron
+Web:
+* Agregar retenidos por SA
+* Configuración de parametros - LISTO
+* Aprender SPAM/HAM en SA
+* Agregar estadísticas completas:
+ - TopX: remitentes, destinatarios
+ - Resumen mensajes por: remitente, destinatario
+ - Gráficas como en dogo viejo
+
+* Estadisticas pizarron:
+ - Totales: enviados,rechazados L
+ - Rechazados: por test L
+ - Rechazados: por etapa L
+ - Retenidos: por test NO
+ - Gris: entrantes vs 1 conexion NO
+ - Top10: remitentes externos L
+ - Top10: destinos internos L
+ - gráfica lineal tiempo/correos, último día
+
+
+Resumen modulos:
+- SPF/SRS
+- DKIM
+- GOSSIP / personalización reputación de dominios?
+- Validación DNS (MX o A)
+- Validación remitente con DSN y CBV
+- Lista gris
+- Lista blanca/negra
+- Lista negra DNS
+- Regulación de mensajes (Throttling)
+- Trampas spam
+- Validación de correos repetidos
+- Antivirus
+- SpamAssassin
+- Palabras mencionadas
+- Acciones personalizadas
+
+Subconjunto inicial
+- SPF/SRS
+- DKIM
+- Lista blanca/negra
+- Lista negra DNS
+- Antivirus
+- SpamAssassin
+- Acciones personalizadas
+
+Busqueda:
+- Encabezados en base de datos:
+ * Detalles básicos (hora envio/recepción/retardo, tipo mime, adjuntos, tamaño, bulk/listamail, etc)
+ * Detalles de clasificación spam
+ * Rastreo de servidores por donde pasó (con mapa si es posible, validación spf y dkim)
+ * Estadísticas especificas del dominio origen, remitente y destino
+
