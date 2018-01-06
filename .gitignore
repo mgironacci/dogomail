@@ -12,3 +12,5 @@
 .idea
 # Varios que no deben guardarse
 varios
+# Migraciones de bases django
+migrations
