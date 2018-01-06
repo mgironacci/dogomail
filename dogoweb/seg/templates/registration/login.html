@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block titulo %}{% trans "Login" %}{% endblock %}
+
+{% block encabezado %}
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/seg/css/style.css"/>
+    <script src="/static/seg/js/login.js"></script>
+    <script src="/static/js/send_data.js"></script>
+{% endblock %}
+
+{% block contenido %}
+<div class="page-content-inner single-page-login-alpha">
+    <div class="single-page-block">
+        <div class="single-page-block-header">
+        </div>
+
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="single-page-block-inner">
+                    <div class="single-page-block-form">
+                        <div class="row">
+
+                            <h1>{% trans "Welcome" %}</h1>
+                            <br/>
+                        </div>
+                        {% if form.errors %}
+                        <p class="loginError">{% trans "Your username and password didn't match. Please try again." %}</p>
+                        {% endif %}
+
+                        {% if next %}
+                            {% if user.is_authenticated %}
+                            <p class="loginError">{% trans "Your account doesn't have access to this page. To proceed, please login with an account that has access." %}</p>
+                            {% endif %}
+                        {% endif %}
+
+                        <form id="form-login" name="form-validation" method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <input id="id_username"
+                                       required maxlength="254" autofocus
+                                       class="form-control"
+                                       placeholder="{% trans 'E-Mail' %}"
+                                       name="username"
+                                       type="text"/>
+                                       <!--data-validation="[EMAIL]"-->
+                            </div>
+                            <br/>
+                            <div class="form-group">
+
+                                <input id="id_password"
+                                       required
+                                       class="form-control password"
+                                       name="password"
+                                       type="password"
+                                       placeholder="{% trans 'Password' %}">
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-secondary width-150">{% trans "Log In" %}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="single-page-block-footer text-center">
+            <ul class="list-unstyled list-inline text-left">
+                <li><a href="https://www.itecnis.com/"><img src="/static/dogoweb/img/itecnis.png" alt="itecnis"/></a></li>
+                <li><a href="https://twitter.com/itecnis"><img src="/static/dogoweb/img/itecnis-tw.png" alt="twitter"/></a></li>
+                <li><a href="https://www.facebook.com/itecnis"><img src="/static/dogoweb/img/itecnis-fb.png" alt="facebook"/></a></li>
+            </ul>
+        </div>
+
+    </div>
+
+</div>
+
+
+{% endblock %}

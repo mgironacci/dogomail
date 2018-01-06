@@ -1,0 +1,125 @@
+<!DOCTYPE HTML>
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{LANGUAGE_CODE}}">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+        <title>DogoMail: {% block titulo %}{% endblock %}</title>
+
+        <!-- favicon -->
+        <link rel="shortcut icon" href="/static/dogoweb/img/favicon.ico">
+        <link rel="icon" href="/static/dogoweb/img/favicon-300x300.png" type="image/png">
+        <link rel="icon" href="/static/dogoweb/img/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" href="/static/dogoweb/img/favicon-192x192.png" sizes="192x192">
+        <link rel="apple-touch-icon-precomposed" href="/static/dogoweb/img/uploads/favicon-180x180.png">
+
+        <!-- HTML5 shim and Respond.js for < IE9 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- Vendors Styles -->
+        <!-- v1.0.0 -->
+        <link rel="stylesheet" type="text/css" href="/static/cleanui/vendors/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="/static/cleanui/vendors/jscrollpane/style/jquery.jscrollpane.css">
+        <link rel="stylesheet" type="text/css" href="/static/cleanui/vendors/ladda/dist/ladda-themeless.min.css">
+        <link rel="stylesheet" type="text/css" href="/static/cleanui/vendors/select2/dist/css/select2.min.css">
+        <link rel="stylesheet" type="text/css" href="/static/cleanui/vendors/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
+        <link rel="stylesheet" type="text/css" href="/static/cleanui/vendors/fullcalendar/dist/fullcalendar.min.css">
+        <link rel="stylesheet" type="text/css" href="/static/cleanui/vendors/cleanhtmlaudioplayer/src/player.css">
+        <link rel="stylesheet" type="text/css" href="/static/cleanui/vendors/cleanhtmlvideoplayer/src/player.css">
+        <link rel="stylesheet" type="text/css" href="/static/cleanui/vendors/bootstrap-sweetalert/dist/sweetalert.css">
+        <link rel="stylesheet" type="text/css" href="/static/cleanui/vendors/summernote/dist/summernote.css">
+        <link rel="stylesheet" type="text/css" href="/static/cleanui/vendors/owl.carousel/dist/assets/owl.carousel.min.css">
+        <link rel="stylesheet" type="text/css" href="/static/cleanui/vendors/ionrangeslider/css/ion.rangeSlider.css">
+        <link rel="stylesheet" type="text/css" href="/static/cleanui/vendors/datatables/media/css/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" type="text/css" href="/static/cleanui/vendors/c3/c3.min.css">
+        <link rel="stylesheet" type="text/css" href="/static/cleanui/vendors/chartist/dist/chartist.min.css">
+        <!--<link rel="stylesheet" href="/static/css/jquery.dataTables.min.css">-->
+        <!-- v.1.4.0 -->
+        <link rel="stylesheet" type="text/css" href="/static/cleanui/vendors/nprogress/nprogress.css">
+        <link rel="stylesheet" type="text/css" href="/static/cleanui/vendors/jquery-steps/demo/css/jquery.steps.css">
+        <!-- v.1.4.2 -->
+        <link rel="stylesheet" type="text/css" href="/static/cleanui/vendors/bootstrap-select/dist/css/bootstrap-select.min.css">
+
+        <!-- Clean UI Styles -->
+        <link rel="stylesheet" type="text/css" href="/static/cleanui/common/css/source/main.css">
+
+        <!-- Vendors Scripts -->
+        <!-- v1.0.0 -->
+        <script src="/static/cleanui/vendors/jquery/jquery.min.js"></script>
+        <script src="/static/cleanui/vendors/tether/dist/js/tether.min.js"></script>
+        <script src="/static/cleanui/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="/static/cleanui/vendors/jquery-mousewheel/jquery.mousewheel.min.js"></script>
+        <script src="/static/cleanui/vendors/jscrollpane/script/jquery.jscrollpane.min.js"></script>
+        <script src="/static/cleanui/vendors/spin.js/spin.js"></script>
+        <script src="/static/cleanui/vendors/ladda/dist/ladda.min.js"></script>
+        <script src="/static/cleanui/vendors/select2/dist/js/select2.full.min.js"></script>
+        <script src="/static/cleanui/vendors/html5-form-validation/dist/jquery.validation.min.js"></script>
+        <script src="/static/cleanui/vendors/jquery-typeahead/dist/jquery.typeahead.min.js"></script>
+        <script src="/static/cleanui/vendors/jquery-mask-plugin/dist/jquery.mask.min.js"></script>
+        <script src="/static/cleanui/vendors/autosize/dist/autosize.min.js"></script>
+        <script src="/static/cleanui/vendors/bootstrap-show-password/bootstrap-show-password.min.js"></script>
+        <script src="/static/cleanui/vendors/moment/min/moment.min.js"></script>
+        <script src="/static/cleanui/vendors/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+        <script src="/static/cleanui/vendors/fullcalendar/dist/fullcalendar.min.js"></script>
+        <script src="/static/cleanui/vendors/cleanhtmlaudioplayer/src/jquery.cleanaudioplayer.js"></script>
+        <script src="/static/cleanui/vendors/cleanhtmlvideoplayer/src/jquery.cleanvideoplayer.js"></script>
+        <script src="/static/cleanui/vendors/bootstrap-sweetalert/dist/sweetalert.min.js"></script>
+        <script src="/static/cleanui/vendors/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js"></script>
+        <script src="/static/cleanui/vendors/summernote/dist/summernote.min.js"></script>
+        <script src="/static/cleanui/vendors/owl.carousel/dist/owl.carousel.min.js"></script>
+        <script src="/static/cleanui/vendors/ionrangeslider/js/ion.rangeSlider.min.js"></script>
+        <script src="/static/cleanui/vendors/nestable/jquery.nestable.js"></script>
+        <script src="/static/cleanui/vendors/datatables/media/js/jquery.dataTables.min.js"></script>
+        <script src="/static/cleanui/vendors/datatables/media/js/dataTables.bootstrap4.min.js"></script>
+        <script src="/static/cleanui/vendors/datatables-fixedcolumns/js/dataTables.fixedColumns.js"></script>
+        <script src="/static/cleanui/vendors/datatables-responsive/js/dataTables.responsive.js"></script>
+        <script src="/static/cleanui/vendors/editable-table/mindmup-editabletable.js"></script>
+        <script src="/static/cleanui/vendors/d3/d3.min.js"></script>
+        <script src="/static/cleanui/vendors/c3/c3.min.js"></script>
+        <script src="/static/cleanui/vendors/chartist/dist/chartist.min.js"></script>
+        <script src="/static/cleanui/vendors/peity/jquery.peity.min.js"></script>
+        <!-- v1.0.1 -->
+        <script src="/static/cleanui/vendors/chartist-plugin-tooltip/dist/chartist-plugin-tooltip.min.js"></script>
+        <!-- v1.1.1 -->
+        <script src="/static/cleanui/vendors/gsap/src/minified/TweenMax.min.js"></script>
+        <script src="/static/cleanui/vendors/hackertyper/hackertyper.js"></script>
+        <script src="/static/cleanui/vendors/jquery-countTo/jquery.countTo.js"></script>
+        <!-- v1.4.0 -->
+        <script src="/static/cleanui/vendors/nprogress/nprogress.js"></script>
+        <script src="/static/cleanui/vendors/jquery-steps/build/jquery.steps.min.js"></script>
+        <!-- v1.4.2 -->
+        <script src="/static/cleanui/vendors/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+        <script src="/static/cleanui/vendors/chart.js/src/Chart.bundle.min.js"></script>
+
+        <!-- Clean UI Scripts -->
+        <script src="/static/cleanui/common/js/common.js"></script>
+        <script src="/static/cleanui/common/js/demo.temp.js"></script>
+
+        <!-- Allow CSRF ajax -->
+        <script src="/static/js/csrf-cookie.js"></script>
+
+        <!-- Estilo global dogoweb -->
+        <link rel="stylesheet" type="text/css" media="screen" href="/static/dogoweb/css/style.css"/>
+
+        {% block encabezado %}{% endblock %}
+
+    </head>
+    <body class="theme-default single-page ">
+
+        {% block menu %}{% endblock %}
+
+        <section class="page-content" ng-view>
+
+            {% block contenido %}{% endblock %}
+
+        </section>
+
+        {% block piepagina %}{% endblock %}
+    </body>
+</html>

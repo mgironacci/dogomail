@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block titulo %}{{ title }}{% endblock %}
+
+{% block encabezado %}
+{% block encabezadomenu %}{% endblock %}
+{% endblock %}
+
+{% block menu %}
+<nav class="top-menu" top-menu>
+    <div class="menu-icon-container">
+        <a href="{% url 'index' %}" class="logo">
+            <img src="/static/dogoweb/img/dogomail-chico.png" alt="DogoMail" />
+        </a>
+        <br/>
+        DogoMail <small>v{{vernu}}</small>
+    </div>
+    <div class="menu">
+        <div class="menu-user-block">
+            <div class="dropdown dropdown-avatar">
+                <a href="javascript: void(0);" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <span class="avatar" href="javascript:void(0);">
+                        <img src="/static/dogoweb/img/dogoadmin.png" alt="User">
+                    </span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="" role="menu">
+                    <a class="dropdown-item" href="javascript:void(0)"><i class="dropdown-icon icmn-user"></i> {% trans 'Profile' %}</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'logout' %}"><i class="dropdown-icon icmn-exit"></i> {% trans 'Logout' %}</a>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+{% block contenido %}
+<div class="page-content-inner">
+
+     {% block contenidomenu %}{% endblock %}
+
+</div>
+{% endblock %}
+
+{% block piepagina %}
+<div class="cwt__footer visible-footer">
+    <div class="cwt__footer__top">
+        <div class="row">
+            <div class="col-md-4">
+                <span>
+                    <a href="http://www.itecnis.com" class="cwt__footer__link" target="_blank">Itecnis SRL</a> © 2017
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

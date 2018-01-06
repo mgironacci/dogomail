@@ -1,0 +1,31 @@
+html, body {
+	color: #444444;
+	background-color: white;
+    font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
+	font-size: small;
+	margin: 0;
+	padding: 0;
+}
+
+nav.top-menu .menu-icon-container {
+    margin-top: 0;
+    margin-left: 5px;
+	font-size: 8pt;
+}
+
+.cwt__footer {
+    padding: 10px 20px 0px;
+}
+img {
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+pre {
+	font-family: monospace;
+	font-size: x-small;
+	border: 0;
+	margin: 0;
+	padding: 0;
+}

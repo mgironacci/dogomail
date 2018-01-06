@@ -1,0 +1,26 @@
+@import url(/static/admin/css/fonts.css);
+
+html, body {
+    overflow-y: hidden;
+    font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
+}
+
+.single-page-login-alpha .single-page-block .single-page-block-inner {
+    background-color: rgba(255, 255, 254, 0.82);
+    border-radius: 2px;
+    border: 2px solid #ccc !important;
+    padding: 60px 60px 30px;
+	margin: auto;
+	background: url(/static/dogoweb/img/dogomail.png) center 5px no-repeat;
+}
+
+.single-page-login-alpha .single-page-block .single-page-block-inner h1 {
+	font-family: "Roboto","Trebuchet MS";
+	margin: 0;
+	margin-left: 10px;
+	color: #aaa;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px #e2fdff inset !important;
+}

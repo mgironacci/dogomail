@@ -1,0 +1,54 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-01-06 17:49-0300\n"
+"PO-Revision-Date: 2018-01-06 17:50-0300\n"
+"Last-Translator: Andres Gironacci <mgironacci@itecnis.com>\n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#: seg/templates/registration/login.html:3
+msgid "Login"
+msgstr "Ingreso"
+
+#: seg/templates/registration/login.html:23
+msgid "Welcome"
+msgstr "Bienvenido"
+
+#: seg/templates/registration/login.html:27
+msgid "Your username and password didn't match. Please try again."
+msgstr "Su usuario o clave no son correctos. Por favor intente de nuevo."
+
+#: seg/templates/registration/login.html:32
+msgid ""
+"Your account doesn't have access to this page. To proceed, please login with "
+"an account that has access."
+msgstr ""
+"Su cuenta no tiene acceso a esta página. Para continuar, por favor continue "
+"con una cuenta que si tenga acceso."
+
+#: seg/templates/registration/login.html:42
+msgid "E-Mail"
+msgstr "Correo Electrónico"
+
+#: seg/templates/registration/login.html:55
+msgid "Password"
+msgstr "Clave"
+
+#: seg/templates/registration/login.html:58
+msgid "Log In"
+msgstr "Ingresar"
+
+#~ msgid "Please login to see this page."
+#~ msgstr "Por favor ingrese para ver esta página."

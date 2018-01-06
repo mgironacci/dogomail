@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import Control, Menu, Pantalla
 
-# Register your models here.
+admin.site.register(Control)
+admin.site.register(Menu)
+admin.site.register(Pantalla)
