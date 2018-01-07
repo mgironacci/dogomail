@@ -14,7 +14,7 @@ class Control(models.Model):
     def __repr__(self):
         return '<Control: nombre="%s">' % self.nombre
 
-    def __unicode__(self):
+    def __str__(self):
         return self.nombre
 
 
@@ -48,8 +48,6 @@ class Menu(models.Model):
 
     idm = models.CharField(max_length=50)
     nombre = models.CharField(max_length=50, unique=True)
-    url = models.CharField(max_length=200)
-    url_base = models.CharField(max_length=200)
     orden = models.PositiveIntegerField()
     icono = models.CharField(max_length=100)
     activo = models.BooleanField(default=True)
@@ -57,7 +55,7 @@ class Menu(models.Model):
     def __repr__(self):
         return '<Menu: nombre="%s">' % self.nombre
 
-    def __unicode__(self):
+    def __str__(self):
         return self.nombre
 
 
@@ -97,5 +95,5 @@ class Pantalla(models.Model):
     def __repr__(self):
         return '<Pantalla: nombre="%s">' % self.nombre
 
-    def __unicode__(self):
+    def __str__(self):
         return self.nombre

@@ -57,3 +57,31 @@ Busqueda:
  * Rastreo de servidores por donde pasó (con mapa si es posible, validación spf y dkim)
  * Estadísticas especificas del dominio origen, remitente y destino
 
+Menus:
+Correo
+- Buscar
+- Retenidos
+- Colas
+
+Dominios
+- Pizarron
+- Casillas
+- Administrar
+
+Servidores
+- Pizarron
+- Administrar
+
+Antispam
+- Pizarron
+- Listas
+- Antivirus
+- Reglas
+- Políticas
+
+Configuración
+- Seguridad
+- Auditoría
+- Modulos
+- Globales
+
