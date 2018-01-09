@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 from django.db import models
-from django.contrib.auth.models import Permission
+from django.contrib.auth.models import User, Permission
+from dogoweb.settings import VERSION
 
 # Modelo de visualizacion ----------------------------------------------
 
@@ -52,6 +53,9 @@ class Menu(models.Model):
     icono = models.CharField(max_length=100)
     activo = models.BooleanField(default=True)
 
+    class Meta:
+        ordering = ["orden"]
+
     def __repr__(self):
         return '<Menu: nombre="%s">' % self.nombre
 
@@ -92,8 +96,36 @@ class Pantalla(models.Model):
     menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
     activo = models.BooleanField(default=True)
 
+    class Meta:
+        ordering = ["orden"]
+
     def __repr__(self):
         return '<Pantalla: nombre="%s">' % self.nombre
 
     def __str__(self):
         return self.nombre
+
+# Perfil de usuario ----------------------------------------------------
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.username
+
+    def dogoversion(self):
+        return VERSION
+
+    def mis_menus(self):
+        ret = []
+        if self.user.is_superuser:
+            menus = Menu.objects.filter(activo = True)
+        else:
+            menus = Menu.objects.filter(activo = True)
+        for m in menus:
+            ret.append({
+                'nombre': m.nombre,
+                'icono': m.icono,
+                'pantallas': m.pantalla_set.filter(activo = True),
+            })
+        return ret

@@ -20,15 +20,17 @@ from django.conf.urls import url
 from django.conf.urls.static import static
 from django.views.generic.base import RedirectView
 from stats import views as stats_views
+from spam import views as spam_views
 
 urlpatterns = [
     url(r'favicon.ico', RedirectView.as_view(url='/static/dogoweb/img/favicon.ico', permanent=True)),
     url(r'^$', RedirectView.as_view(pattern_name='pizarron', permanent=False)),
     url(r'pizarron', stats_views.pizarron, name='index'),
+    url(r'config', spam_views.config, name='config'),
     path('seg/', include('seg.urls')),
-    #path('mail/', include('mail.urls')),
-    #path('spam/', include('spam.urls')),
-    #path('erp/', include('erp.urls')),
+    path('mail/', include('mail.urls')),
+    path('spam/', include('spam.urls')),
+    path('erp/', include('erp.urls')),
     path('stats/', include('stats.urls')),
     path('admin/', admin.site.urls),
 ]# + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
