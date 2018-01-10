@@ -1,0 +1,29 @@
+[DEFAULT]
+
+SECRET_KEY = clave-muy-largaaaaaa
+
+# Entorno desarrollo
+DEBUG = True
+
+#SITE_NAME = 'dogomail.itecnis.com'
+
+LOGIN_URL = /seg/login/
+LOGOUT_URL = /seg/logout/
+LOGIN_REDIRECT_URL = /r/
+LOGOUT_REDIRECT_URL = /seg/login/
+
+DB_ENGINE = django.db.backends.mysql
+DB_NAME = dogomail_dev
+DB_USER = root
+DB_PASSWORD = ejemplo
+DB_HOST = 127.0.0.1
+DB_PORT = 3306
+
+LANGUAGE_CODE = es-ar
+
+TIME_ZONE = America/Argentina/Buenos_Aires
+
+#STATIC_ROOT = /home/dogomailtest/www/static
+
+DEFAULT_FROM_EMAIL = dogomail-test@itecnis.com
+

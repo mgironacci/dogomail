@@ -11,27 +11,41 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+import configparser
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-VERSION = '1.0'
+cl = open(BASE_DIR+'/../CHANGELOG.md')
+cl.readline()
+VERSION = cl.readline().split(" ")[1].replace("[", "").replace("]", "")
+cl.close()
+
+# Leer configuracion del entorno local
+allconf = configparser.ConfigParser()
+allconf.read(BASE_DIR+'/entorno.ini')
+config = allconf['DEFAULT']
+
+# Entorno actual
+ENTORNO = config.get('ENTORNO', 'dev')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ')f3&*42-24h^3gh&(45375f)q$*rs+@_^ay&hex_yz!6gx6re2'
+SECRET_KEY = config.get('SECRET_KEY', None, raw=True)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config.getboolean('DEBUG', False)
 
 ALLOWED_HOSTS = []
+if config.get('SITE_NAME', None):
+    ALLOWED_HOSTS = [config.get('SITE_NAME')]
 
-LOGIN_URL = '/seg/login/'
-LOGOUT_URL = '/seg/logout/'
-LOGIN_REDIRECT_URL = '/pizarron/'
-LOGOUT_REDIRECT_URL = '/seg/login/'
+LOGIN_URL = config.get('LOGIN_URL')
+LOGOUT_URL = config.get('LOGOUT_URL')
+LOGIN_REDIRECT_URL = config.get('LOGIN_REDIRECT_URL')
+LOGOUT_REDIRECT_URL = config.get('LOGOUT_REDIRECT_URL')
 
 # Application definition
 
@@ -85,6 +99,13 @@ WSGI_APPLICATION = 'dogoweb.wsgi.application'
 
 DATABASES = {
     'default': {
+        'ENGINE': config.get('DB_ENGINE'),
+        'NAME': config.get('DB_NAME'),
+        'USER': config.get('DB_USER'),
+        'PASSWORD': config.get('DB_PASSWORD'),
+        'HOST': config.get('DB_HOST'),
+        'PORT': config.get('DB_PORT'),
+
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dogomail_2',
         'USER': 'root',
@@ -117,9 +138,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
-LANGUAGE_CODE = 'es-ar'
+LANGUAGE_CODE = config.get('LANGUAGE_CODE')
 
-TIME_ZONE = 'America/Argentina/Buenos_Aires'
+TIME_ZONE = config.get('TIME_ZONE')
 
 USE_I18N = True
 
@@ -134,7 +155,9 @@ LOCALE_PATHS = [
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = config.get('STATIC_URL', '/static/')
+
+STATIC_ROOT = config.get('STATIC_ROOT', None)
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "dogoweb", "static"),

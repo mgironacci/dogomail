@@ -1,0 +1,86 @@
+- model: seg.menu
+  pk: 1
+  fields: {idm: mail, nombre: Correo, orden: 10, icono: icmn-envelop4, activo: true}
+- model: seg.menu
+  pk: 2
+  fields: {idm: doms, nombre: Dominios, orden: 20, icono: icmn-at-sign, activo: true}
+- model: seg.menu
+  pk: 3
+  fields: {idm: servs, nombre: Servidores, orden: 30, icono: icmn-server, activo: true}
+- model: seg.menu
+  pk: 4
+  fields: {idm: spam, nombre: Antispam, orden: 40, icono: icmn-shield-check, activo: true}
+- model: seg.menu
+  pk: 5
+  fields: {idm: config, nombre: Configuración, orden: 50, icono: icmn-cog, activo: true}
+- model: seg.pantalla
+  pk: 1
+  fields: {idm: mailsearch, nombre: Buscar, url: /mail/, orden: 10, icono: icmn-search2,
+    permiso: 33, menu: 1, activo: true}
+- model: seg.pantalla
+  pk: 2
+  fields: {idm: blocked, nombre: Retenidos, url: /mail/blocked, orden: 20, icono: icmn-construction,
+    permiso: 33, menu: 1, activo: true}
+- model: seg.pantalla
+  pk: 3
+  fields: {idm: queues, nombre: Colas, url: /mail/queues, orden: 30, icono: icmn-drawer,
+    permiso: 33, menu: 1, activo: true}
+- model: seg.pantalla
+  pk: 4
+  fields: {idm: domdash, nombre: Pizarrón, url: /mail/doms, orden: 10, icono: icmn-image4,
+    permiso: 33, menu: 2, activo: true}
+- model: seg.pantalla
+  pk: 5
+  fields: {idm: mboxes, nombre: Casillas, url: /mail/mboxes, orden: 20, icono: icmn-mailbox,
+    permiso: 33, menu: 2, activo: true}
+- model: seg.pantalla
+  pk: 6
+  fields: {idm: dommanage, nombre: Administrar, url: /mail/domadm, orden: 30, icono: icmn-cog2,
+    permiso: 33, menu: 2, activo: true}
+- model: seg.pantalla
+  pk: 7
+  fields: {idm: servdash, nombre: "Pizarr\xF3n", url: /mail/srvdash, orden: 10, icono: icmn-image4,
+    permiso: 33, menu: 3, activo: true}
+- model: seg.pantalla
+  pk: 8
+  fields: {idm: servmanage, nombre: Administrar, url: /mail/srvadm, orden: 20, icono: icmn-cog2,
+    permiso: 33, menu: 3, activo: true}
+- model: seg.pantalla
+  pk: 9
+  fields: {idm: spamdash, nombre: Pizarrón, url: /spam/, orden: 10, icono: icmn-image4,
+    permiso: 33, menu: 4, activo: true}
+- model: seg.pantalla
+  pk: 10
+  fields: {idm: lists, nombre: Listas, url: /spam/lists, orden: 20, icono: icmn-list,
+    permiso: 33, menu: 4, activo: true}
+- model: seg.pantalla
+  pk: 11
+  fields: {idm: avirus, nombre: Antivirus, url: /spam/avirus, orden: 30, icono: icmn-syringe2,
+    permiso: 33, menu: 4, activo: true}
+- model: seg.pantalla
+  pk: 12
+  fields: {idm: rules, nombre: Reglas, url: /spam/rules, orden: 40, icono: icmn-clipboard3,
+    permiso: 33, menu: 4, activo: true}
+- model: seg.pantalla
+  pk: 13
+  fields: {idm: policies, nombre: Politicas, url: /spam/policies, orden: 50, icono: icmn-clipboard2,
+    permiso: 33, menu: 4, activo: true}
+- model: seg.pantalla
+  pk: 14
+  fields: {idm: security, nombre: Seguridad, url: /seg/, orden: 10, icono: icmn-safe,
+    permiso: 33, menu: 5, activo: true}
+- model: seg.pantalla
+  pk: 15
+  fields: {idm: modules, nombre: Modulos, url: /spam/modules, orden: 20, icono: icmn-puzzle,
+    permiso: 33, menu: 5, activo: true}
+- model: seg.pantalla
+  pk: 16
+  fields: {idm: globalcfg, nombre: Globales, url: /config, orden: 30, icono: icmn-equalizer2,
+    permiso: 33, menu: 5, activo: true}
+- model: seg.pantalla
+  pk: 17
+  fields: {idm: audit, nombre: Auditoría, url: /seg/audit, orden: 15, icono: icmn-search4,
+    permiso: 33, menu: 5, activo: true}
+- model: seg.profile
+  pk: 1
+  fields: {user: 1}

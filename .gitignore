@@ -12,5 +12,7 @@
 .idea
 # Varios que no deben guardarse
 varios
-# Migraciones de bases django
-migrations
+# Configuracion de entorno
+entorno.ini
+# Migraciones
+dogoweb/*/migrations/0*.py
