@@ -3,6 +3,7 @@
 html, body {
     overflow-y: hidden;
     font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
+    background-color: white;
 }
 
 .single-page-login-alpha .single-page-block .single-page-block-inner {
