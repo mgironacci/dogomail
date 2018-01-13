@@ -7,4 +7,5 @@ urlpatterns = [
     url('^login/', auth_views.LoginView.as_view(), name='login'),
     url('^logout/', auth_views.LogoutView.as_view(), name='logout'),
     url(r'^audit$', views.audit, name='segaudit'),
+    url(r'^profile$', views.profile, name='segprofile'),
 ]

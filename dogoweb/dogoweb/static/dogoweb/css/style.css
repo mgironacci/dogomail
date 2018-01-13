@@ -1,22 +1,53 @@
-html, body {
+@import url(/static/admin/css/fonts.css);
+
+html {
 	color: #444444;
-	background-color: #eceff4;
     font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
 	font-size: small;
 	margin: 0;
 	padding: 0;
+	width: 100%;
+	height: 100%;
 }
 
+body {
+	background-color: #eceff4;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100%; /* this helps with the sticky footer */
+}
+
+/* Icono que cambia cuando se achica el ancho */
 nav.top-menu .menu-icon-container {
     margin-top: 0;
     margin-left: 5px;
     margin-right: 20px;
 	font-size: 8pt;
 }
-
-.cwt__footer {
-    padding: 10px 20px 0px;
+@media (max-width: 540px) {
+    nav.top-menu .menu-icon-container + .menu {
+        margin-left: 0px;
+    }
 }
+
+/* METODO PARA TENER FOOTER */
+main {
+    flex-grow: 1;
+    flex-shrink 0;
+}
+
+footer.cwt__footer {
+    padding: 10px 20px 0px;
+    flex-shrink 0;
+}
+
+body.single-page .page-content {
+    height: auto;
+}
+/* FOOTER */
+
+/* Imagenes sin borde */
 img {
 	border: 0;
 	margin: 0;
@@ -29,4 +60,60 @@ pre {
 	border: 0;
 	margin: 0;
 	padding: 0;
+}
+
+/* Formato interno */
+.my-page-content-inner {
+    margin-top: 15px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+.row-top-15 {
+    padding-top: 15px;
+}
+/* Fin formato */
+
+/* PERFIL DE USUARIO */
+
+.profile-header {
+    height: 115px;
+}
+
+.profile-header .profile-header-info {
+    top: 0px;
+}
+
+.spam-rejected {
+    color: red;
+}
+
+.good-received {
+    color: green;
+}
+
+@media (max-width: 1200px) {
+    .profile-header-title {
+        padding-left: 0px !important;
+    }
+    .profile-user {
+        margin-top: -115px;
+    }
+}
+
+@media (max-width: 1600px) {
+    .profile-header-title {
+        padding-left: 0px !important;
+    }
+    .profile-user {
+        margin-top: -115px;
+    }
+}
+
+@media (max-width: 992px) {
+    .profile-header-title {
+        padding-left: 0px !important;
+    }
+    .profile-user {
+        margin-top: 0px;
+    }
 }

@@ -3,8 +3,75 @@
 {% block titulo %}{% trans "Dashboard" %}{% endblock %}
 
 {% block encabezadomenu %}
+	<link rel="stylesheet" type="text/css" href="/static/stats/css/dashboard.css" />
+	<script type="text/javascript" src="/static/stats/js/dashboard.js"></script>
 {% endblock %}
 
 {% block contenidomenu %}
-<h1>{% trans "Dashboard" %}</h1>
+    <div class="row row-top-15">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="widget widget-six">
+                        <div class="widget-header">
+                            <!--<div class="dropdown pull-right">
+                                <a href="javascript: void(0);" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="dropdown-inline-button-icon icmn-cog"></i>
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="" role="menu">
+                                    <a class="dropdown-item" href="javascript:void(0)">Remove</a>
+                                    <a class="dropdown-item" href="javascript:void(0)">Edit</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="javascript:void(0)">Remove All</a>
+                                </ul>
+                            </div>-->
+                            <strong class="margin-right-10">{% trans "Emails" %}</strong>
+                            <span class="margin-right-10 nowrap">
+                                <span class="donut donut-success"></span>
+                                {% trans "Incoming" %}
+                            </span>
+                            <span class="margin-right-10 nowrap">
+                                <span class="donut donut-primary"></span>
+                                {% trans "Outgoing" %}
+                            </span>
+                            <!--<span class="margin-right-10 nowrap">
+                                <span class="donut donut-yellow"></span>
+                                Drugs
+                            </span>-->
+                        </div>
+                        <div class="widget-body">
+                            <div class="chart-internet height-150 chartist"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <section class="panel">
+                        <div class="margin-bottom-50">
+                            <div align="center" class="margin-bottom-10">
+                                <strong>{% trans "Incoming rejected" %}</strong>
+                            </div>
+                            <!-- Radar Chart -->
+                            <canvas id="chart-pie-consumos" width="400" height="200"></canvas>
+                            <!-- End Radar Chart -->
+                        </div>
+                    </section>
+                </div>
+                <div class="col-md-6">
+                    <section class="panel">
+                        <div class="margin-bottom-50">
+                            <div align="center" class="margin-bottom-10">
+                                <strong>{% trans "Outgoing rejected" %}</strong>
+                            </div>
+                            <!-- Radar Chart -->
+                            <canvas id="chart-pie-consumos-apps" width="400" height="200"></canvas>
+                            <!-- End Radar Chart -->
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

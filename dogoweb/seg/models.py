@@ -6,6 +6,7 @@ from django.utils import timezone
 import hashlib
 import datetime
 import urllib.request
+import json
 
 # Modelo de visualizacion ----------------------------------------------
 
@@ -114,6 +115,8 @@ class Pantalla(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     gravatar = models.CharField(max_length=32, default=None)
+    fgravatar = models.CharField(max_length=100, default=None)
+    cgravatar = models.CharField(max_length=7, default=None)
     last_gravatar = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -145,14 +148,51 @@ class Profile(models.Model):
         else:
             ret = "/static/dogoweb/img/dogouser.png"
         # Reviso si hay gravatar
-        grahash = hashlib.md5(self.user.username.lower().encode("utf8")).hexdigest()
-        if (self.last_gravatar < timezone.now() - datetime.timedelta(minutes=10)
-            or self.gravatar is None):
+        if self.gravatar:
+            ret = "https://www.gravatar.com/avatar/" + self.gravatar
+        elif (self.last_gravatar < timezone.now() - datetime.timedelta(minutes=10)
+            and self.gravatar == ''):
             try:
-                graurl = "https://www.gravatar.com/avatar/"+grahash
-                urllib.request.urlopen("https://www.gravatar.com/avatar/"+grahash+"?d=404")
+                grahash = hashlib.md5(self.user.username.lower().encode("utf8")).hexdigest()
+                graurl = "https://www.gravatar.com/avatar/" + grahash
+                urllib.request.urlopen(graurl + "?d=404")
                 ret = graurl
+                self.gravatar = grahash
             except:
-                self.last_gravatar = timezone.now()
-
+                pass
+            self.last_gravatar = timezone.now()
+            self.save()
         return ret
+
+    def mi_fondo(self):
+        ret = ""
+        # Reviso si hay gravatar
+        if self.fgravatar:
+            ret = self.fgravatar
+        elif self.gravatar:
+            try:
+                gprof = urllib.request.urlopen("https://www.gravatar.com/" + self.gravatar + ".json")
+                pback = json.loads(gprof.read().decode(gprof.info().get_content_charset('utf-8')))["entry"][0]["profileBackground"]
+                ret = pback["url"]
+                self.fgravatar = ret
+                self.cgravatar = pback["color"]
+                self.save()
+            except:
+                pass
+        return ret
+
+    def mi_color(self):
+        ret = "#aaaaaa"
+        # Reviso si hay gravatar
+        if self.cgravatar:
+            ret = self.cgravatar
+        return ret
+
+    def esta_online(self):
+        return True
+
+    def spam_rejected(self):
+        return str(0)
+
+    def good_received(self):
+        return str(0)

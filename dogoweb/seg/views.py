@@ -9,3 +9,7 @@ def index(request):
 @login_required()
 def audit(request):
     return render(request, 'seg/audit.html')
+
+@login_required()
+def profile(request):
+    return render(request, 'seg/profile.html')

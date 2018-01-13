@@ -7,8 +7,8 @@
 {% endblock %}
 
 {% block menu %}
-<nav class="top-menu" top-menu>
-    <div class="menu-icon-container">
+<nav class="top-menu">
+    <div class="menu-icon-container hidden-xs-down">
         <a href="{% url 'index' %}" class="logo">
             <img src="/static/dogoweb/img/dogomail-chico.png" alt="DogoMail" />
         </a>
@@ -19,12 +19,12 @@
         <div class="menu-user-block">
             <div class="dropdown dropdown-avatar">
                 <a href="javascript: void(0);" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <span class="avatar" href="javascript:void(0);">
+                    <span class="avatar">
                         <img src="{{ user.profile.mi_avatar }}" alt="User">
                     </span>
                 </a>
-                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="" role="menu">
-                    <a class="dropdown-item" href="javascript:void(0)"><i class="dropdown-icon icmn-user"></i> {% trans 'Profile' %}</a>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                    <a class="dropdown-item" href="{% url 'segprofile' %}"><i class="dropdown-icon icmn-user"></i> {% trans 'Profile' %}</a>
                     {% if user.is_superuser %}
                     <a class="dropdown-item" href="/admin/"><i class="dropdown-icon icmn-cogs"></i> {% trans 'Admin' %}</a>
                     {% endif %}
@@ -36,11 +36,16 @@
         <div class="menu-info-block">
             <div class="left">
                 <div class="header-buttons">
+                    <div class="dropdown hidden-sm-up">
+                        <a href="{% url 'index' %}" class="dropdown-inline-button">
+                            <i class="dropdown-icon icmn-image4"></i>
+                        </a>
+                    </div>
                     {% for menu in user.profile.mis_menus %}
                     <div class="dropdown">
                         <a href="javascript: void(0);" class="dropdown-toggle dropdown-inline-button" data-toggle="dropdown" aria-expanded="false">
                             <i class="dropdown-inline-button-icon {{ menu.icono }}"></i>
-                            <span class="hidden-lg-down">{{ menu.nombre }}</span>
+                            <span class="hidden-md-down">{{ menu.nombre }}</span>
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="" role="menu">
@@ -58,15 +63,14 @@
 {% endblock %}
 
 {% block contenido %}
-<div class="page-content-inner">
-
-     {% block contenidomenu %}{% endblock %}
-
+{% block submenu %}{% endblock %}
+<div class="my-page-content-inner">
+{% block contenidomenu %}{% endblock %}
 </div>
 {% endblock %}
 
 {% block piepagina %}
-<div class="cwt__footer visible-footer">
+<footer class="cwt__footer visible-footer">
     <div class="cwt__footer__top">
         <div class="row">
             <div class="col-md-4">
@@ -76,5 +80,5 @@
             </div>
         </div>
     </div>
-</div>
+</footer>
 {% endblock %}

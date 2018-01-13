@@ -111,15 +111,16 @@
 
     </head>
     <body class="theme-default single-page ">
+        <main>
 
         {% block menu %}{% endblock %}
 
-        <section class="page-content" ng-view>
+        <section class="page-content">
 
             {% block contenido %}{% endblock %}
 
         </section>
-
+        </main>
         {% block piepagina %}{% endblock %}
     </body>
 </html>

@@ -1,0 +1,166 @@
+{% extends "base_menu.html" %}
+{% load i18n %}
+{% block titulo %}{% trans "Profile" %}{% endblock %}
+
+{% block encabezadomenu %}
+{% endblock %}
+
+{% block submenu %}
+    <!-- Profile Header -->
+    <nav class="top-submenu top-submenu-with-background">
+        <div class="profile-header">
+            <div class="profile-header-info">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-4">
+                        <div class="width-100 text-center pull-right hidden-sm-down spam-rejected">
+                            <h2>{{ user.profile.spam_rejected }}</h2>
+                            <p>{% trans "Spam emails" %}<br/>{% trans "Rejected" %}</p>
+                        </div>
+                        <div class="width-100 text-center pull-right hidden-sm-down good-received">
+                            <h2>{{ user.profile.good_received }}</h2>
+                            <p>{% trans "Good emails" %}<br/>{% trans "Received" %}</p>
+                        </div>
+                        <div class="profile-header-title">
+                            <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+                            <p>{{ user.username }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- End Profile Header -->
+{% endblock %}
+
+{% block contenidomenu %}
+    <!-- Profile -->
+    <div class="row">
+        <div class="col-lg-4">
+            <section class="panel profile-user" style="background-image: url({{ user.profile.mi_fondo }}); background-color: {{ user.profile.mi_color }};">
+                <div class="panel-body">
+                    <div class="profile-user-title text-center">
+                        <a class="avatar" href="javascript:void(0);">
+                            <img src="{{ user.profile.mi_avatar }}" alt="{{ user.username }}">
+                        </a>
+                        <br />
+                        <p>{% trans "Last login" %}: {{ user.last_login }}</p>
+                        <p>
+                            {% if user.profile.esta_online %}
+                            <span class="donut donut-success"></span>
+                            {% trans "Online" %}
+                            {% else %}
+                            <span class="donut donut-secondary"></span>
+                            {% trans "Offline" %}
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </section>
+            <section class="panel">
+                <div class="panel-body">
+                    <h6>{% trans "Actions" %}</h6>
+                    <div class="btn-group-vertical btn-group-justified">
+                        <button type="button" class="btn">{% trans "Disable" %}</button>
+                        {% if user.is_superuser %}
+                        <button type="button" class="btn">{% trans "Grant Superuser" %}</button>
+                        {% endif %}
+                        {% if user.is_staff %}
+                        <button type="button" class="btn">{% trans "Grant Staff" %}</button>
+                        {% endif %}
+                        <!--button type="button" class="btn">{% trans "" %}</button-->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="col-lg-8">
+            <section class="panel profile-user-content">
+                <div class="panel-body">
+                    <div class="nav-tabs-horizontal">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="javascript: void(0);" data-toggle="tab" data-target="#info" role="tab">
+                                    <i class="icmn-info"></i>
+                                    {% trans "Information" %}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#access" role="tab">
+                                    <i class="icmn-bubbles5"></i>
+                                    {% trans "Access history" %}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#audit" role="tab">
+                                    <i class="icmn-cog"></i>
+                                    {% trans "Audit history" %}
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content padding-vertical-20">
+                            <div class="tab-pane active" id="info" role="tabpanel">
+                                <br />
+                                <h5>{% trans "Personal Information" %}</h5>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="l0">{% trans "First name" %}</label>
+                                            <input type="text" class="form-control" id="l0" value="{{ user.first_name }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="l0">{% trans "Last name" %}</label>
+                                            <input type="text" class="form-control" id="l2" value="{{ user.last_name }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="l1">{% trans "Email" %}</label>
+                                            <input disabled="1" type="email" class="form-control" id="l1" value="{{ user.email }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="l1">{% trans "Date joined" %}</label>
+                                            <input disabled="1" type="datetime-local" class="form-control" id="l3" value="{{ user.date_joined }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <h5>{% trans "Password" %}</h5>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="l3">{% trans "Password" %}</label>
+                                            <input type="password" class="form-control" id="l3">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="l4">{% trans "Re-type password" %}</label>
+                                            <input type="password" class="form-control" id="l4">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <div class="form-group">
+                                        <button type="button" class="btn width-150 btn-primary">{% trans "Submit" %}</button>
+                                        <button type="button" class="btn btn-default">{% trans "Cancel" %}</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="access" role="tabpanel">
+                            </div>
+                            <div class="tab-pane" id="audit" role="tabpanel">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <!-- End Profile -->
+{% endblock %}
