@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-06 17:49-0300\n"
-"PO-Revision-Date: 2018-01-06 17:50-0300\n"
+"POT-Creation-Date: 2018-01-15 23:54-0300\n"
+"PO-Revision-Date: 2018-01-15 23:55-0300\n"
 "Last-Translator: Andres Gironacci <mgironacci@itecnis.com>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -49,6 +49,139 @@ msgstr "Clave"
 #: seg/templates/registration/login.html:58
 msgid "Log In"
 msgstr "Ingresar"
+
+#: seg/templates/seg/audit.html:3 seg/templates/seg/audit.html:9
+#: seg/templates/seg/profile.html:100
+msgid "Audit"
+msgstr "Auditoria"
+
+#: seg/templates/seg/index.html:3 seg/templates/seg/index.html:9
+msgid "Security"
+msgstr "Seguridad"
+
+#: seg/templates/seg/profile.html:3
+msgid "Profile"
+msgstr "Perfil"
+
+#: seg/templates/seg/profile.html:18
+msgid "Spam emails"
+msgstr "Correos spam"
+
+#: seg/templates/seg/profile.html:18
+msgid "Rejected"
+msgstr "Rechazados"
+
+#: seg/templates/seg/profile.html:22
+msgid "Good emails"
+msgstr "Correos reales"
+
+#: seg/templates/seg/profile.html:22
+msgid "Received"
+msgstr "Recibidos"
+
+#: seg/templates/seg/profile.html:48
+msgid "Last login"
+msgstr "Último ingreso"
+
+#: seg/templates/seg/profile.html:52
+msgid "Online"
+msgstr "Enlínea"
+
+#: seg/templates/seg/profile.html:55
+msgid "Offline"
+msgstr "Ausente"
+
+#: seg/templates/seg/profile.html:63
+msgid "Actions"
+msgstr "Acciones"
+
+#: seg/templates/seg/profile.html:65
+msgid "Change password"
+msgstr "Cambiar clave"
+
+#: seg/templates/seg/profile.html:67
+msgid "Disable"
+msgstr "Desactivar"
+
+#: seg/templates/seg/profile.html:70
+msgid "Grant Superuser"
+msgstr "Dar Superusuario"
+
+#: seg/templates/seg/profile.html:73
+msgid "Grant Staff"
+msgstr "Dar Administración"
+
+#: seg/templates/seg/profile.html:88
+msgid "Information"
+msgstr "Información"
+
+#: seg/templates/seg/profile.html:94
+msgid "Access"
+msgstr "Accesos"
+
+#: seg/templates/seg/profile.html:106
+msgid "Personal Information"
+msgstr "Información Personal"
+
+#: seg/templates/seg/profile.html:110
+msgid "First name"
+msgstr "Nombre"
+
+#: seg/templates/seg/profile.html:116
+msgid "Last name"
+msgstr "Apellido"
+
+#: seg/templates/seg/profile.html:124
+msgid "Email"
+msgstr "Correo"
+
+#: seg/templates/seg/profile.html:130
+msgid "Date joined"
+msgstr "Fecha de registro"
+
+#: seg/templates/seg/profile.html:137
+msgid "Submit"
+msgstr "Enviar"
+
+#: seg/templates/seg/profile.html:138
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: seg/templates/seg/profile.html:143
+msgid "Access history"
+msgstr "Historial de Accesos"
+
+#: seg/templates/seg/profile.html:149 seg/templates/seg/profile.html:169
+msgid "Login date"
+msgstr "Fecha de ingreso"
+
+#: seg/templates/seg/profile.html:150 seg/templates/seg/profile.html:170
+msgid "Logout date"
+msgstr "Fecha de salida"
+
+#: seg/templates/seg/profile.html:151 seg/templates/seg/profile.html:171
+msgid "IP host"
+msgstr "Host IP"
+
+#: seg/templates/seg/profile.html:152 seg/templates/seg/profile.html:172
+msgid "Provider"
+msgstr "Proveedor"
+
+#: seg/templates/seg/profile.html:153 seg/templates/seg/profile.html:173
+msgid "Country"
+msgstr "País"
+
+#: seg/templates/seg/profile.html:163
+msgid "Audit history"
+msgstr "Historial de Auditoría"
+
+#: seg/views.py:61
+msgid "Still logged in"
+msgstr "Sesión abierta"
+
+#: seg/views.py:63
+msgid "Expired"
+msgstr "Expirado"
 
 #~ msgid "Please login to see this page."
 #~ msgstr "Por favor ingrese para ver esta página."

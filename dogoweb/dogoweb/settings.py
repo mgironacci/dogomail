@@ -105,13 +105,6 @@ DATABASES = {
         'PASSWORD': config.get('DB_PASSWORD'),
         'HOST': config.get('DB_HOST'),
         'PORT': config.get('DB_PORT'),
-
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dogomail_2',
-        'USER': 'root',
-        'PASSWORD': 'x',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
     }
 }
 

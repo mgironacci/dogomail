@@ -1,12 +1,15 @@
 # -*- coding: UTF-8 -*-
 from django.db import models
+from django.dispatch import receiver
 from django.contrib.auth.models import User, Permission
+from django.contrib.auth.signals import user_logged_in, user_logged_out, user_login_failed
 from dogoweb.settings import VERSION
 from django.utils import timezone
 import hashlib
 import datetime
 import urllib.request
 import json
+from ipwhois import IPWhois
 
 # Modelo de visualizacion ----------------------------------------------
 
@@ -66,26 +69,26 @@ class Menu(models.Model):
     def __str__(self):
         return self.nombre
 
-        # class Meta:
-        #		permissions = (
-        #			("can_login", "Can login"),
-        #		)
+    # class Meta:
+    #		permissions = (
+    #			("can_login", "Can login"),
+    #		)
 
-        # class PantallaManager(models.Manager):
-        # 	def mi_select(self, yo, selmenu=None):
-        # 		if selmenu is None:
-        # 			return []
-        # 		mi_perms=yo.get_all_permissions()
-        # 		pants=[]
-        # 		m=Menu.objects.get(idm=selmenu)
-        # 		for pp in Pantalla.objects.filter(menu=m).filter(activo=True).order_by('orden'):
-        # 			if pp.permiso is None:
-        # 				pants.append(pp)
-        # 				continue
-        # 			mp=pp.permiso.content_type.app_label+'.'+pp.permiso.codename
-        # 			if mp in mi_perms:
-        # 				pants.append(pp)
-        # 		return pants
+# class PantallaManager(models.Manager):
+# 	def mi_select(self, yo, selmenu=None):
+# 		if selmenu is None:
+# 			return []
+# 		mi_perms=yo.get_all_permissions()
+# 		pants=[]
+# 		m=Menu.objects.get(idm=selmenu)
+# 		for pp in Pantalla.objects.filter(menu=m).filter(activo=True).order_by('orden'):
+# 			if pp.permiso is None:
+# 				pants.append(pp)
+# 				continue
+# 			mp=pp.permiso.content_type.app_label+'.'+pp.permiso.codename
+# 			if mp in mi_perms:
+# 				pants.append(pp)
+# 		return pants
 
 
 class Pantalla(models.Model):
@@ -114,10 +117,10 @@ class Pantalla(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    gravatar = models.CharField(max_length=32, default=None)
-    fgravatar = models.CharField(max_length=100, default=None)
-    cgravatar = models.CharField(max_length=7, default=None)
-    last_gravatar = models.DateTimeField(auto_now_add=True)
+    gravatar = models.CharField(max_length=32, default='')
+    fgravatar = models.CharField(max_length=100, default='')
+    cgravatar = models.CharField(max_length=7, default='')
+    last_gravatar = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.user.username
@@ -130,7 +133,7 @@ class Profile(models.Model):
         if self.user.is_superuser:
             menus = Menu.objects.filter(activo=True)
         else:
-            # TODO: usar permisos de usuarios para obtener pantallas
+            # TODO: filtro en base a permisos del usuario
             menus = Menu.objects.filter(activo=True)
         for m in menus:
             ret.append({
@@ -189,10 +192,99 @@ class Profile(models.Model):
         return ret
 
     def esta_online(self):
-        return True
+        accesos = LoginLogout.objects.filter(user=self.user).filter(logout_time=None)
+        if len(accesos) > 0:
+            return True
+        return False
 
     def spam_rejected(self):
         return str(0)
 
     def good_received(self):
         return str(0)
+
+
+# Registro de actividades ----------------------------------------------
+
+class LoginLogout(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    session_key = models.CharField(max_length=100, blank=False, null=False)
+    login_time = models.DateTimeField(blank=True, null=True)
+    logout_time = models.DateTimeField(blank=True, null=True)
+    host = models.CharField(max_length=100, blank=False, null=False)
+    provider = models.CharField(max_length=100, blank=True, null=True)
+    country = models.CharField(max_length=2, blank=True, null=True)
+
+    class Meta:
+        ordering = ["-login_time"]
+
+    def __str__(self):
+        return "Login " + self.user.username + ": " + str(self.login_time)
+
+
+@receiver(user_logged_in)
+def user_logged_in_callback(sender, request, user, **kwargs):
+    pais = 'yo'
+    prov = ''
+    # Busco en el whois
+    try:
+        ipw = IPWhois(request.META['REMOTE_ADDR'])
+        ipr = ipw.lookup_rdap(depth=1)
+        pais = ipr['asn_country_code']
+        prov = ipr['asn_description']
+    except Exception as e:
+        pass
+    # Veo si puedo mejorar el proveedor
+    try:
+        if len(ipr['entities']) > 0:
+            for e in ipr['entities']:
+                if ipr['objects'][e]['contact']:
+                    prov = ipr['objects'][e]['contact']['name']
+                    break
+    except:
+        pass
+    # Registro el ingreso
+    try:
+        login_logout_logs = LoginLogout.objects.filter(session_key=request.session.session_key, user=user.id)[:1]
+        if not login_logout_logs:
+            login_logout_log = LoginLogout(login_time=datetime.datetime.now(),session_key=request.session.session_key, user=user, host=request.META['REMOTE_ADDR'], provider=prov, country=pais)
+            login_logout_log.save()
+    except Exception as e:
+        # log the error
+        #error_log.error("log_user_logged_in request: %s, error: %s" % (request, e))
+        pass
+
+
+@receiver(user_logged_out)
+def user_logged_out_callback(sender, request, user, **kwargs):
+    pais = 'yo'
+    prov = ''
+    # Busco en el whois
+    try:
+        ipw = IPWhois(request.META['REMOTE_ADDR'])
+        ipr = ipw.lookup_rdap(depth=1)
+        pais = ipr['asn_country_code']
+        prov = ips['asn_description']
+    except Exception as e:
+        pass
+    # Veo si puedo mejorar el proveedor
+    try:
+        if len(ipr['entities']) > 0:
+            for e in ipr['entities']:
+                if e['contact']:
+                    prov = e['contact']['name']
+                    break
+    except:
+        pass
+    # Registro el ingreso
+    try:
+        login_logout_logs = LoginLogout.objects.filter(session_key=request.session.session_key, user=user.id, host=request.META['REMOTE_ADDR'])
+        login_logout_logs.filter(logout_time__isnull=True).update(logout_time=datetime.datetime.now())
+        if not login_logout_logs:
+            login_logout_log = LoginLogout(logout_time=datetime.datetime.now(), session_key=request.session.session_key, user=user, host=request.META['REMOTE_ADDR'], provider=prov, country=pais)
+            login_logout_log.save()
+    except Exception as e:
+        # log the error
+        #error_log.error("log_user_logged_in request: %s, error: %s" % (request, e))
+        pass
+

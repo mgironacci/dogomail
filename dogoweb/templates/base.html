@@ -1,6 +1,8 @@
 <!DOCTYPE HTML>
 {% load i18n %}
+{% load tz %}
 {% get_current_language as LANGUAGE_CODE %}
+{% get_current_timezone as TIME_ZONE %}
 <html lang="{{LANGUAGE_CODE}}">
     <head>
         <meta charset="UTF-8">
@@ -102,9 +104,9 @@
         <script src="/static/cleanui/common/js/demo.temp.js"></script>
 
         <!-- Allow CSRF ajax -->
-        <script src="/static/js/csrf-cookie.js"></script>
+        <script src="/static/seg/js/csrf-cookie.js"></script>
 
-        <!-- Estilo global dogoweb -->
+        <!-- Estilo global proyecto -->
         <link rel="stylesheet" type="text/css" media="screen" href="/static/dogoweb/css/style.css"/>
 
         {% block encabezado %}{% endblock %}

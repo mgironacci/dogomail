@@ -3,6 +3,7 @@
 {% block titulo %}{% trans "Profile" %}{% endblock %}
 
 {% block encabezadomenu %}
+        <script src="/static/seg/js/profile.js"></script>
 {% endblock %}
 
 {% block submenu %}
@@ -23,6 +24,7 @@
                         <div class="profile-header-title">
                             <h2>{{ user.first_name }} {{ user.last_name }}</h2>
                             <p>{{ user.username }}</p>
+                            <p><small>TZ: {{ TIME_ZONE }}</small></p>
                         </div>
                     </div>
                 </div>
@@ -60,14 +62,16 @@
                 <div class="panel-body">
                     <h6>{% trans "Actions" %}</h6>
                     <div class="btn-group-vertical btn-group-justified">
+                        <button type="button" class="btn">{% trans "Change password" %}</button>
+                        {% if user.is_staff or user.is_superuser %}
                         <button type="button" class="btn">{% trans "Disable" %}</button>
+                        {% endif %}
                         {% if user.is_superuser %}
                         <button type="button" class="btn">{% trans "Grant Superuser" %}</button>
                         {% endif %}
-                        {% if user.is_staff %}
+                        {% if user.is_staff or user.is_superuser %}
                         <button type="button" class="btn">{% trans "Grant Staff" %}</button>
                         {% endif %}
-                        <!--button type="button" class="btn">{% trans "" %}</button-->
                     </div>
                 </div>
             </section>
@@ -86,20 +90,19 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#access" role="tab">
-                                    <i class="icmn-bubbles5"></i>
-                                    {% trans "Access history" %}
+                                    <i class="icmn-enter"></i>
+                                    {% trans "Access" %}
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#audit" role="tab">
-                                    <i class="icmn-cog"></i>
-                                    {% trans "Audit history" %}
+                                    <i class="icmn-search4"></i>
+                                    {% trans "Audit" %}
                                 </a>
                             </li>
                         </ul>
                         <div class="tab-content padding-vertical-20">
                             <div class="tab-pane active" id="info" role="tabpanel">
-                                <br />
                                 <h5>{% trans "Personal Information" %}</h5>
                                 <div class="row">
                                     <div class="col-lg-6">
@@ -129,22 +132,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <br />
-                                <h5>{% trans "Password" %}</h5>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label class="form-control-label" for="l3">{% trans "Password" %}</label>
-                                            <input type="password" class="form-control" id="l3">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label class="form-control-label" for="l4">{% trans "Re-type password" %}</label>
-                                            <input type="password" class="form-control" id="l4">
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="form-actions">
                                     <div class="form-group">
                                         <button type="button" class="btn width-150 btn-primary">{% trans "Submit" %}</button>
@@ -153,8 +140,42 @@
                                 </div>
                             </div>
                             <div class="tab-pane" id="access" role="tabpanel">
+                                <h5>{% trans "Access history" %}</h5>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table class="table table-hover nowrap" id="accesstable" width="100%">
+                                            <thead>
+                                            <tr>
+                                                <th>{% trans "Login date" %}</th>
+                                                <th>{% trans "Logout date" %}</th>
+                                                <th>{% trans "IP host" %}</th>
+                                                <th>{% trans "Provider" %}</th>
+                                                <th>{% trans "Country" %}</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                             <div class="tab-pane" id="audit" role="tabpanel">
+                                <h5>{% trans "Audit history" %}</h5>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table class="table table-hover nowrap" id="audittable" width="100%">
+                                            <thead>
+                                            <tr>
+                                                <th>{% trans "Date" %}</th>
+                                                <th>{% trans "Action" %}</th>
+                                                <th>{% trans "Data" %}</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

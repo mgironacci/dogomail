@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-06 17:49-0300\n"
-"PO-Revision-Date: 2018-01-06 17:46-0300\n"
+"POT-Creation-Date: 2018-01-15 23:54-0300\n"
+"PO-Revision-Date: 2018-01-14 21:47-0300\n"
 "Last-Translator: Andres Gironacci <mgironacci@itecnis.com>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -18,6 +18,38 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: stats/templates/stats/pizarron.html:3 stats/templates/stats/pizarron.html:9
+#: stats/templates/stats/index.html:3 stats/templates/stats/index.html:9
+msgid "Stats"
+msgstr "Estadísticas"
+
+#: stats/templates/stats/pizarron.html:3
 msgid "Dashboard"
 msgstr "Pizarrón"
+
+#: stats/templates/stats/pizarron.html:29
+msgid "Emails"
+msgstr "Correos"
+
+#: stats/templates/stats/pizarron.html:32
+msgid "Incoming"
+msgstr "Entrantes"
+
+#: stats/templates/stats/pizarron.html:36
+msgid "Outgoing"
+msgstr "Salientes"
+
+#: stats/templates/stats/pizarron.html:54
+msgid "Incoming rejected"
+msgstr "Entrantes rechazados"
+
+#: stats/templates/stats/pizarron.html:66
+msgid "Outgoing rejected"
+msgstr "Salientes rechazados"
+
+#: stats/templates/stats/pizarron.html:80
+msgid "Top servers"
+msgstr "Máximos servidores"
+
+#: stats/templates/stats/pizarron.html:117
+msgid "Top recipients"
+msgstr "Máximos recipientes"
