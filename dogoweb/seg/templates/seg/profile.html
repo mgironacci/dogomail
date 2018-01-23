@@ -24,7 +24,7 @@
                         <div class="profile-header-title">
                             <h2>{{ user.first_name }} {{ user.last_name }}</h2>
                             <p>{{ user.username }}</p>
-                            <p><small>TZ: {{ TIME_ZONE }}</small></p>
+                            <p class="hidden-md-down"><small>TZ: {{ TIME_ZONE }}</small></p>
                         </div>
                     </div>
                 </div>
@@ -148,9 +148,9 @@
                                             <tr>
                                                 <th>{% trans "Login date" %}</th>
                                                 <th>{% trans "Logout date" %}</th>
-                                                <th>{% trans "IP host" %}</th>
-                                                <th>{% trans "Provider" %}</th>
-                                                <th>{% trans "Country" %}</th>
+                                                <th class="hidden-xs-down">{% trans "IP host" %}</th>
+                                                <th class="hidden-lg-down">{% trans "Provider" %}</th>
+                                                <th class="hidden-md-down">{% trans "Country" %}</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -168,7 +168,7 @@
                                             <tr>
                                                 <th>{% trans "Date" %}</th>
                                                 <th>{% trans "Action" %}</th>
-                                                <th>{% trans "Data" %}</th>
+                                                <th>{% trans "Description" %}</th>
                                             </tr>
                                             </thead>
                                             <tbody>

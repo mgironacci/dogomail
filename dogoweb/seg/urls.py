@@ -9,4 +9,11 @@ urlpatterns = [
     url(r'^audit$', views.audit, name='segaudit'),
     url(r'^profile$', views.profile, name='segprofile'),
     url(r'^accesos$', views.accesos, name='segaccesos'),
+    url(r'^auditoria$', views.auditoria, name='segauditoria'),
+    url(r'^users$', views.users, name='segusers'),
+    url(r'^groups$', views.groups, name='seggroups'),
+    url(r'^perms$', views.perms, name='segperms'),
+    url(r'^menus$', views.menus, name='segmenus'),
+    url(r'^pants$', views.pants, name='segpants'),
+    url(r'^controls$', views.controls, name='segcontrols'),
 ]

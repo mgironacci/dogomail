@@ -3,8 +3,10 @@ from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User, Group, Permission
 from django.contrib.sessions.models import Session
-from seg.models import LoginLogout
+from django.contrib.admin.models import LogEntry
+from seg.models import LoginLogout, DTFilter, Menu, Pantalla, Control
 from ipwhois.utils import get_countries
 import json
 
@@ -22,27 +24,17 @@ def audit(request):
 def profile(request):
     return render(request, 'seg/profile.html')
 
+
 @login_required()
 def accesos(request):
     if request.is_ajax() and request.method == 'POST':
-        jbody = json.loads(request.body.decode('UTF8'))
+        jbody = json.loads(request.body.decode(request._encoding))
     else:
         return JsonResponse({'error': "Bad request"})
-    ret = {
-        'draw': jbody['draw'],
-        'recordsTotal': 0,
-        'recordsFiltered': 0,
-        'error': "",
-        'data': [],
-    }
     paises = get_countries()
-    ret['recordsTotal'] = LoginLogout.objects.filter(user=request.user).count()
-    ret['recordsFiltered'] = ret['recordsTotal']
-    st = jbody['start'] - 1
-    if st < 0:
-        st = 0
-    llog = LoginLogout.objects.filter(user=request.user)[st:jbody['length']]
-    for a in llog:
+    ret, objs = LoginLogout.objects.dt_filter(jbody, user=request.user)
+
+    for a in objs:
         pais = ""
         flag = ""
         if a.country == 'yo':
@@ -62,4 +54,107 @@ def accesos(request):
             else:
                 lo = _("Expired")
         ret['data'].append([li, lo, a.host, a.provider, pais + flag])
+    return JsonResponse(ret)
+
+
+@login_required()
+def auditoria(request):
+    acc = {
+        1: _("Add"),
+        2:_("Change"),
+        3:_("Delete"),
+    }
+    if request.is_ajax() and request.method == 'POST':
+        jbody = json.loads(request.body.decode(request._encoding))
+    else:
+        return JsonResponse({'error': "Bad request"})
+    ret, objs = DTFilter(LogEntry.objects, jbody, user=request.user)
+    for a in objs:
+        ret['data'].append([timezone.localtime(a.action_time).strftime('%Y-%m-%d %X'), acc[a.action_flag], a.object_repr])
+    return JsonResponse(ret)
+
+
+@login_required()
+def users(request):
+    if request.is_ajax() and request.method == 'POST':
+        jbody = json.loads(request.body.decode(request._encoding))
+    else:
+        return JsonResponse({'error': "Bad request"})
+    ret, objs = DTFilter(User.objects, jbody)
+    for a in objs:
+        uact = '<i class="icmn-checkbox-checked"></i>'
+        if not a.is_active:
+            uact = '<i class="icmn-checkbox-unchecked"></i>'
+        ret['data'].append([a.username, a.last_name + " " + a.first_name, uact])
+    return JsonResponse(ret)
+
+
+@login_required()
+def groups(request):
+    if request.is_ajax() and request.method == 'POST':
+        jbody = json.loads(request.body.decode(request._encoding))
+    else:
+        return JsonResponse({'error': "Bad request"})
+    ret, objs = DTFilter(Group.objects, jbody)
+    for a in objs:
+        ret['data'].append([a.name, '0', '0'])
+    return JsonResponse(ret)
+
+
+@login_required()
+def perms(request):
+    if request.is_ajax() and request.method == 'POST':
+        jbody = json.loads(request.body.decode(request._encoding))
+    else:
+        return JsonResponse({'error': "Bad request"})
+    ret, objs = DTFilter(Permission.objects, jbody)
+    for a in objs:
+        ret['data'].append([a.name, str(a.content_type), '0'])
+    return JsonResponse(ret)
+
+
+@login_required()
+def menus(request):
+    if request.is_ajax() and request.method == 'POST':
+        jbody = json.loads(request.body.decode(request._encoding))
+    else:
+        return JsonResponse({'error': "Bad request"})
+    ret, objs = DTFilter(Menu.objects, jbody)
+    for a in objs:
+        mico = '<i class="%s"></i>' % a.icono
+        mact = '<i class="icmn-checkbox-checked"></i>'
+        if not a.activo:
+            mact = '<i class="icmn-checkbox-unchecked"></i>'
+        ret['data'].append([mico, a.nombre, a.orden, mact])
+    return JsonResponse(ret)
+
+
+@login_required()
+def pants(request):
+    if request.is_ajax() and request.method == 'POST':
+        jbody = json.loads(request.body.decode(request._encoding))
+    else:
+        return JsonResponse({'error': "Bad request"})
+    ret, objs = DTFilter(Pantalla.objects, jbody)
+    for a in objs:
+        mico = '<i class="%s"></i>' % a.icono
+        mact = '<i class="icmn-checkbox-checked"></i>'
+        if not a.activo:
+            mact = '<i class="icmn-checkbox-unchecked"></i>'
+        ret['data'].append([mico, a.nombre, str(a.menu), a.orden, a.permiso.name, mact])
+    return JsonResponse(ret)
+
+
+@login_required()
+def controls(request):
+    if request.is_ajax() and request.method == 'POST':
+        jbody = json.loads(request.body.decode(request._encoding))
+    else:
+        return JsonResponse({'error': "Bad request"})
+    ret, objs = DTFilter(Control.objects, jbody)
+    for a in objs:
+        mact = '<i class="icmn-checkbox-checked"></i>'
+        if not a.activo:
+            mact = '<i class="icmn-checkbox-unchecked"></i>'
+        ret['data'].append([a.nombre, a.permiso.name, mact])
     return JsonResponse(ret)

@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 from django.db import models
+from django.db.models import Q
 from django.dispatch import receiver
 from django.contrib.auth.models import User, Permission
 from django.contrib.auth.signals import user_logged_in, user_logged_out, user_login_failed
@@ -10,6 +11,81 @@ import datetime
 import urllib.request
 import json
 from ipwhois import IPWhois
+
+
+# Utilidad para DataTables ---------------------------------------------
+
+def DTFilter(mmodel, jbody, *args, **kw):
+    ret = {
+        'draw': jbody['draw'],
+        'recordsTotal': 0,
+        'recordsFiltered': 0,
+        'error': "",
+        'data': [],
+    }
+    # Busqueda base con filtros de entrada
+    try:
+        bobjs = mmodel.filter(*args, **kw)
+        ret['recordsTotal'] = bobjs.count()
+        ret['recordsFiltered'] = ret['recordsTotal']
+    except Exception as e:
+        ret['error'] = str(e)
+        return ret, []
+    # Reviso si hay una busqueda general y la refino
+    if jbody['search']['value'] and len(jbody['search']['value']) >= 2:
+        # Busco columnas buscables
+        cbuscar = []
+        for cc in jbody['columns']:
+            if cc['searchable']:
+                cbuscar.append(cc['name'] + "__icontains")
+        cfiltro = None
+        for cf in cbuscar:
+            fkw = {cf: jbody['search']['value']}
+            if cfiltro:
+                cfiltro |= Q(**fkw)
+            else:
+                cfiltro = Q(**fkw)
+        # Armo filtro
+        if cfiltro:
+            sobjs = bobjs.filter(cfiltro)
+            ret['recordsFiltered'] = sobjs.count()
+        else:
+            sobjs = bobjs
+    else:
+        sobjs = bobjs
+
+    # Ordeno
+    if 'order' in jbody:
+        try:
+            campo = jbody['columns'][jbody['order'][0]['column']]['name']
+            direc = jbody['order'][0]['dir']
+            if direc == 'asc':
+                oobjs = sobjs.order_by(campo)
+            else:
+                oobjs = sobjs.order_by("-" + campo)
+        except Exception as e:
+            ret['error'] = str(e)
+            return ret, sobjs
+    else:
+        oobjs = sobjs
+
+    # Filtro por inicio y largo
+    try:
+        st = jbody['start']
+        lt = jbody['length']
+        fobjs = oobjs[st:st+lt]
+    except Exception as e:
+        ret['error'] = str(e)
+        fobjs = oobjs
+
+    return ret, fobjs
+
+
+class DTManager(models.Manager):
+
+    def dt_filter(self, jbody, *args, **kw):
+        return DTFilter(self, jbody, *args, **kw)
+
 
 # Modelo de visualizacion ----------------------------------------------
 
@@ -69,10 +145,11 @@ class Menu(models.Model):
     def __str__(self):
         return self.nombre
 
-    # class Meta:
-    #		permissions = (
-    #			("can_login", "Can login"),
-    #		)
+    class Meta:
+        permissions = (
+            ("manage_menus", "Manage menus"),
+        )
+
 
 # class PantallaManager(models.Manager):
 # 	def mi_select(self, yo, selmenu=None):
@@ -154,7 +231,7 @@ class Profile(models.Model):
         if self.gravatar:
             ret = "https://www.gravatar.com/avatar/" + self.gravatar
         elif (self.last_gravatar < timezone.now() - datetime.timedelta(minutes=10)
-            and self.gravatar == ''):
+              and self.gravatar == ''):
             try:
                 grahash = hashlib.md5(self.user.username.lower().encode("utf8")).hexdigest()
                 graurl = "https://www.gravatar.com/avatar/" + grahash
@@ -207,6 +284,8 @@ class Profile(models.Model):
 # Registro de actividades ----------------------------------------------
 
 class LoginLogout(models.Model):
+    objects = DTManager()
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     session_key = models.CharField(max_length=100, blank=False, null=False)
     login_time = models.DateTimeField(blank=True, null=True)
@@ -287,4 +366,3 @@ def user_logged_out_callback(sender, request, user, **kwargs):
         # log the error
         #error_log.error("log_user_logged_in request: %s, error: %s" % (request, e))
         pass
-
