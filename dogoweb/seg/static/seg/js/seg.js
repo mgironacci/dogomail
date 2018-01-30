@@ -15,6 +15,7 @@ $(function(){
             { name: "is_active", sorting: false, searchable: false }
         ],
         order: [[ 0, "asc" ]],
+        select: 'single',
         //"paging":   false,
         //"ordering": false,
         //"info":     false,
@@ -39,6 +40,7 @@ $(function(){
             { name: "func_perms", searchable: false }
         ],
         order: [[ 0, "asc" ]],
+        select: 'multi',
         //"paging":   false,
         //"ordering": false,
         //"info":     false,
@@ -63,6 +65,7 @@ $(function(){
             { name: "func_used", searchable: false }
         ],
         order: [[ 0, "asc" ]],
+        select: 'multi',
         //"paging":   false,
         //"ordering": false,
         //"info":     false,
@@ -81,6 +84,9 @@ $(function(){
             data: function (data) { return data = JSON.stringify(data); }
         },
         language: DTlang,
+        //dom: 'Bfrtip',
+        //buttons: [ 'create', 'editSingle', 'removeSingle'],
+        //buttons: true,
         columns: [
             { name: "icono", sorting: false, searchable: false },
             { name: "nombre" },
@@ -88,6 +94,8 @@ $(function(){
             { name: "activo", sorting: false, searchable: false }
         ],
         order: [[ 2, "asc" ]],
+        select: 'multi',
+        rowReorder: true,
         //"paging":   false,
         //"info":     false,
         //"scrollX":  false,
@@ -114,6 +122,7 @@ $(function(){
             { name: "activo", sorting: false, searchable: false }
         ],
         order: [[ 3, "asc" ]],
+        select: 'multi',
         //"paging":   false,
         //"ordering": false,
         //"info":     false,
@@ -122,28 +131,10 @@ $(function(){
         //"dom": 'Bfrtip',
         cache: false,
     });
-    $('#contrtable').DataTable({
-        responsive: true,
-        serverSide: true,
-        ajax: {
-            type: "POST",
-            url: '/seg/controls',
-            contentType: 'application/json; charset=utf-8',
-            data: function (data) { return data = JSON.stringify(data); }
-        },
-        language: DTlang,
-        columns: [
-            { name: "nombre" },
-            { name: "permiso", searchable: false },
-            { name: "activo", sorting: false, searchable: false }
-        ],
-        order: [[ 0, "asc" ]],
-        //"paging":   false,
-        //"ordering": false,
-        //"info":     false,
-        //"scrollX":  false,
-        //"searching": false,
-        //"dom": 'Bfrtip',
-        cache: false,
+    $('#adduser').on('shown.bs.modal', function () {
+        $('#l0').focus();
+    });
+    $('#addgroup').on('shown.bs.modal', function () {
+        $('#g0').focus();
     });
 });

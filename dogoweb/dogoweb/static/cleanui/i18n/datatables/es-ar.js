@@ -7,12 +7,12 @@
 
 var DTlang = {
 	"sProcessing":     "Procesando...",
-	"sLengthMenu":     "Mostrar _MENU_ registros",
+	"sLengthMenu":     "Ver _MENU_",
 	"sZeroRecords":    "No se encontraron resultados",
 	"sEmptyTable":     "Ningún dato disponible en esta tabla",
-	"sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-	"sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-	"sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+	"sInfo":           "Mostrando del _START_ al _END_ de _TOTAL_ en total",
+	"sInfoEmpty":      "Mostrando del 0 al 0 de un total de 0 en total",
+	"sInfoFiltered":   "(filtrado de _MAX_ registros)",
 	"sInfoPostFix":    "",
 	"sSearch":         "Buscar:",
 	"sUrl":            "",
@@ -28,5 +28,16 @@ var DTlang = {
 		"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
 		"sSortDescending": ": Activar para ordenar la columna de manera descendente"
 	},
-	"decimal": ","
+	"decimal": ",",
+	"select": {
+        "rows": {
+            _: "Seleccionados %d registros",
+            0: "",
+            1: "Seleccionado 1 registro"
+        }
+    },
+    "buttons": {
+        "collection": "Colección",
+        "print": "Imprimir"
+    }
 }

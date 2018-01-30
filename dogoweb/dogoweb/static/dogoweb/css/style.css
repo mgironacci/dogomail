@@ -117,3 +117,26 @@ pre {
         margin-top: 0px;
     }
 }
+
+/* Panel con encabezado y boton */
+.panel.panel-with-borders > .panel-body {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.panel .panel-heading {
+    padding-top: 15px;
+    padding-bottom: 16px;
+}
+.panel .panel-heading .dropdown{
+    margin-top: -8px;
+}
+
+/* Tablas con cursor hover */
+.table.table-hover tbody tr:hover {
+    cursor: pointer;
+}
+
+/* Modal body */
+.modal-body-bottom-5 {
+    padding-bottom: 5px;
+}

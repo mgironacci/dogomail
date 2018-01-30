@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-15 23:54-0300\n"
-"PO-Revision-Date: 2018-01-15 23:55-0300\n"
+"POT-Creation-Date: 2018-01-29 22:22-0300\n"
+"PO-Revision-Date: 2018-01-29 22:23-0300\n"
 "Last-Translator: Andres Gironacci <mgironacci@itecnis.com>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -55,9 +55,156 @@ msgstr "Ingresar"
 msgid "Audit"
 msgstr "Auditoria"
 
-#: seg/templates/seg/index.html:3 seg/templates/seg/index.html:9
+#: seg/templates/seg/index.html:3
 msgid "Security"
 msgstr "Seguridad"
+
+#: seg/templates/seg/index.html:22 seg/templates/seg/index.html:209
+#: seg/views.py:63
+msgid "Add"
+msgstr "Agregar"
+
+#: seg/templates/seg/index.html:25 seg/templates/seg/index.html:58
+msgid "User"
+msgstr "Usuario"
+
+#: seg/templates/seg/index.html:26
+msgid "Group"
+msgstr "Grupo"
+
+#: seg/templates/seg/index.html:29 seg/templates/seg/profile.html:94
+msgid "Access"
+msgstr "Accesos"
+
+#: seg/templates/seg/index.html:37 seg/templates/seg/index.html:72
+msgid "Users"
+msgstr "Usuarios"
+
+#: seg/templates/seg/index.html:43
+msgid "Groups"
+msgstr "Grupos"
+
+#: seg/templates/seg/index.html:49 seg/templates/seg/index.html:73
+#: seg/templates/seg/index.html:184
+msgid "Permissions"
+msgstr "Permisos"
+
+#: seg/templates/seg/index.html:59 seg/templates/seg/index.html:71
+#: seg/templates/seg/index.html:176 seg/templates/seg/index.html:240
+#: seg/templates/seg/index.html:254 seg/templates/seg/index.html:301
+msgid "Name"
+msgstr "Nombre"
+
+#: seg/templates/seg/index.html:60 seg/templates/seg/index.html:148
+#: seg/templates/seg/index.html:242 seg/templates/seg/index.html:258
+#: seg/templates/seg/index.html:315
+msgid "Active"
+msgstr "Activo"
+
+#: seg/templates/seg/index.html:84 seg/templates/seg/index.html:257
+msgid "Permission"
+msgstr "Permiso"
+
+#: seg/templates/seg/index.html:85
+msgid "Model"
+msgstr "Modelo"
+
+#: seg/templates/seg/index.html:86
+msgid "Used"
+msgstr "Usado"
+
+#: seg/templates/seg/index.html:104
+msgid "Add user"
+msgstr "Agregar usuario"
+
+#: seg/templates/seg/index.html:110 seg/templates/seg/profile.html:124
+msgid "Email"
+msgstr "Correo"
+
+#: seg/templates/seg/index.html:118
+msgid "Search"
+msgstr "Buscar"
+
+#: seg/templates/seg/index.html:128 seg/templates/seg/profile.html:110
+msgid "First name"
+msgstr "Nombre"
+
+#: seg/templates/seg/index.html:134 seg/templates/seg/profile.html:116
+msgid "Last name"
+msgstr "Apellido"
+
+#: seg/templates/seg/index.html:142
+msgid "Staff"
+msgstr "Operador"
+
+#: seg/templates/seg/index.html:155 seg/templates/seg/index.html:191
+#: seg/templates/seg/index.html:343 seg/templates/seg/profile.html:137
+msgid "Save"
+msgstr "Guardar"
+
+#: seg/templates/seg/index.html:156 seg/templates/seg/index.html:192
+#: seg/templates/seg/index.html:344
+msgid "Save and Add"
+msgstr "Guardar y Agregar"
+
+#: seg/templates/seg/index.html:157
+msgid "Save and View"
+msgstr "Guardar y Ver"
+
+#: seg/templates/seg/index.html:158 seg/templates/seg/index.html:193
+#: seg/templates/seg/index.html:345 seg/templates/seg/profile.html:138
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: seg/templates/seg/index.html:170
+msgid "Add group"
+msgstr "Agregar grupo"
+
+#: seg/templates/seg/index.html:212 seg/templates/seg/index.html:255
+msgid "Menu"
+msgstr "Menú"
+
+#: seg/templates/seg/index.html:213
+msgid "Screen"
+msgstr "Pantalla"
+
+#: seg/templates/seg/index.html:216 seg/templates/seg/index.html:224
+msgid "Menus"
+msgstr "Menús"
+
+#: seg/templates/seg/index.html:230
+msgid "Screens"
+msgstr "Pantallas"
+
+#: seg/templates/seg/index.html:239 seg/templates/seg/index.html:253
+#: seg/templates/seg/index.html:287
+msgid "Icon"
+msgstr "Ícono"
+
+#: seg/templates/seg/index.html:241 seg/templates/seg/index.html:256
+#: seg/templates/seg/index.html:309
+msgid "Order"
+msgstr "Órden"
+
+#: seg/templates/seg/index.html:276
+msgid "Add menu"
+msgstr "Agregar menú"
+
+#: seg/templates/seg/index.html:282
+msgid "ID"
+msgstr "ID"
+
+#: seg/templates/seg/index.html:325
+msgid "Previous"
+msgstr "Previo"
+
+#: seg/templates/seg/index.html:328
+msgid "Choose"
+msgstr "Elegir"
+
+#: seg/templates/seg/index.html:335
+msgid "Next"
+msgstr "Próximo"
 
 #: seg/templates/seg/profile.html:3
 msgid "Profile"
@@ -115,59 +262,35 @@ msgstr "Dar Administración"
 msgid "Information"
 msgstr "Información"
 
-#: seg/templates/seg/profile.html:94
-msgid "Access"
-msgstr "Accesos"
-
 #: seg/templates/seg/profile.html:106
 msgid "Personal Information"
 msgstr "Información Personal"
-
-#: seg/templates/seg/profile.html:110
-msgid "First name"
-msgstr "Nombre"
-
-#: seg/templates/seg/profile.html:116
-msgid "Last name"
-msgstr "Apellido"
-
-#: seg/templates/seg/profile.html:124
-msgid "Email"
-msgstr "Correo"
 
 #: seg/templates/seg/profile.html:130
 msgid "Date joined"
 msgstr "Fecha de registro"
 
-#: seg/templates/seg/profile.html:137
-msgid "Submit"
-msgstr "Enviar"
-
-#: seg/templates/seg/profile.html:138
-msgid "Cancel"
-msgstr "Cancelar"
-
 #: seg/templates/seg/profile.html:143
 msgid "Access history"
 msgstr "Historial de Accesos"
 
-#: seg/templates/seg/profile.html:149 seg/templates/seg/profile.html:169
+#: seg/templates/seg/profile.html:149
 msgid "Login date"
 msgstr "Fecha de ingreso"
 
-#: seg/templates/seg/profile.html:150 seg/templates/seg/profile.html:170
+#: seg/templates/seg/profile.html:150
 msgid "Logout date"
 msgstr "Fecha de salida"
 
-#: seg/templates/seg/profile.html:151 seg/templates/seg/profile.html:171
+#: seg/templates/seg/profile.html:151
 msgid "IP host"
 msgstr "Host IP"
 
-#: seg/templates/seg/profile.html:152 seg/templates/seg/profile.html:172
+#: seg/templates/seg/profile.html:152
 msgid "Provider"
 msgstr "Proveedor"
 
-#: seg/templates/seg/profile.html:153 seg/templates/seg/profile.html:173
+#: seg/templates/seg/profile.html:153
 msgid "Country"
 msgstr "País"
 
@@ -175,13 +298,36 @@ msgstr "País"
 msgid "Audit history"
 msgstr "Historial de Auditoría"
 
-#: seg/views.py:61
+#: seg/templates/seg/profile.html:169
+msgid "Date"
+msgstr "Fecha"
+
+#: seg/templates/seg/profile.html:170
+msgid "Action"
+msgstr "Acción"
+
+#: seg/templates/seg/profile.html:171
+msgid "Description"
+msgstr "Descripción"
+
+#: seg/views.py:53
 msgid "Still logged in"
 msgstr "Sesión abierta"
 
-#: seg/views.py:63
+#: seg/views.py:55
 msgid "Expired"
 msgstr "Expirado"
+
+#: seg/views.py:64
+msgid "Change"
+msgstr "Cambiar"
+
+#: seg/views.py:65
+msgid "Delete"
+msgstr "Borrar"
+
+#~ msgid "Submit"
+#~ msgstr "Enviar"
 
 #~ msgid "Please login to see this page."
 #~ msgstr "Por favor ingrese para ver esta página."

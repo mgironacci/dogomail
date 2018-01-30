@@ -16,6 +16,7 @@ $(function(){
             { name: "provider", className: "hidden-lg-down" },
             { name: "country", className: "hidden-md-down" }
         ],
+        order: [[ 0, "desc" ]],
         //"paging":   false,
         //"ordering": false,
         //"info":     false,
@@ -39,6 +40,7 @@ $(function(){
             { name: "action_flag" },
             { name: "object_repr" }
         ],
+        order: [[ 0, "desc" ]],
         //"paging":   false,
         //"ordering": false,
         //"info":     false,

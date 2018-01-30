@@ -8,10 +8,24 @@
 
 {% block contenidomenu %}
 <div class="row row-top-15">
-    {% if user.is_superuser or user.is_staff %}
+    {% if perms.seg.manage_menus %}
     <div class="col-lg-6">
+    {% else %}
+    <div class="col-lg-2">
+    </div>
+    <div class="col-lg-8 col-md-12">
+    {% endif %}
         <section class="panel panel-with-borders">
             <div class="panel-heading">
+                <div class="dropdown pull-right">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        {% trans "Add" %}
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="" role="menu">
+                        <a class="dropdown-item" href="javascript: $('#adduser').modal();">{% trans "User" %}</a>
+                        <a class="dropdown-item" href="javascript: $('#addgroup').modal();">{% trans "Group" %}</a>
+                    </ul>
+                </div>
                 <h4>{% trans "Access" %}</h4>
             </div>
             <div class="panel-body">
@@ -54,7 +68,7 @@
                             <table class="table table-hover nowrap" id="groupstable" width="100%">
                                 <thead>
                                 <tr>
-                                    <th>{% trans "Group" %}</th>
+                                    <th>{% trans "Name" %}</th>
                                     <th>{% trans "Users" %}</th>
                                     <th>{% trans "Permissions" %}</th>
                                 </tr>
@@ -80,23 +94,130 @@
                 </div>
             </div>
         </section>
+        <div class="modal fade" id="adduser" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title"><i class="icmn-plus-circle"></i> {% trans "Add user" %}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="l0">{% trans "Email" %}</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="icmn-mail2"></i>
+                                        </span>
+                                        <input type="email" class="form-control" id="l0"/>
+                                        <span class="input-group-btn">
+                                            <a href="javascript: void(0);" class="btn btn-success">
+                                                {% trans "Search" %}
+                                            </a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="l1">{% trans "First name" %}</label>
+                                    <input type="text" class="form-control" id="l1"/>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="l2">{% trans "Last name" %}</label>
+                                    <input type="text" class="form-control" id="l2"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="l3">{% trans "Staff" %}</label>
+                                    <input type="checkbox" id="l3"/>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="l4">{% trans "Active" %}</label>
+                                    <input type="checkbox" id="l4" checked="checked"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn width-150 btn-primary">{% trans "Save" %}</button>
+                        <button type="button" class="btn btn-secondary">{% trans "Save and Add" %}</button>
+                        <button type="button" class="btn btn-secondary">{% trans "Save and View" %}</button>
+                        <button type="button" class="btn" data-dismiss="modal">{% trans "Cancel" %}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="addgroup" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title"><i class="icmn-plus-circle"></i> {% trans "Add group" %}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="g0">{% trans "Name" %}</label>
+                                    <input type="email" class="form-control" id="g0"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="g1">{% trans "Permissions" %}</label>
+                                    <input type="text" class="form-control" id="g1"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn width-150 btn-primary">{% trans "Save" %}</button>
+                        <button type="button" class="btn btn-secondary">{% trans "Save and Add" %}</button>
+                        <button type="button" class="btn" data-dismiss="modal">{% trans "Cancel" %}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if not perms.seg.manage_menus %}
+    <div class="col-lg-2">
     </div>
     {% endif %}
-    {% if user.is_superuser or perms.seg.manage_menus %}
+    {% if perms.seg.manage_menus %}
     <div class="col-lg-6">
         <section class="panel panel-with-borders">
             <div class="panel-heading">
+                <div class="dropdown pull-right">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        {% trans "Add" %}
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="" role="menu">
+                        <a class="dropdown-item" href="javascript: $('#addmenu').modal();">{% trans "Menu" %}</a>
+                        <a class="dropdown-item" href="javascript: $('#addpant').modal();">{% trans "Screen" %}</a>
+                    </ul>
+                </div>
                 <h4>{% trans "Menus" %}</h4>
             </div>
             <div class="panel-body">
                 <div class="nav-tabs-horizontal">
                     <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="javascript: void(0);" data-toggle="tab" data-target="#secorden" role="tab">
-                                <i class="icmn-sort"></i>
-                                {% trans "Order" %}
-                            </a>
-                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#secmenus" role="tab">
                                 <i class="icmn-menu3"></i>
@@ -109,30 +230,13 @@
                                 {% trans "Screens" %}
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#seccontrs" role="tab">
-                                <i class="icmn-checkbox-checked"></i>
-                                {% trans "Controls" %}
-                            </a>
-                        </li>
                     </ul>
                     <div class="tab-content padding-vertical-20">
-                        <div class="tab-pane active" id="secorden" role="tabpanel">
-                            <div class="margin-bottom-25">
-                                <div class="dd" id="menuorden">
-                                    <ol class="dd-list">
-                                        <li class="dd-item" data-id="1">
-                                            <div class="dd-handle">Level 1</div>
-                                        </li>
-                                    </ol>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="secmenus" role="tabpanel">
+                        <div class="tab-pane active" id="secmenus" role="tabpanel">
                             <table class="table table-hover nowrap" id="menustable" width="100%">
                                 <thead>
                                 <tr>
-                                    <th></th>
+                                    <th>{% trans "Icon" %}</th>
                                     <th>{% trans "Name" %}</th>
                                     <th>{% trans "Order" %}</th>
                                     <th>{% trans "Active" %}</th>
@@ -146,23 +250,10 @@
                             <table class="table table-hover nowrap" id="pantstable" width="100%">
                                 <thead>
                                 <tr>
-                                    <th></th>
+                                    <th>{% trans "Icon" %}</th>
                                     <th>{% trans "Name" %}</th>
                                     <th>{% trans "Menu" %}</th>
                                     <th>{% trans "Order" %}</th>
-                                    <th>{% trans "Permission" %}</th>
-                                    <th>{% trans "Active" %}</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="tab-pane" id="seccontrs" role="tabpanel">
-                            <table class="table table-hover nowrap" id="contrtable" width="100%">
-                                <thead>
-                                <tr>
-                                    <th>{% trans "Name" %}</th>
                                     <th>{% trans "Permission" %}</th>
                                     <th>{% trans "Active" %}</th>
                                 </tr>
@@ -175,6 +266,87 @@
                 </div>
             </div>
         </section>
+        <div class="modal fade" id="addmenu" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title"><i class="icmn-plus-circle"></i> {% trans "Add menu" %}</h4>
+                    </div>
+                    <div class="modal-body modal-body-bottom-5">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="m0">{% trans "ID" %}</label>
+                                    <input type="text" class="form-control" id="m0"/>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <label class="form-control-label" for="m1">{% trans "Icon" %}</label>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i id="edit-m3" class="icmn-icon"></i>
+                                        </span>
+                                        <input type="text" class="form-control" id="m1"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="m2">{% trans "Name" %}</label>
+                                    <input type="text" class="form-control" id="m2"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="m3">{% trans "Order" %}</label>
+                                    <input type="text" class="form-control" id="m3"/>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="m4">{% trans "Active" %}</label><br/>
+                                    <input type="checkbox" id="m4" checked="checked"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6">
+                                <div class="btn-group btn-group-justified margin-inline">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-rounded btn-success">{% trans "Previous" %}</button>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">{% trans "Choose" %}</button>
+                                        <ul class="dropdown-menu">
+                                            <a class="dropdown-item" href="javascript: void(0);">Menu 1</a>
+                                            <a class="dropdown-item" href="javascript: void(0);">Menu 2</a>
+                                        </ul>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-rounded btn-success">{% trans "Next" %}</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn width-150 btn-primary">{% trans "Save" %}</button>
+                        <button type="button" class="btn btn-secondary">{% trans "Save and Add" %}</button>
+                        <button type="button" class="btn" data-dismiss="modal">{% trans "Cancel" %}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     {% endif %}
 </div>

@@ -15,5 +15,4 @@ urlpatterns = [
     url(r'^perms$', views.perms, name='segperms'),
     url(r'^menus$', views.menus, name='segmenus'),
     url(r'^pants$', views.pants, name='segpants'),
-    url(r'^controls$', views.controls, name='segcontrols'),
 ]

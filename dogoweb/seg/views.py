@@ -2,11 +2,11 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
 from django.utils.translation import gettext as _
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User, Group, Permission
 from django.contrib.sessions.models import Session
 from django.contrib.admin.models import LogEntry
-from seg.models import LoginLogout, DTFilter, Menu, Pantalla, Control
+from seg.models import LoginLogout, DTFilter, Menu, Pantalla
 from ipwhois.utils import get_countries
 import json
 
@@ -97,7 +97,7 @@ def groups(request):
         return JsonResponse({'error': "Bad request"})
     ret, objs = DTFilter(Group.objects, jbody)
     for a in objs:
-        ret['data'].append([a.name, '0', '0'])
+        ret['data'].append([a.name, a.user_set.all().count(), a.permissions.all().count()])
     return JsonResponse(ret)
 
 
@@ -109,11 +109,12 @@ def perms(request):
         return JsonResponse({'error': "Bad request"})
     ret, objs = DTFilter(Permission.objects, jbody)
     for a in objs:
-        ret['data'].append([a.name, str(a.content_type), '0'])
+        ret['data'].append([a.name, str(a.content_type), a.group_set.all().count()])
     return JsonResponse(ret)
 
 
 @login_required()
+@permission_required('seg.manage_menus')
 def menus(request):
     if request.is_ajax() and request.method == 'POST':
         jbody = json.loads(request.body.decode(request._encoding))
@@ -130,6 +131,7 @@ def menus(request):
 
 
 @login_required()
+@permission_required('seg.manage_menus')
 def pants(request):
     if request.is_ajax() and request.method == 'POST':
         jbody = json.loads(request.body.decode(request._encoding))
@@ -144,17 +146,3 @@ def pants(request):
         ret['data'].append([mico, a.nombre, str(a.menu), a.orden, a.permiso.name, mact])
     return JsonResponse(ret)
 
-
-@login_required()
-def controls(request):
-    if request.is_ajax() and request.method == 'POST':
-        jbody = json.loads(request.body.decode(request._encoding))
-    else:
-        return JsonResponse({'error': "Bad request"})
-    ret, objs = DTFilter(Control.objects, jbody)
-    for a in objs:
-        mact = '<i class="icmn-checkbox-checked"></i>'
-        if not a.activo:
-            mact = '<i class="icmn-checkbox-unchecked"></i>'
-        ret['data'].append([a.nombre, a.permiso.name, mact])
-    return JsonResponse(ret)

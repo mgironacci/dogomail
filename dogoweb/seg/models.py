@@ -89,18 +89,6 @@ class DTManager(models.Manager):
 
 # Modelo de visualizacion ----------------------------------------------
 
-class Control(models.Model):
-    idm = models.CharField(max_length=50)
-    nombre = models.CharField(max_length=50)
-    permiso = models.ForeignKey(Permission, on_delete=models.PROTECT)
-    activo = models.BooleanField(default=True)
-
-    def __repr__(self):
-        return '<Control: nombre="%s">' % self.nombre
-
-    def __str__(self):
-        return self.nombre
-
 
 # class MenuManager(models.Manager):
 # 	def select_list(self):
