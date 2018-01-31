@@ -10,12 +10,13 @@
         </button>
         <h4 class="modal-title"><small><i class="icmn-plus-circle"></i></small> {% trans "Add menu" %}</h4>
     </div>
+    {% with WIDGET_REQUIRED_CLASS='form-control' %}
     <div class="modal-body modal-body-bottom-5">
         <div class="row">
             <div class="col-lg-6">
                 <div class="form-group {% if form.idm.errors %} has-danger{% endif %}">
                     <label class="form-control-label {% if form.idm.errors %} has-danger{% endif %}" for="{{ form.idm.id_for_label }}">{% trans "ID" %}</label>
-                    {{ form.idm|add_class:'form-control' }}
+                    {% render_field form.idm %}
                     {% if form.idm.errors %}
                     <div class="form-control-error" data-error-list>
                         <ul>
@@ -34,7 +35,7 @@
                         <span class="input-group-addon">
                             <i id="id_icono_edit" class="icmn-icon"></i>
                         </span>
-                        {{ form.icono|add_class:'form-control' }}
+                        {% render_field form.icono %}
                     </div>
                     {% if form.icono.errors %}
                     <div class="form-control-error" data-error-list>
@@ -52,7 +53,7 @@
             <div class="col-lg-12">
                 <div class="form-group {% if form.nombre.errors %} has-danger{% endif %}">
                     <label class="form-control-label {% if form.nombre.errors %} has-danger{% endif %}" for="{{ form.nombre.id_for_label }}">{% trans "Name" %}</label>
-                    {{ form.nombre|add_class:'form-control' }}
+                    {% render_field form.nombre %}
                     {% if form.nombre.errors %}
                     <div class="form-control-error" data-error-list>
                         <ul>
@@ -69,7 +70,7 @@
             <div class="col-lg-6">
                 <div class="form-group {% if form.orden.errors %} has-danger{% endif %}">
                     <label class="form-control-label {% if form.orden.errors %} has-danger{% endif %}" for="{{ form.orden.id_for_label }}">{% trans "Order" %}</label>
-                    {{ form.orden|add_class:'form-control' }}
+                    {% render_field form.orden %}
                     {% if form.orden.errors %}
                     <div class="form-control-error" data-error-list>
                         <ul>
@@ -84,7 +85,7 @@
             <div class="col-lg-6">
                 <div class="form-group {% if form.activo.errors %} has-danger{% endif %}">
                     <label class="form-control-label {% if form.activo.errors %} has-danger{% endif %}" for="{{ form.activo.id_for_label }}">{% trans "Active" %}</label><br/>
-                    {{ form.activo }}
+                    {% render_field form.activo %}
                     {% if form.activo.errors %}
                     <div class="form-control-error" data-error-list>
                         <ul>
@@ -98,6 +99,7 @@
             </div>
         </div>
     </div>
+    {% endwith %}
     <div class="modal-footer">
         <button type="submit" name="save" class="btn width-150 btn-primary">{% trans "Save" %}</button>
         <button type="button" name="savenew" class="btn btn-secondary" onclick="jseg.salvaNext('new');">{% trans "Save and Add" %}</button>

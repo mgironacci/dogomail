@@ -110,7 +110,7 @@ $(function(){
         //buttons: [ 'create', 'editSingle', 'removeSingle'],
         //buttons: true,
         columns: [
-            { name: "id", sorting: false, searchable: false, visible: false },
+            { name: "id", sorting: false, searchable: false },
             { name: "icono", sorting: false, searchable: false },
             { name: "nombre" },
             { name: "orden" },
@@ -291,15 +291,3 @@ $(function(){
     jseg.saltaEdit = saltaEdit;
     jseg.salvaNext = salvaNext;
 });
-
-
-                    /*$('form#menu-form').validate({
-                        submit: {
-                            settings: {
-                                inputContainer: '.form-group',
-                                errorListClass: 'form-control-error',
-                                errorClass: 'has-danger'
-                            }
-                        },
-                        debug: true
-                    });*/

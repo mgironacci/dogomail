@@ -118,7 +118,7 @@ class DTManager(models.Manager):
 class Menu(models.Model):
     # objects=MenuManager()
 
-    idm = models.CharField(max_length=50)
+    idm = models.CharField(max_length=50, unique=True)
     nombre = models.CharField(max_length=50, unique=True)
     orden = models.PositiveIntegerField()
     icono = models.CharField(max_length=100)
@@ -159,7 +159,7 @@ class Menu(models.Model):
 class Pantalla(models.Model):
     # objects = PantallaManager()
 
-    idm = models.CharField(max_length=50)
+    idm = models.CharField(max_length=50, unique=True)
     nombre = models.CharField(max_length=50)
     url = models.CharField(max_length=200)
     orden = models.PositiveIntegerField()

@@ -135,6 +135,16 @@ pre {
 /* Tablas con cursor hover */
 .table.table-hover tbody tr:hover {
     cursor: pointer;
+    color: black !important;
+}
+table.dataTable tbody tr:hover {
+    cursor: pointer;
+    color: black !important;
+}
+table.dataTable tbody tr.selected:hover {
+    cursor: pointer;
+    color: black !important;
+    background: #ccdaf7;
 }
 
 /* Modal body */
