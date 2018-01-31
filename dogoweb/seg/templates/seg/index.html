@@ -17,7 +17,7 @@
     {% endif %}
         <section class="panel panel-with-borders">
             <div class="panel-heading">
-                <div class="dropdown pull-right">
+                <div class="dropdown pull-right panel-buttons">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         {% trans "Add" %}
                     </button>
@@ -204,15 +204,17 @@
     <div class="col-lg-6">
         <section class="panel panel-with-borders">
             <div class="panel-heading">
-                <div class="dropdown pull-right">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                <div class="dropdown pull-right panel-buttons">
+                    <button type="button" class="btn btn-primary dropdown-toggle width-100" data-toggle="dropdown" aria-expanded="false">
                         {% trans "Add" %}
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="" role="menu">
-                        <a class="dropdown-item" href="javascript: $('#addmenu').modal();">{% trans "Menu" %}</a>
-                        <a class="dropdown-item" href="javascript: $('#addpant').modal();">{% trans "Screen" %}</a>
+                        <a class="dropdown-item" href="javascript: $('#menu-modal .modal-content').html(''); $('#menu-modal').attr('data-action','add-menu'); $('#menu-modal').modal();">{% trans "Menu" %}</a>
+                        <a class="dropdown-item" href="javascript: $('#menu-modal .modal-content').html(''); $('#menu-modal').attr('data-action','add-pant'); $('#menu-modal').modal();">{% trans "Screen" %}</a>
                     </ul>
                 </div>
+                <button type="button" id="b_menus_edit" onclick="$('#menu-modal .modal-content').html(''); $('#menu-modal').attr('data-action','edit'); $('#menu-modal').modal();" class="btn btn-secondary pull-right panel-buttons width-100">{% trans "Edit" %}</button>
+                <button type="button" id="b_menus_delete" onclick="$('#menu-modal .modal-content').html(''); $('#menu-modal').attr('data-action','delete'); $('#menu-modal').modal();" class="btn btn-danger pull-right panel-buttons width-100">{% trans "Delete" %}</button>
                 <h4>{% trans "Menus" %}</h4>
             </div>
             <div class="panel-body">
@@ -236,6 +238,7 @@
                             <table class="table table-hover nowrap" id="menustable" width="100%">
                                 <thead>
                                 <tr>
+                                    <th>ID</th>
                                     <th>{% trans "Icon" %}</th>
                                     <th>{% trans "Name" %}</th>
                                     <th>{% trans "Order" %}</th>
@@ -250,6 +253,7 @@
                             <table class="table table-hover nowrap" id="pantstable" width="100%">
                                 <thead>
                                 <tr>
+                                    <th>ID</th>
                                     <th>{% trans "Icon" %}</th>
                                     <th>{% trans "Name" %}</th>
                                     <th>{% trans "Menu" %}</th>
@@ -266,85 +270,9 @@
                 </div>
             </div>
         </section>
-        <div class="modal fade" id="addmenu" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <h4 class="modal-title"><i class="icmn-plus-circle"></i> {% trans "Add menu" %}</h4>
-                    </div>
-                    <div class="modal-body modal-body-bottom-5">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label class="form-control-label" for="m0">{% trans "ID" %}</label>
-                                    <input type="text" class="form-control" id="m0"/>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <label class="form-control-label" for="m1">{% trans "Icon" %}</label>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">
-                                            <i id="edit-m3" class="icmn-icon"></i>
-                                        </span>
-                                        <input type="text" class="form-control" id="m1"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    <label class="form-control-label" for="m2">{% trans "Name" %}</label>
-                                    <input type="text" class="form-control" id="m2"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label class="form-control-label" for="m3">{% trans "Order" %}</label>
-                                    <input type="text" class="form-control" id="m3"/>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label class="form-control-label" for="m4">{% trans "Active" %}</label><br/>
-                                    <input type="checkbox" id="m4" checked="checked"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3"></div>
-                            <div class="col-md-6">
-                                <div class="btn-group btn-group-justified margin-inline">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-rounded btn-success">{% trans "Previous" %}</button>
-                                    </div>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">{% trans "Choose" %}</button>
-                                        <ul class="dropdown-menu">
-                                            <a class="dropdown-item" href="javascript: void(0);">Menu 1</a>
-                                            <a class="dropdown-item" href="javascript: void(0);">Menu 2</a>
-                                        </ul>
-                                    </div>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-rounded btn-success">{% trans "Next" %}</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3"></div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn width-150 btn-primary">{% trans "Save" %}</button>
-                        <button type="button" class="btn btn-secondary">{% trans "Save and Add" %}</button>
-                        <button type="button" class="btn" data-dismiss="modal">{% trans "Cancel" %}</button>
-                    </div>
-                </div>
+        <div class="modal fade" id="menu-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
             </div>
         </div>
     </div>

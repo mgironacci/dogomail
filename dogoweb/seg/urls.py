@@ -15,4 +15,7 @@ urlpatterns = [
     url(r'^perms$', views.perms, name='segperms'),
     url(r'^menus$', views.menus, name='segmenus'),
     url(r'^pants$', views.pants, name='segpants'),
+    url(r'^menus/create/$', views.menu_create, name='seg_menu_create'),
+    url(r'^menus/update/(?P<pks>[\,\d]+)*$', views.menu_update, name='seg_menu_update'),
+    url(r'^menus/delete/(?P<pks>[\,\d]+)*$', views.menu_delete, name='seg_menu_delete'),
 ]

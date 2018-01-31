@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-29 22:22-0300\n"
-"PO-Revision-Date: 2018-01-29 22:23-0300\n"
+"POT-Creation-Date: 2018-01-31 13:16-0300\n"
+"PO-Revision-Date: 2018-01-31 13:20-0300\n"
 "Last-Translator: Andres Gironacci <mgironacci@itecnis.com>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -55,12 +55,98 @@ msgstr "Ingresar"
 msgid "Audit"
 msgstr "Auditoria"
 
+#: seg/templates/seg/form_menu_delete.html:11
+msgid "Delete menu"
+msgstr "Eliminar menú"
+
+#: seg/templates/seg/form_menu_delete.html:16
+msgid "Are you sure you want to delete this menus?"
+msgstr "¿Está seguro de querer eliminar estos menús?"
+
+#: seg/templates/seg/form_menu_delete.html:21 seg/templates/seg/index.html:217
+#: seg/views.py:68
+msgid "Delete"
+msgstr "Eliminar"
+
+#: seg/templates/seg/form_menu_delete.html:22
+#: seg/templates/seg/form_menu_edit.html:132
+#: seg/templates/seg/form_menu_new.html:104 seg/templates/seg/index.html:158
+#: seg/templates/seg/index.html:193 seg/templates/seg/profile.html:138
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: seg/templates/seg/form_menu_edit.html:13
+msgid "Change menu"
+msgstr "Cambiar menú"
+
+#: seg/templates/seg/form_menu_edit.html:19
+#: seg/templates/seg/form_menu_new.html:17
+msgid "ID"
+msgstr "ID"
+
+#: seg/templates/seg/form_menu_edit.html:34
+#: seg/templates/seg/form_menu_new.html:32 seg/templates/seg/index.html:242
+#: seg/templates/seg/index.html:257
+msgid "Icon"
+msgstr "Ícono"
+
+#: seg/templates/seg/form_menu_edit.html:56
+#: seg/templates/seg/form_menu_new.html:54 seg/templates/seg/index.html:59
+#: seg/templates/seg/index.html:71 seg/templates/seg/index.html:176
+#: seg/templates/seg/index.html:243 seg/templates/seg/index.html:258
+msgid "Name"
+msgstr "Nombre"
+
+#: seg/templates/seg/form_menu_edit.html:73
+#: seg/templates/seg/form_menu_new.html:71 seg/templates/seg/index.html:244
+#: seg/templates/seg/index.html:260
+msgid "Order"
+msgstr "Órden"
+
+#: seg/templates/seg/form_menu_edit.html:88
+#: seg/templates/seg/form_menu_new.html:86 seg/templates/seg/index.html:60
+#: seg/templates/seg/index.html:148 seg/templates/seg/index.html:245
+#: seg/templates/seg/index.html:262
+msgid "Active"
+msgstr "Activo"
+
+#: seg/templates/seg/form_menu_edit.html:108
+msgid "Previous"
+msgstr "Previo"
+
+#: seg/templates/seg/form_menu_edit.html:111
+msgid "Choose"
+msgstr "Elegir"
+
+#: seg/templates/seg/form_menu_edit.html:119
+msgid "Next"
+msgstr "Próximo"
+
+#: seg/templates/seg/form_menu_edit.html:128
+#: seg/templates/seg/form_menu_new.html:102 seg/templates/seg/index.html:155
+#: seg/templates/seg/index.html:191 seg/templates/seg/profile.html:137
+msgid "Save"
+msgstr "Guardar"
+
+#: seg/templates/seg/form_menu_edit.html:130
+msgid "Save and Next"
+msgstr "Guardar y Próximo"
+
+#: seg/templates/seg/form_menu_new.html:11
+msgid "Add menu"
+msgstr "Agregar menú"
+
+#: seg/templates/seg/form_menu_new.html:103 seg/templates/seg/index.html:156
+#: seg/templates/seg/index.html:192
+msgid "Save and Add"
+msgstr "Guardar y Agregar"
+
 #: seg/templates/seg/index.html:3
 msgid "Security"
 msgstr "Seguridad"
 
 #: seg/templates/seg/index.html:22 seg/templates/seg/index.html:209
-#: seg/views.py:63
+#: seg/views.py:66
 msgid "Add"
 msgstr "Agregar"
 
@@ -89,19 +175,7 @@ msgstr "Grupos"
 msgid "Permissions"
 msgstr "Permisos"
 
-#: seg/templates/seg/index.html:59 seg/templates/seg/index.html:71
-#: seg/templates/seg/index.html:176 seg/templates/seg/index.html:240
-#: seg/templates/seg/index.html:254 seg/templates/seg/index.html:301
-msgid "Name"
-msgstr "Nombre"
-
-#: seg/templates/seg/index.html:60 seg/templates/seg/index.html:148
-#: seg/templates/seg/index.html:242 seg/templates/seg/index.html:258
-#: seg/templates/seg/index.html:315
-msgid "Active"
-msgstr "Activo"
-
-#: seg/templates/seg/index.html:84 seg/templates/seg/index.html:257
+#: seg/templates/seg/index.html:84 seg/templates/seg/index.html:261
 msgid "Permission"
 msgstr "Permiso"
 
@@ -137,30 +211,15 @@ msgstr "Apellido"
 msgid "Staff"
 msgstr "Operador"
 
-#: seg/templates/seg/index.html:155 seg/templates/seg/index.html:191
-#: seg/templates/seg/index.html:343 seg/templates/seg/profile.html:137
-msgid "Save"
-msgstr "Guardar"
-
-#: seg/templates/seg/index.html:156 seg/templates/seg/index.html:192
-#: seg/templates/seg/index.html:344
-msgid "Save and Add"
-msgstr "Guardar y Agregar"
-
 #: seg/templates/seg/index.html:157
 msgid "Save and View"
 msgstr "Guardar y Ver"
-
-#: seg/templates/seg/index.html:158 seg/templates/seg/index.html:193
-#: seg/templates/seg/index.html:345 seg/templates/seg/profile.html:138
-msgid "Cancel"
-msgstr "Cancelar"
 
 #: seg/templates/seg/index.html:170
 msgid "Add group"
 msgstr "Agregar grupo"
 
-#: seg/templates/seg/index.html:212 seg/templates/seg/index.html:255
+#: seg/templates/seg/index.html:212 seg/templates/seg/index.html:259
 msgid "Menu"
 msgstr "Menú"
 
@@ -168,43 +227,17 @@ msgstr "Menú"
 msgid "Screen"
 msgstr "Pantalla"
 
-#: seg/templates/seg/index.html:216 seg/templates/seg/index.html:224
+#: seg/templates/seg/index.html:216
+msgid "Edit"
+msgstr "Editar"
+
+#: seg/templates/seg/index.html:218 seg/templates/seg/index.html:226
 msgid "Menus"
 msgstr "Menús"
 
-#: seg/templates/seg/index.html:230
+#: seg/templates/seg/index.html:232
 msgid "Screens"
 msgstr "Pantallas"
-
-#: seg/templates/seg/index.html:239 seg/templates/seg/index.html:253
-#: seg/templates/seg/index.html:287
-msgid "Icon"
-msgstr "Ícono"
-
-#: seg/templates/seg/index.html:241 seg/templates/seg/index.html:256
-#: seg/templates/seg/index.html:309
-msgid "Order"
-msgstr "Órden"
-
-#: seg/templates/seg/index.html:276
-msgid "Add menu"
-msgstr "Agregar menú"
-
-#: seg/templates/seg/index.html:282
-msgid "ID"
-msgstr "ID"
-
-#: seg/templates/seg/index.html:325
-msgid "Previous"
-msgstr "Previo"
-
-#: seg/templates/seg/index.html:328
-msgid "Choose"
-msgstr "Elegir"
-
-#: seg/templates/seg/index.html:335
-msgid "Next"
-msgstr "Próximo"
 
 #: seg/templates/seg/profile.html:3
 msgid "Profile"
@@ -310,21 +343,17 @@ msgstr "Acción"
 msgid "Description"
 msgstr "Descripción"
 
-#: seg/views.py:53
+#: seg/views.py:56
 msgid "Still logged in"
 msgstr "Sesión abierta"
 
-#: seg/views.py:55
+#: seg/views.py:58
 msgid "Expired"
 msgstr "Expirado"
 
-#: seg/views.py:64
+#: seg/views.py:67
 msgid "Change"
 msgstr "Cambiar"
-
-#: seg/views.py:65
-msgid "Delete"
-msgstr "Borrar"
 
 #~ msgid "Submit"
 #~ msgstr "Enviar"

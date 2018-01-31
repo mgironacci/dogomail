@@ -1,0 +1,134 @@
+{% load widget_tweaks %}
+{% load i18n %}
+
+<form method="post" id="menu-form" action="{% url 'seg_menu_update' %}">
+    {% csrf_token %}
+    <input type="hidden" name="pks" value="{{ idpks }}"/>
+    <input type="hidden" name="idx" value="{{ idx }}"/>
+    <input type="hidden" id="snext" name="snext" value=""/>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title"><i class="icmn-pencil7"></i> {% trans "Change menu" %}</h4>
+    </div>
+    <div class="modal-body modal-body-bottom-5">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group {% if form.idm.errors %} has-danger{% endif %}">
+                    <label class="form-control-label {% if form.idm.errors %} has-danger{% endif %}" for="{{ form.idm.id_for_label }}">{% trans "ID" %}</label>
+                    {{ form.idm|add_class:'form-control' }}
+                    {% if form.idm.errors %}
+                    <div class="form-control-error" data-error-list>
+                        <ul>
+                            {% for error in form.idm.errors %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group {% if form.icono.errors %} has-danger{% endif %}">
+                    <label class="form-control-label {% if form.icono.errors %} has-danger{% endif %}" for="{{ form.icono.id_for_label }}">{% trans "Icon" %}</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i id="id_icono_edit" class="icmn-icon"></i>
+                        </span>
+                        {{ form.icono|add_class:'form-control' }}
+                    </div>
+                    {% if form.icono.errors %}
+                    <div class="form-control-error" data-error-list>
+                        <ul>
+                            {% for error in form.icono.errors %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-group {% if form.nombre.errors %} has-danger{% endif %}">
+                    <label class="form-control-label {% if form.nombre.errors %} has-danger{% endif %}" for="{{ form.nombre.id_for_label }}">{% trans "Name" %}</label>
+                    {{ form.nombre|add_class:'form-control' }}
+                    {% if form.nombre.errors %}
+                    <div class="form-control-error" data-error-list>
+                        <ul>
+                            {% for error in form.nombre.errors %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group {% if form.orden.errors %} has-danger{% endif %}">
+                    <label class="form-control-label {% if form.orden.errors %} has-danger{% endif %}" for="{{ form.orden.id_for_label }}">{% trans "Order" %}</label>
+                    {{ form.orden|add_class:'form-control' }}
+                    {% if form.orden.errors %}
+                    <div class="form-control-error" data-error-list>
+                        <ul>
+                            {% for error in form.orden.errors %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group {% if form.activo.errors %} has-danger{% endif %}">
+                    <label class="form-control-label {% if form.activo.errors %} has-danger{% endif %}" for="{{ form.activo.id_for_label }}">{% trans "Active" %}</label><br/>
+                    {{ form.activo }}
+                    {% if form.activo.errors %}
+                    <div class="form-control-error" data-error-list>
+                        <ul>
+                            {% for error in form.activo.errors %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% if smenus %}
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="btn-group btn-group-justified margin-inline">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-rounded btn-success" onclick="jseg.saltaEdit('{{ iprev }}');">{% trans "Previous" %}</button>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">{% trans "Choose" %}</button>
+                        <ul class="dropdown-menu">
+                            {% for m in smenus %}
+                            <a class="dropdown-item" href="javascript: jseg.saltaEdit('{{ m.ids }}');">{{ m.nombre }}</a>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-rounded btn-success" onclick="jseg.saltaEdit('{{ inext }}');">{% trans "Next" %}</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+        {% endif %}
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn width-150 btn-primary">{% trans "Save" %}</button>
+        {% if smenus %}
+        <button type="button" class="btn btn-secondary" onclick="jseg.salvaNext('{{ inext }}');">{% trans "Save and Next" %}</button>
+        {% endif %}
+        <button type="button" class="btn" data-dismiss="modal">{% trans "Cancel" %}</button>
+    </div>
+</form>

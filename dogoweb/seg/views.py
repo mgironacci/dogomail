@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.template.loader import render_to_string
 from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
 from django.utils.translation import gettext as _
@@ -6,9 +7,11 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User, Group, Permission
 from django.contrib.sessions.models import Session
 from django.contrib.admin.models import LogEntry
-from seg.models import LoginLogout, DTFilter, Menu, Pantalla
+from .models import LoginLogout, DTFilter, Menu, Pantalla
+from .forms import MenuForm, PantallaForm
 from ipwhois.utils import get_countries
 import json
+
 
 @login_required()
 def index(request):
@@ -126,7 +129,7 @@ def menus(request):
         mact = '<i class="icmn-checkbox-checked"></i>'
         if not a.activo:
             mact = '<i class="icmn-checkbox-unchecked"></i>'
-        ret['data'].append([mico, a.nombre, a.orden, mact])
+        ret['data'].append([a.id, mico, a.nombre, a.orden, mact])
     return JsonResponse(ret)
 
 
@@ -143,6 +146,86 @@ def pants(request):
         mact = '<i class="icmn-checkbox-checked"></i>'
         if not a.activo:
             mact = '<i class="icmn-checkbox-unchecked"></i>'
-        ret['data'].append([mico, a.nombre, str(a.menu), a.orden, a.permiso.name, mact])
+        ret['data'].append([a.id, mico, a.nombre, str(a.menu), a.orden, a.permiso.name, mact])
     return JsonResponse(ret)
 
+
+@login_required()
+@permission_required('seg.add_menu')
+def menu_create(request):
+    data = dict()
+    if request.method == 'POST':
+        data['snext'] = request.POST.get('snext', '')
+        form = MenuForm(request.POST)
+        if form.is_valid():
+            form.save()
+            data['form_is_valid'] = True
+            if data['snext'] == 'new':
+                form = MenuForm()
+        else:
+            data['form_is_valid'] = False
+    else:
+        form = MenuForm()
+    context = {'form': form}
+    data['html_form'] = render_to_string('seg/form_menu_new.html', context, request=request)
+    return JsonResponse(data)
+
+
+@login_required()
+@permission_required('seg.change_menu')
+def menu_update(request, pks):
+    data = dict()
+    if request.method == 'POST':
+        data['snext'] = request.POST.get('snext', '')
+        idpks = request.POST.get('pks', '').split(',')
+        menu = get_object_or_404(Menu, pk=idpks[0])
+        form = MenuForm(request.POST, instance=menu)
+        context = {'idpks': pks, 'form': form}
+        if len(idpks) > 1:
+            otros = {}
+            for n,v in enumerate(idpks):
+                otros[idpks[n]] = idpks[n:] + idpks[0:n]
+            context['inext'] = ','.join(otros[idpks[1]])
+            context['iprev'] = ','.join(otros[idpks[-1]])
+            context['smenus'] = []
+            for i in idpks:
+                m = get_object_or_404(Menu, pk=i)
+                context['smenus'].append({'ids': ','.join(otros[str(m.id)]), 'nombre': m.nombre})
+        if form.is_valid():
+            form.save()
+            data['form_is_valid'] = True
+        else:
+            data['form_is_valid'] = False
+    else:
+        idpks = pks.split(',')
+        menu = get_object_or_404(Menu, pk=idpks[0])
+        form = MenuForm(instance=menu)
+        context = {'idpks': pks, 'form': form}
+        if len(idpks) > 1:
+            otros = {}
+            for n,v in enumerate(idpks):
+                otros[idpks[n]] = idpks[n:] + idpks[0:n]
+            context['inext'] = ','.join(otros[idpks[1]])
+            context['iprev'] = ','.join(otros[idpks[-1]])
+            context['smenus'] = []
+            for i in idpks:
+                m = get_object_or_404(Menu, pk=i)
+                context['smenus'].append({'ids': ','.join(otros[str(m.id)]), 'nombre': m.nombre})
+    data['html_form'] = render_to_string('seg/form_menu_edit.html', context, request=request)
+    return JsonResponse(data)
+
+
+@login_required()
+@permission_required('seg.delete_menu')
+def menu_delete(request, pks):
+    data = dict()
+    if request.method == 'POST':
+        idpks = request.POST.get('pks','').split(',')
+        menus = Menu.objects.filter(id__in=idpks)
+        for m in menus:
+            m.delete()
+        data['form_is_valid'] = True
+    else:
+        context = {'idpks': pks}
+        data['html_form'] = render_to_string('seg/form_menu_delete.html', context, request=request)
+    return JsonResponse(data)
