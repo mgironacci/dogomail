@@ -123,7 +123,7 @@ def menus(request):
         jbody = json.loads(request.body.decode(request._encoding))
     else:
         return JsonResponse({'error': "Bad request"})
-    ret, objs = DTFilter(Menu.objects, jbody)
+    ret, objs = Menu.objects.dt_filter(jbody)
     for a in objs:
         mico = '<i class="%s"></i>' % a.icono
         mact = '<i class="icmn-checkbox-checked"></i>'
@@ -140,7 +140,7 @@ def pants(request):
         jbody = json.loads(request.body.decode(request._encoding))
     else:
         return JsonResponse({'error': "Bad request"})
-    ret, objs = DTFilter(Pantalla.objects, jbody)
+    ret, objs = Pantalla.objects.dt_filter(jbody)
     for a in objs:
         mico = '<i class="%s"></i>' % a.icono
         mact = '<i class="icmn-checkbox-checked"></i>'
@@ -153,79 +153,16 @@ def pants(request):
 @login_required()
 @permission_required('seg.add_menu')
 def menu_create(request):
-    data = dict()
-    if request.method == 'POST':
-        data['snext'] = request.POST.get('snext', '')
-        form = MenuForm(request.POST)
-        if form.is_valid():
-            form.save()
-            data['form_is_valid'] = True
-            if data['snext'] == 'new':
-                form = MenuForm()
-        else:
-            data['form_is_valid'] = False
-    else:
-        form = MenuForm()
-    context = {'form': form}
-    data['html_form'] = render_to_string('seg/form_menu_new.html', context, request=request)
-    return JsonResponse(data)
+    return JsonResponse(Menu.objects.dt_create(request, MenuForm, 'seg/form_menu_new.html'))
 
 
 @login_required()
 @permission_required('seg.change_menu')
 def menu_update(request, pks):
-    data = dict()
-    if request.method == 'POST':
-        data['snext'] = request.POST.get('snext', '')
-        idpks = request.POST.get('pks', '').split(',')
-        menu = get_object_or_404(Menu, pk=idpks[0])
-        form = MenuForm(request.POST, instance=menu)
-        context = {'idpks': pks, 'form': form}
-        if len(idpks) > 1:
-            otros = {}
-            for n,v in enumerate(idpks):
-                otros[idpks[n]] = idpks[n:] + idpks[0:n]
-            context['inext'] = ','.join(otros[idpks[1]])
-            context['iprev'] = ','.join(otros[idpks[-1]])
-            context['smenus'] = []
-            for i in idpks:
-                m = get_object_or_404(Menu, pk=i)
-                context['smenus'].append({'ids': ','.join(otros[str(m.id)]), 'nombre': m.nombre})
-        if form.is_valid():
-            form.save()
-            data['form_is_valid'] = True
-        else:
-            data['form_is_valid'] = False
-    else:
-        idpks = pks.split(',')
-        menu = get_object_or_404(Menu, pk=idpks[0])
-        form = MenuForm(instance=menu)
-        context = {'idpks': pks, 'form': form}
-        if len(idpks) > 1:
-            otros = {}
-            for n,v in enumerate(idpks):
-                otros[idpks[n]] = idpks[n:] + idpks[0:n]
-            context['inext'] = ','.join(otros[idpks[1]])
-            context['iprev'] = ','.join(otros[idpks[-1]])
-            context['smenus'] = []
-            for i in idpks:
-                m = get_object_or_404(Menu, pk=i)
-                context['smenus'].append({'ids': ','.join(otros[str(m.id)]), 'nombre': m.nombre})
-    data['html_form'] = render_to_string('seg/form_menu_edit.html', context, request=request)
-    return JsonResponse(data)
+    return JsonResponse(Menu.objects.dt_update(pks, request, MenuForm, 'seg/form_menu_edit.html'))
 
 
 @login_required()
 @permission_required('seg.delete_menu')
 def menu_delete(request, pks):
-    data = dict()
-    if request.method == 'POST':
-        idpks = request.POST.get('pks','').split(',')
-        menus = Menu.objects.filter(id__in=idpks)
-        for m in menus:
-            m.delete()
-        data['form_is_valid'] = True
-    else:
-        context = {'idpks': pks}
-        data['html_form'] = render_to_string('seg/form_menu_delete.html', context, request=request)
-    return JsonResponse(data)
+    return JsonResponse(Menu.objects.dt_delete(pks, request, MenuForm, 'seg/form_menu_delete.html'))

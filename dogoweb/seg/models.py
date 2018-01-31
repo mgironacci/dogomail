@@ -4,6 +4,7 @@ from django.db.models import Q
 from django.dispatch import receiver
 from django.contrib.auth.models import User, Permission
 from django.contrib.auth.signals import user_logged_in, user_logged_out, user_login_failed
+from django.template.loader import render_to_string
 from dogoweb.settings import VERSION
 from django.utils import timezone
 import hashlib
@@ -81,10 +82,96 @@ def DTFilter(mmodel, jbody, *args, **kw):
     return ret, fobjs
 
 
+def DTCreate(request, oform, otemplate, *args, **kw):
+    data = dict()
+    if request.method == 'POST':
+        data['snext'] = request.POST.get('snext', '')
+        form = oform(request.POST)
+        if form.is_valid():
+            form.save()
+            data['form_is_valid'] = True
+            if data['snext'] == 'new':
+                form = oform()
+        else:
+            data['form_is_valid'] = False
+    else:
+        form = oform()
+    context = {'form': form}
+    data['html_form'] = render_to_string(otemplate, context, request=request)
+    return data
+
+
+def DTUpdate(mmodel, pks, request, oform, otemplate, *args, **kw):
+    data = dict()
+    if request.method == 'POST':
+        data['snext'] = request.POST.get('snext', '')
+        idpks = request.POST.get('pks', '').split(',')
+        obj = mmodel.get(pk=idpks[0])
+        form = oform(request.POST, instance=obj)
+        context = {'idpks': pks, 'form': form}
+        if len(idpks) > 1:
+            otros = {}
+            for n,v in enumerate(idpks):
+                otros[idpks[n]] = idpks[n:] + idpks[0:n]
+            context['inext'] = ','.join(otros[idpks[1]])
+            context['iprev'] = ','.join(otros[idpks[-1]])
+            context['sobjs'] = []
+            for i in idpks:
+                o = mmodel.get(pk=i)
+                context['sobjs'].append({'ids': ','.join(otros[str(o.id)]), 'obj': str(o)})
+        if form.is_valid():
+            form.save()
+            data['form_is_valid'] = True
+        else:
+            data['form_is_valid'] = False
+    else:
+        idpks = pks.split(',')
+        obj = mmodel.get(pk=idpks[0])
+        form = oform(instance=obj)
+        context = {'idpks': pks, 'form': form}
+        if len(idpks) > 1:
+            otros = {}
+            for n,v in enumerate(idpks):
+                otros[idpks[n]] = idpks[n:] + idpks[0:n]
+            context['inext'] = ','.join(otros[idpks[1]])
+            context['iprev'] = ','.join(otros[idpks[-1]])
+            context['sobjs'] = []
+            for i in idpks:
+                o = mmodel.get(pk=i)
+                context['sobjs'].append({'ids': ','.join(otros[str(o.id)]), 'obj': str(o)})
+    data['html_form'] = render_to_string(otemplate, context, request=request)
+    return data
+
+
+def DTDelete(mmodel, pks, request, oform, otemplate, *args, **kw):
+    data = dict()
+    if request.method == 'POST':
+        idpks = request.POST.get('pks','').split(',')
+        try:
+            objs = mmodel.filter(id__in=idpks)
+            for o in objs:
+                o.delete()
+            data['form_is_valid'] = True
+        except:
+            data['form_is_valid'] = False
+    else:
+        context = {'idpks': pks}
+        data['html_form'] = render_to_string(otemplate, context, request=request)
+    return data
+
 class DTManager(models.Manager):
 
     def dt_filter(self, jbody, *args, **kw):
         return DTFilter(self, jbody, *args, **kw)
+
+    def dt_create(self, request, oform, otemplate):
+        return DTCreate(request, oform, otemplate)
+
+    def dt_update(self, pks, request, oform, otemplate):
+        return DTUpdate(self, pks, request, oform, otemplate)
+
+    def dt_delete(self, pks, request, oform, otemplate):
+        return DTDelete(self, pks, request, oform, otemplate)
 
 
 # Modelo de visualizacion ----------------------------------------------
@@ -116,7 +203,7 @@ class DTManager(models.Manager):
 
 
 class Menu(models.Model):
-    # objects=MenuManager()
+    objects=DTManager()
 
     idm = models.CharField(max_length=50, unique=True)
     nombre = models.CharField(max_length=50, unique=True)
@@ -157,7 +244,7 @@ class Menu(models.Model):
 
 
 class Pantalla(models.Model):
-    # objects = PantallaManager()
+    objects=DTManager()
 
     idm = models.CharField(max_length=50, unique=True)
     nombre = models.CharField(max_length=50)

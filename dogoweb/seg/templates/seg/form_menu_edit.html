@@ -111,8 +111,8 @@
                     <div class="btn-group">
                         <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">{% trans "Choose" %}</button>
                         <ul class="dropdown-menu">
-                            {% for m in smenus %}
-                            <a class="dropdown-item" href="javascript: jseg.saltaEdit('{{ m.ids }}');">{{ m.nombre }}</a>
+                            {% for o in sobjs %}
+                            <a class="dropdown-item" href="javascript: jseg.saltaEdit('{{ o.ids }}');">{{ o.obj }}</a>
                             {% endfor %}
                         </ul>
                     </div>
@@ -128,7 +128,7 @@
     {% endwith %}
     <div class="modal-footer">
         <button type="submit" class="btn width-150 btn-primary">{% trans "Save" %}</button>
-        {% if smenus %}
+        {% if sobjs %}
         <button type="button" class="btn btn-secondary" onclick="jseg.salvaNext('{{ inext }}');">{% trans "Save and Next" %}</button>
         {% endif %}
         <button type="button" class="btn" data-dismiss="modal">{% trans "Cancel" %}</button>
