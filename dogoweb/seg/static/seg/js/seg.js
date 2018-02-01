@@ -278,6 +278,8 @@ $(function(){
             dataType: 'json',
             success: function (data) {
                 if (data.form_is_valid) {
+                    $('#b_menus_edit').hide();
+                    $('#b_menus_delete').hide();
                     $('#menustable').DataTable().ajax.reload();
                     $('#pantstable').DataTable().ajax.reload();
                     if (data.snext == 'new') {
