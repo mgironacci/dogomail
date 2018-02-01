@@ -136,19 +136,19 @@ def menus(request):
 @login_required()
 @permission_required('seg.add_menu')
 def menu_create(request):
-    return JsonResponse(Menu.objects.dt_create(request, MenuForm, 'seg/form_menu_new.html'))
+    return JsonResponse(Menu.objects.dt_create(request, MenuForm))
 
 
 @login_required()
 @permission_required('seg.change_menu')
 def menu_update(request, pks):
-    return JsonResponse(Menu.objects.dt_update(pks, request, MenuForm, 'seg/form_menu_edit.html'))
+    return JsonResponse(Menu.objects.dt_update(pks, request, MenuForm))
 
 
 @login_required()
 @permission_required('seg.delete_menu')
 def menu_delete(request, pks):
-    return JsonResponse(Menu.objects.dt_delete(pks, request, MenuForm, 'seg/form_menu_delete.html'))
+    return JsonResponse(Menu.objects.dt_delete(pks, request, MenuForm))
 
 
 @login_required()
@@ -171,17 +171,17 @@ def pants(request):
 @login_required()
 @permission_required('seg.add_pantalla')
 def pant_create(request):
-    return JsonResponse(Pantalla.objects.dt_create(request, PantallaForm, 'seg/form_pant_new.html'))
+    return JsonResponse(Pantalla.objects.dt_create(request, PantallaForm))
 
 
 @login_required()
 @permission_required('seg.change_pantalla')
 def pant_update(request, pks):
-    return JsonResponse(Pantalla.objects.dt_update(pks, request, PantallaForm, 'seg/form_pant_edit.html'))
+    return JsonResponse(Pantalla.objects.dt_update(pks, request, PantallaForm))
 
 
 @login_required()
 @permission_required('seg.delete_pantalla')
 def pant_delete(request, pks):
-    return JsonResponse(Pantalla.objects.dt_delete(pks, request, PantallaForm, 'seg/form_pant_delete.html'))
+    return JsonResponse(Pantalla.objects.dt_delete(pks, request, PantallaForm))
 

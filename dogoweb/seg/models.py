@@ -83,7 +83,7 @@ def DTFilter(mmodel, jbody, *args, **kw):
     return ret, fobjs
 
 
-def DTCreate(request, oform, otemplate, *args, **kw):
+def DTCreate(request, oform, otemplate='seg/modal_form_create.html', *args, **kw):
     data = dict()
     if request.method == 'POST':
         data['snext'] = request.POST.get('snext', '')
@@ -107,19 +107,19 @@ def DTCreate(request, oform, otemplate, *args, **kw):
             }
     else:
         form = oform()
-    context = {'form': form}
+    context = {'form': form, 'form_header': oform.form_header}
     data['html_form'] = render_to_string(otemplate, context, request=request)
     return data
 
 
-def DTUpdate(mmodel, pks, request, oform, otemplate, *args, **kw):
+def DTUpdate(mmodel, pks, request, oform, otemplate='seg/modal_form_update.html', *args, **kw):
     data = dict()
     if request.method == 'POST':
         data['snext'] = request.POST.get('snext', '')
         idpks = request.POST.get('pks', '').split(',')
         obj = mmodel.get(pk=idpks[0])
         form = oform(request.POST, instance=obj)
-        context = {'idpks': pks, 'form': form}
+        context = {'idpks': pks, 'form': form, 'form_header': oform.form_header}
         if len(idpks) > 1:
             otros = {}
             for n,v in enumerate(idpks):
@@ -149,7 +149,7 @@ def DTUpdate(mmodel, pks, request, oform, otemplate, *args, **kw):
         idpks = pks.split(',')
         obj = mmodel.get(pk=idpks[0])
         form = oform(instance=obj)
-        context = {'idpks': pks, 'form': form}
+        context = {'idpks': pks, 'form': form, 'form_header': oform.form_header}
         if len(idpks) > 1:
             otros = {}
             for n,v in enumerate(idpks):
@@ -164,7 +164,7 @@ def DTUpdate(mmodel, pks, request, oform, otemplate, *args, **kw):
     return data
 
 
-def DTDelete(mmodel, pks, request, oform, otemplate, *args, **kw):
+def DTDelete(mmodel, pks, request, oform, otemplate='seg/modal_form_delete.html', *args, **kw):
     data = dict()
     if request.method == 'POST':
         idpks = request.POST.get('pks','').split(',')
@@ -185,8 +185,10 @@ def DTDelete(mmodel, pks, request, oform, otemplate, *args, **kw):
                 'msg': _('There was a problem deleting the items'),
                 'tipo': 'danger',
             }
+            context = {'idpks': request.POST.get('pks',''), 'form_header': oform.form_header}
+            data['html_form'] = render_to_string(otemplate, context, request=request)
     else:
-        context = {'idpks': pks}
+        context = {'idpks': pks, 'form_header': oform.form_header}
         data['html_form'] = render_to_string(otemplate, context, request=request)
     return data
 
@@ -195,13 +197,13 @@ class DTManager(models.Manager):
     def dt_filter(self, jbody, *args, **kw):
         return DTFilter(self, jbody, *args, **kw)
 
-    def dt_create(self, request, oform, otemplate):
+    def dt_create(self, request, oform, otemplate='seg/modal_form_create.html'):
         return DTCreate(request, oform, otemplate)
 
-    def dt_update(self, pks, request, oform, otemplate):
+    def dt_update(self, pks, request, oform, otemplate='seg/modal_form_update.html'):
         return DTUpdate(self, pks, request, oform, otemplate)
 
-    def dt_delete(self, pks, request, oform, otemplate):
+    def dt_delete(self, pks, request, oform, otemplate='seg/modal_form_delete.html'):
         return DTDelete(self, pks, request, oform, otemplate)
 
 

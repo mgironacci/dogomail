@@ -1,0 +1,38 @@
+{% load seg_tags %}
+{% load i18n %}
+
+<div class="row">
+    <div class="col-lg-6">
+        {% render_field_full form.idm %}
+        {{ form.idm|set_focus }}
+    </div>
+    <div class="col-lg-6">
+        {% render_field_full_icon form.icono %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        {% render_field_full form.nombre %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        {% render_field_full form.url %}
+    </div>
+    <div class="col-lg-6">
+        {% render_field_full form.menu %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        {% render_field_full form.orden %}
+    </div>
+    <div class="col-lg-6">
+        {% render_field_full form.activo %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        {% render_field_full form.permiso %}
+    </div>
+</div>

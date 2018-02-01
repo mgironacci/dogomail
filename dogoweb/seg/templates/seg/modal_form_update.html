@@ -1,7 +1,7 @@
 {% load seg_tags %}
 {% load i18n %}
 
-<form method="post" id="menu-form" action="{% url 'seg_pant_update' %}">
+<form method="post" id="modal-form" action="{% url form_header.update.url %}">
     {% csrf_token %}
     <input type="hidden" name="pks" value="{{ idpks }}"/>
     <input type="hidden" name="idx" value="{{ idx }}"/>
@@ -10,45 +10,11 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title"><small><i class="icmn-pencil7"></i></small> {% trans "Change screen" %}</h4>
+        <h4 class="modal-title"><small><i class="{{ form_header.update.icon }}"></i></small> {{ form_header.update.title }}</h4>
     </div>
     {% with WIDGET_BASE_CLASS='form-control' WIDGET_GROUP_CLASS='form-group' WIDGET_REQUIRED_CLASS='form-control-required' WIDGET_ERROR_LIST_CLASS='form-control-error' WIDGET_ERROR_CLASS='has-danger' %}
     <div class="modal-body modal-body-bottom-5">
-        <div class="row">
-            <div class="col-lg-6">
-                {% render_field_full form.idm %}
-                {{ form.idm|set_focus }}
-            </div>
-            <div class="col-lg-6">
-                {% render_field_full_icon form.icono %}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                {% render_field_full form.nombre %}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-6">
-                {% render_field_full form.url %}
-            </div>
-            <div class="col-lg-6">
-                {% render_field_full form.menu %}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-6">
-                {% render_field_full form.orden %}
-            </div>
-            <div class="col-lg-6">
-                {% render_field_full form.activo %}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                {% render_field_full form.permiso %}
-            </div>
-        </div>
+        {% include form_header.templt %}
         {% if sobjs %}
         <div class="row">
             <div class="col-md-3"></div>

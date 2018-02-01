@@ -209,12 +209,12 @@
                         {% trans "Add" %}
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="" role="menu">
-                        <a class="dropdown-item" href="javascript: $('#menu-modal .modal-content').html(''); $('#menu-modal').attr('data-action','add-menu'); $('#menu-modal').modal();">{% trans "Menu" %}</a>
-                        <a class="dropdown-item" href="javascript: $('#menu-modal .modal-content').html(''); $('#menu-modal').attr('data-action','add-pant'); $('#menu-modal').modal();">{% trans "Screen" %}</a>
+                        <a class="dropdown-item" href="javascript: $('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','add-menu'); $('#popup-modal').modal();">{% trans "Menu" %}</a>
+                        <a class="dropdown-item" href="javascript: $('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','add-pant'); $('#popup-modal').modal();">{% trans "Screen" %}</a>
                     </ul>
                 </div>
-                <button type="button" id="b_menus_edit" onclick="$('#menu-modal .modal-content').html(''); $('#menu-modal').attr('data-action','edit'); $('#menu-modal').modal();" class="btn btn-secondary pull-right panel-buttons width-100">{% trans "Edit" %}</button>
-                <button type="button" id="b_menus_delete" onclick="$('#menu-modal .modal-content').html(''); $('#menu-modal').attr('data-action','delete'); $('#menu-modal').modal();" class="btn btn-danger pull-right panel-buttons width-100">{% trans "Delete" %}</button>
+                <button type="button" id="b_menus_edit" onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','edit'); $('#popup-modal').modal();" class="btn btn-secondary pull-right panel-buttons width-100">{% trans "Edit" %}</button>
+                <button type="button" id="b_menus_delete" onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','delete'); $('#popup-modal').modal();" class="btn btn-danger pull-right panel-buttons width-100">{% trans "Delete" %}</button>
                 <h4>{% trans "Menus" %}</h4>
             </div>
             <div class="panel-body">
@@ -270,12 +270,12 @@
                 </div>
             </div>
         </section>
-        <div class="modal fade" id="menu-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-            </div>
-        </div>
     </div>
     {% endif %}
+    <div class="modal fade" id="popup-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
 </div>
 {% endblock %}
