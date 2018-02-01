@@ -1,8 +1,8 @@
 {% load seg_tags %}
 {% load i18n %}
 
-<div class="{{ WIDGET_GROUP_CLASS }}">
-    <label class="{{ WIDGET_BASE_CLASS }}-label" for="{{ field.id_for_label }}">{% trans field.label %}</label>
+<div class="{{ WIDGET_GROUP_CLASS }}{% if field.errors %} {{WIDGET_ERROR_CLASS }}{% endif %}">
+    <label class="{{ WIDGET_BASE_CLASS }}-label{% if field.errors %} {{WIDGET_ERROR_CLASS }}{% endif %}" for="{{ field.id_for_label }}">{% trans field.label %}</label>
     <div class="input-group">
         <span class="input-group-addon">
             <i id="{{ field.id_for_label }}_edit" class="icmn-icon"></i>

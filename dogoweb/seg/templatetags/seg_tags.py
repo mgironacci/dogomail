@@ -221,6 +221,8 @@ class FieldAttributeNode(Node):
             datos['WIDGET_BASE_CLASS'] = context['WIDGET_BASE_CLASS']
         if 'WIDGET_GROUP_CLASS' in context:
             datos['WIDGET_GROUP_CLASS'] = context['WIDGET_GROUP_CLASS']
+        if 'WIDGET_ERROR_CLASS' in context:
+            datos['WIDGET_ERROR_CLASS'] = context['WIDGET_ERROR_CLASS']
         if getattr(bounded_field, 'errors', None) and 'WIDGET_ERROR_LIST_CLASS' in context:
             datos['WIDGET_ERROR_LIST_CLASS'] = context['WIDGET_ERROR_LIST_CLASS']
         full_field = context.template.engine.get_template(self.Ntemplate)
