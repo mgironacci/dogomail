@@ -199,11 +199,6 @@ $(function(){
             dataType: 'json',
             success: function (data) {
                 $("#menu-modal .modal-content").html(data.html_form);
-                $('#id_idm').focus();
-                $('#id_icono_edit').attr('class', $('#id_icono').val());
-                $('#id_icono').on('input', function() {
-                    $('#id_icono_edit').attr('class', $(this).val());
-                });
             }
         });
     });
@@ -226,11 +221,6 @@ $(function(){
                 }
                 else {
                     $("#menu-modal .modal-content").html(data.html_form);
-                    $('#id_idm').focus();
-                    $('#id_icono_edit').attr('class', $('#id_icono').val());
-                    $('#id_icono').on('input', function() {
-                        $('#id_icono_edit').attr('class', $(this).val());
-                    });
                 }
             }
         });
@@ -246,11 +236,6 @@ $(function(){
             dataType: 'json',
             success: function (data) {
                 $("#menu-modal .modal-content").html(data.html_form);
-                $('#id_idm').focus();
-                $('#id_icono_edit').attr('class', $('#id_icono').val());
-                $('#id_icono').on('input', function() {
-                    $('#id_icono_edit').attr('class', $(this).val());
-                });
             }
         });
     }
@@ -279,11 +264,6 @@ $(function(){
                     }
                 }
                 $("#menu-modal .modal-content").html(data.html_form);
-                $('#id_idm').focus();
-                $('#id_icono_edit').attr('class', $('#id_icono').val());
-                $('#id_icono').on('input', function() {
-                    $('#id_icono_edit').attr('class', $(this).val());
-                });
             }
         });
     }

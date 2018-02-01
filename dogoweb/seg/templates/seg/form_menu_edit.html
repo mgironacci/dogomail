@@ -1,4 +1,4 @@
-{% load widget_tweaks %}
+{% load seg_tags %}
 {% load i18n %}
 
 <form method="post" id="menu-form" action="{% url 'seg_menu_update' %}">
@@ -12,95 +12,31 @@
         </button>
         <h4 class="modal-title"><i class="icmn-pencil7"></i> {% trans "Change menu" %}</h4>
     </div>
-    {% with WIDGET_REQUIRED_CLASS='form-control' %}
+    {% with WIDGET_BASE_CLASS='form-control' WIDGET_GROUP_CLASS='form-group' WIDGET_REQUIRED_CLASS='form-control-required' WIDGET_ERROR_LIST_CLASS='form-control-error' %}
     <div class="modal-body modal-body-bottom-5">
         <div class="row">
             <div class="col-lg-6">
-                <div class="form-group {% if form.idm.errors %} has-danger{% endif %}">
-                    <label class="form-control-label {% if form.idm.errors %} has-danger{% endif %}" for="{{ form.idm.id_for_label }}">{% trans "ID" %}</label>
-                    {% render_field form.idm %}
-                    {% if form.idm.errors %}
-                    <div class="form-control-error" data-error-list>
-                        <ul>
-                            {% for error in form.idm.errors %}
-                            <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    {% endif %}
-                </div>
+                {% render_field_full form.idm %}
+                {{ form.idm|set_focus }}
             </div>
             <div class="col-lg-6">
-                <div class="form-group {% if form.icono.errors %} has-danger{% endif %}">
-                    <label class="form-control-label {% if form.icono.errors %} has-danger{% endif %}" for="{{ form.icono.id_for_label }}">{% trans "Icon" %}</label>
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <i id="id_icono_edit" class="icmn-icon"></i>
-                        </span>
-                        {% render_field form.icono %}
-                    </div>
-                    {% if form.icono.errors %}
-                    <div class="form-control-error" data-error-list>
-                        <ul>
-                            {% for error in form.icono.errors %}
-                            <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    {% endif %}
-                </div>
+                {% render_field_full_icon form.icono %}
             </div>
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <div class="form-group {% if form.nombre.errors %} has-danger{% endif %}">
-                    <label class="form-control-label {% if form.nombre.errors %} has-danger{% endif %}" for="{{ form.nombre.id_for_label }}">{% trans "Name" %}</label>
-                    {% render_field form.nombre %}
-                    {% if form.nombre.errors %}
-                    <div class="form-control-error" data-error-list>
-                        <ul>
-                            {% for error in form.nombre.errors %}
-                            <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    {% endif %}
-                </div>
+                {% render_field_full form.nombre %}
             </div>
         </div>
         <div class="row">
             <div class="col-lg-6">
-                <div class="form-group {% if form.orden.errors %} has-danger{% endif %}">
-                    <label class="form-control-label {% if form.orden.errors %} has-danger{% endif %}" for="{{ form.orden.id_for_label }}">{% trans "Order" %}</label>
-                    {% render_field form.orden %}
-                    {% if form.orden.errors %}
-                    <div class="form-control-error" data-error-list>
-                        <ul>
-                            {% for error in form.orden.errors %}
-                            <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    {% endif %}
-                </div>
+                {% render_field_full form.orden %}
             </div>
             <div class="col-lg-6">
-                <div class="form-group {% if form.activo.errors %} has-danger{% endif %}">
-                    <label class="form-control-label {% if form.activo.errors %} has-danger{% endif %}" for="{{ form.activo.id_for_label }}">{% trans "Active" %}</label><br/>
-                    {% render_field form.activo %}
-                    {% if form.activo.errors %}
-                    <div class="form-control-error" data-error-list>
-                        <ul>
-                            {% for error in form.activo.errors %}
-                            <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    {% endif %}
-                </div>
+                {% render_field_full form.activo %}
             </div>
         </div>
-        {% if smenus %}
+        {% if sobjs %}
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6">

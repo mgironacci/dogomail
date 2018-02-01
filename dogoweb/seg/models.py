@@ -205,11 +205,11 @@ class DTManager(models.Manager):
 class Menu(models.Model):
     objects=DTManager()
 
-    idm = models.CharField(max_length=50, unique=True)
-    nombre = models.CharField(max_length=50, unique=True)
-    orden = models.PositiveIntegerField()
-    icono = models.CharField(max_length=100)
-    activo = models.BooleanField(default=True)
+    idm = models.CharField('ID', max_length=50, unique=True)
+    nombre = models.CharField('Name', max_length=50, unique=True)
+    orden = models.PositiveIntegerField('Order')
+    icono = models.CharField('Icon', max_length=100, blank=True)
+    activo = models.BooleanField('Active', default=True)
 
     class Meta:
         ordering = ["orden"]

@@ -1,0 +1,27 @@
+{% load seg_tags %}
+{% load i18n %}
+
+<div class="{{ WIDGET_GROUP_CLASS }}">
+    <label class="{{ WIDGET_BASE_CLASS }}-label" for="{{ field.id_for_label }}">{% trans field.label %}</label>
+    <div class="input-group">
+        <span class="input-group-addon">
+            <i id="{{ field.id_for_label }}_edit" class="icmn-icon"></i>
+        </span>
+        {% render_field field %}
+    </div>
+    {% if field.errors %}
+    <div class="{{ WIDGET_ERROR_LIST_CLASS }}" data-error-list>
+        <ul>
+            {% for error in field.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    <script>
+        $('#{{ field.id_for_label }}_edit').attr('class', $('#{{ field.id_for_label }}').val());
+        $('#{{ field.id_for_label }}').on('input', function() {
+            $('#{{ field.id_for_label }}_edit').attr('class', $(this).val());
+        });
+    </script>
+</div>

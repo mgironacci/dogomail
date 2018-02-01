@@ -151,3 +151,11 @@ table.dataTable tbody tr.selected:hover {
 .modal-body-bottom-5 {
     padding-bottom: 5px;
 }
+
+/* Forms */
+/* Required field */
+input[type=text].form-control-required, input[type=password].form-control-required,
+input[type=email].form-control-required, input[type=number].form-control-required,
+textarea.form-control-required {
+    background-color: #fff8f8;
+}
