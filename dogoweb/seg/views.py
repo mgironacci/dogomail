@@ -134,6 +134,24 @@ def menus(request):
 
 
 @login_required()
+@permission_required('seg.add_menu')
+def menu_create(request):
+    return JsonResponse(Menu.objects.dt_create(request, MenuForm, 'seg/form_menu_new.html'))
+
+
+@login_required()
+@permission_required('seg.change_menu')
+def menu_update(request, pks):
+    return JsonResponse(Menu.objects.dt_update(pks, request, MenuForm, 'seg/form_menu_edit.html'))
+
+
+@login_required()
+@permission_required('seg.delete_menu')
+def menu_delete(request, pks):
+    return JsonResponse(Menu.objects.dt_delete(pks, request, MenuForm, 'seg/form_menu_delete.html'))
+
+
+@login_required()
 @permission_required('seg.manage_menus')
 def pants(request):
     if request.is_ajax() and request.method == 'POST':
@@ -151,18 +169,19 @@ def pants(request):
 
 
 @login_required()
-@permission_required('seg.add_menu')
-def menu_create(request):
-    return JsonResponse(Menu.objects.dt_create(request, MenuForm, 'seg/form_menu_new.html'))
+@permission_required('seg.add_pantalla')
+def pant_create(request):
+    return JsonResponse(Pantalla.objects.dt_create(request, PantallaForm, 'seg/form_pant_new.html'))
 
 
 @login_required()
-@permission_required('seg.change_menu')
-def menu_update(request, pks):
-    return JsonResponse(Menu.objects.dt_update(pks, request, MenuForm, 'seg/form_menu_edit.html'))
+@permission_required('seg.change_pantalla')
+def pant_update(request, pks):
+    return JsonResponse(Pantalla.objects.dt_update(pks, request, PantallaForm, 'seg/form_pant_edit.html'))
 
 
 @login_required()
-@permission_required('seg.delete_menu')
-def menu_delete(request, pks):
-    return JsonResponse(Menu.objects.dt_delete(pks, request, MenuForm, 'seg/form_menu_delete.html'))
+@permission_required('seg.delete_pantalla')
+def pant_delete(request, pks):
+    return JsonResponse(Pantalla.objects.dt_delete(pks, request, PantallaForm, 'seg/form_pant_delete.html'))
+

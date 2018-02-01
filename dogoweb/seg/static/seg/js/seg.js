@@ -4,8 +4,17 @@ $(function(){
     $('#b_menus_edit').hide();
     $('#b_menus_delete').hide();
 
-    var clickDT = function (evento, e, dt, indexes) {
-        if (evento == 'select.menu') {
+    var clickDT = function (et, e, dt, indexes) {
+        var dtm =  $('#menustable').DataTable();
+        var dtp =  $('#pantstable').DataTable();
+        var evento = et.split(".")[0];
+        var tabla = et.split(".")[1];
+        if (tabla == 'menu' && dtp.rows({selected:true}).count() != 0 && dtm.rows({selected:true}).count() != 0) {
+            dtp.rows().deselect();
+        } else if (tabla == 'pant' && dtm.rows({selected:true}).count() != 0 && dtp.rows({selected:true}).count() != 0) {
+            dtm.rows().deselect();
+        }
+        if (evento == 'select') {
             if (dt.rows( { selected: true } ).count() != 0) {
                 $('#b_menus_edit').show();
                 $('#b_menus_delete').show();
@@ -93,9 +102,10 @@ $(function(){
         //"dom": 'Bfrtip',
         cache: false,
     });
+    // Panel de menus y pantallas
     $('#menustable')
     .on('select.dt', function ( e, dt, type, indexes ) { clickDT('select.menu', e, dt, indexes); } )
-    .on('deselect.dt', function ( e, dt, type, indexes ) { clickDT('deselect', e, dt, indexes); } )
+    .on('deselect.dt', function ( e, dt, type, indexes ) { clickDT('deselect.menu', e, dt, indexes); } )
     .DataTable({
         responsive: true,
         serverSide: true,
@@ -126,7 +136,10 @@ $(function(){
         //"dom": 'Bfrtip',
         cache: false,
     });
-    $('#pantstable').DataTable({
+    $('#pantstable')
+    .on('select.dt', function ( e, dt, type, indexes ) { clickDT('select.pant', e, dt, indexes); } )
+    .on('deselect.dt', function ( e, dt, type, indexes ) { clickDT('deselect.pant', e, dt, indexes); } )
+    .DataTable({
         responsive: true,
         serverSide: true,
         ajax: {
@@ -146,7 +159,7 @@ $(function(){
             { name: "activo", sorting: false, searchable: false }
         ],
         order: [[ 4, "asc" ]],
-        select: 'multi',
+        select: true,
         //"paging":   false,
         //"ordering": false,
         //"info":     false,
@@ -183,7 +196,7 @@ $(function(){
             }
         } else if (dtp.rows( { selected: true } ).count() != 0) {
             action = '/seg/pants/';
-            srows = dtm.rows( { selected: true } );
+            srows = dtp.rows( { selected: true } );
             for(var i=0; i<srows.count(); i++) {
                 ids.push(srows.data()[i][0]);
             }

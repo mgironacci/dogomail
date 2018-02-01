@@ -246,14 +246,14 @@ class Menu(models.Model):
 class Pantalla(models.Model):
     objects=DTManager()
 
-    idm = models.CharField(max_length=50, unique=True)
-    nombre = models.CharField(max_length=50)
-    url = models.CharField(max_length=200)
-    orden = models.PositiveIntegerField()
-    icono = models.CharField(max_length=100)
+    idm = models.CharField('ID',max_length=50, unique=True)
+    nombre = models.CharField('Name',max_length=50)
+    url = models.CharField('URL',max_length=200)
+    orden = models.PositiveIntegerField('Order')
+    icono = models.CharField('Icon',max_length=100, blank=True)
     permiso = models.ForeignKey(Permission, on_delete=models.PROTECT)
     menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
-    activo = models.BooleanField(default=True)
+    activo = models.BooleanField('Active',default=True)
 
     class Meta:
         ordering = ["orden"]
