@@ -47,6 +47,11 @@ LOGOUT_URL = config.get('LOGOUT_URL')
 LOGIN_REDIRECT_URL = config.get('LOGIN_REDIRECT_URL')
 LOGOUT_REDIRECT_URL = config.get('LOGOUT_REDIRECT_URL')
 
+ICO_OK   = "icmn-checkmark4"
+ICO_WARN = "icmn-waring"
+ICO_INFO = "icmn-info"
+ICO_CRIT = "icmn-notification"
+
 # Application definition
 
 INSTALLED_APPS = [

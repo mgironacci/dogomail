@@ -5,8 +5,9 @@ from django.dispatch import receiver
 from django.contrib.auth.models import User, Permission
 from django.contrib.auth.signals import user_logged_in, user_logged_out, user_login_failed
 from django.template.loader import render_to_string
-from dogoweb.settings import VERSION
 from django.utils import timezone
+from django.utils.translation import gettext as _
+from dogoweb.settings import VERSION, ICO_OK, ICO_WARN, ICO_INFO, ICO_CRIT
 import hashlib
 import datetime
 import urllib.request
@@ -92,8 +93,18 @@ def DTCreate(request, oform, otemplate, *args, **kw):
             data['form_is_valid'] = True
             if data['snext'] == 'new':
                 form = oform()
+            data['mensaje'] = {
+                'icon': ICO_OK,
+                'msg': _('The item was successfully created'),
+                'tipo': 'success',
+            }
         else:
             data['form_is_valid'] = False
+            data['mensaje'] = {
+                'icon': ICO_CRIT,
+                'msg': _('The item had a problem, please review'),
+                'tipo': 'danger',
+            }
     else:
         form = oform()
     context = {'form': form}
@@ -122,8 +133,18 @@ def DTUpdate(mmodel, pks, request, oform, otemplate, *args, **kw):
         if form.is_valid():
             form.save()
             data['form_is_valid'] = True
+            data['mensaje'] = {
+                'icon': ICO_OK,
+                'msg': _('The item was successfully saved'),
+                'tipo': 'success',
+            }
         else:
             data['form_is_valid'] = False
+            data['mensaje'] = {
+                'icon': ICO_CRIT,
+                'msg': _('The item had a problem, please review'),
+                'tipo': 'danger',
+            }
     else:
         idpks = pks.split(',')
         obj = mmodel.get(pk=idpks[0])
@@ -152,8 +173,18 @@ def DTDelete(mmodel, pks, request, oform, otemplate, *args, **kw):
             for o in objs:
                 o.delete()
             data['form_is_valid'] = True
+            data['mensaje'] = {
+                'icon': ICO_OK,
+                'msg': _('The items where successfully deleted'),
+                'tipo': 'success',
+            }
         except:
             data['form_is_valid'] = False
+            data['mensaje'] = {
+                'icon': ICO_CRIT,
+                'msg': _('There was a problem deleting the items'),
+                'tipo': 'danger',
+            }
     else:
         context = {'idpks': pks}
         data['html_form'] = render_to_string(otemplate, context, request=request)
