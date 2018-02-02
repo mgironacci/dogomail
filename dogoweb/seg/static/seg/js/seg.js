@@ -3,8 +3,33 @@ var jseg = {};
 $(function(){
     $('#b_menus_edit').hide();
     $('#b_menus_delete').hide();
+    $('#b_users_edit').hide();
+    $('#b_users_delete').hide();
 
-    var clickDT = function (et, e, dt, indexes) {
+    var clickDTug = function (et, e, dt, indexes) {
+        var dtm =  $('#userstable').DataTable();
+        var dtp =  $('#groupstable').DataTable();
+        var evento = et.split(".")[0];
+        var tabla = et.split(".")[1];
+        if (tabla == 'user' && dtp.rows({selected:true}).count() != 0 && dtm.rows({selected:true}).count() != 0) {
+            dtp.rows().deselect();
+        } else if (tabla == 'group' && dtm.rows({selected:true}).count() != 0 && dtp.rows({selected:true}).count() != 0) {
+            dtm.rows().deselect();
+        }
+        if (evento == 'select') {
+            if (dt.rows( { selected: true } ).count() != 0) {
+                $('#b_users_edit').show();
+                $('#b_users_delete').show();
+            }
+        } else if (evento == 'deselect') {
+            if (dt.rows( { selected: true } ).count() == 0) {
+                $('#b_users_edit').hide();
+                $('#b_users_delete').hide();
+            }
+        }
+    }
+
+    var clickDTmp = function (et, e, dt, indexes) {
         var dtm =  $('#menustable').DataTable();
         var dtp =  $('#pantstable').DataTable();
         var evento = et.split(".")[0];
@@ -27,7 +52,29 @@ $(function(){
         }
     }
 
-    $('#userstable').DataTable({
+    var hideUGP = function () {
+        var dtu =  $('#userstable').DataTable();
+        var dtg =  $('#groupstable').DataTable();
+        var dtp =  $('#permstable').DataTable();
+        if (dtu.rows( { selected: true } ).count() == 0 && dtg.rows( { selected: true } ).count() == 0 && dtp.rows( { selected: true } ).count() == 0) {
+            $('#b_users_edit').hide();
+            $('#b_users_delete').hide();
+        }
+    }
+
+    var hideMP = function () {
+        var dtm =  $('#menustable').DataTable();
+        var dtp =  $('#pantstable').DataTable();
+        if (dtm.rows( { selected: true } ).count() == 0 && dtp.rows( { selected: true } ).count() == 0) {
+            $('#b_menus_edit').hide();
+            $('#b_menus_delete').hide();
+        }
+    }
+
+    $('#userstable')
+    .on('select.dt', function ( e, dt, type, indexes ) { clickDTug('select.user', e, dt, indexes); } )
+    .on('deselect.dt', function ( e, dt, type, indexes ) { clickDTug('deselect.user', e, dt, indexes); } )
+    .DataTable({
         responsive: true,
         serverSide: true,
         ajax: {
@@ -38,12 +85,16 @@ $(function(){
         },
         language: DTlang,
         columns: [
+            { name: "id", sorting: false, searchable: false, visible: false },
             { name: "username" },
             { name: "last_name" },
             { name: "is_active", sorting: false, searchable: false }
         ],
         order: [[ 0, "asc" ]],
         select: 'single',
+        drawCallback: function( settings ) {
+            hideUGP();
+        },
         //"paging":   false,
         //"ordering": false,
         //"info":     false,
@@ -52,7 +103,10 @@ $(function(){
         //"dom": 'Bfrtip',
         cache: false,
     });
-    $('#groupstable').DataTable({
+    $('#groupstable')
+    .on('select.dt', function ( e, dt, type, indexes ) { clickDTug('select.group', e, dt, indexes); } )
+    .on('deselect.dt', function ( e, dt, type, indexes ) { clickDTug('deselect.group', e, dt, indexes); } )
+    .DataTable({
         responsive: true,
         serverSide: true,
         ajax: {
@@ -63,12 +117,16 @@ $(function(){
         },
         language: DTlang,
         columns: [
+            { name: "id", sorting: false, searchable: false, visible: false },
             { name: "name" },
             { name: "func_users", searchable: false },
             { name: "func_perms", searchable: false }
         ],
         order: [[ 0, "asc" ]],
-        select: 'multi',
+        select: true,
+        drawCallback: function( settings ) {
+            hideUGP();
+        },
         //"paging":   false,
         //"ordering": false,
         //"info":     false,
@@ -88,12 +146,16 @@ $(function(){
         },
         language: DTlang,
         columns: [
+            { name: "id", sorting: false, searchable: false, visible: false },
             { name: "name" },
             { name: "content_type", searchable: false },
             { name: "func_used", searchable: false }
         ],
         order: [[ 0, "asc" ]],
-        select: 'multi',
+        select: true,
+        drawCallback: function( settings ) {
+            hideUGP();
+        },
         //"paging":   false,
         //"ordering": false,
         //"info":     false,
@@ -104,8 +166,8 @@ $(function(){
     });
     // Panel de menus y pantallas
     $('#menustable')
-    .on('select.dt', function ( e, dt, type, indexes ) { clickDT('select.menu', e, dt, indexes); } )
-    .on('deselect.dt', function ( e, dt, type, indexes ) { clickDT('deselect.menu', e, dt, indexes); } )
+    .on('select.dt', function ( e, dt, type, indexes ) { clickDTmp('select.menu', e, dt, indexes); } )
+    .on('deselect.dt', function ( e, dt, type, indexes ) { clickDTmp('deselect.menu', e, dt, indexes); } )
     .DataTable({
         responsive: true,
         serverSide: true,
@@ -129,6 +191,9 @@ $(function(){
         order: [[ 3, "asc" ]],
         select: true,
         rowReorder: true,
+        drawCallback: function( settings ) {
+            hideMP();
+        },
         //"paging":   false,
         //"info":     false,
         //"scrollX":  false,
@@ -137,8 +202,8 @@ $(function(){
         cache: false,
     });
     $('#pantstable')
-    .on('select.dt', function ( e, dt, type, indexes ) { clickDT('select.pant', e, dt, indexes); } )
-    .on('deselect.dt', function ( e, dt, type, indexes ) { clickDT('deselect.pant', e, dt, indexes); } )
+    .on('select.dt', function ( e, dt, type, indexes ) { clickDTmp('select.pant', e, dt, indexes); } )
+    .on('deselect.dt', function ( e, dt, type, indexes ) { clickDTmp('deselect.pant', e, dt, indexes); } )
     .DataTable({
         responsive: true,
         serverSide: true,
@@ -160,6 +225,9 @@ $(function(){
         ],
         order: [[ 4, "asc" ]],
         select: true,
+        drawCallback: function( settings ) {
+            hideMP();
+        },
         //"paging":   false,
         //"ordering": false,
         //"info":     false,
@@ -171,9 +239,6 @@ $(function(){
     $('#adduser').on('shown.bs.modal', function () {
         $('#l0').focus();
     });
-    $('#addgroup').on('shown.bs.modal', function () {
-        $('#g0').focus();
-    });
     // Llamado al pedir nuevo menu
     $("#popup-modal").on("shown.bs.modal", function () {
         $("#popup-modal .modal-content").html('');
@@ -182,6 +247,8 @@ $(function(){
             return false;
         }
         $("#popup-modal").removeAttr('data-action');
+        var dtu =  $('#userstable').DataTable();
+        var dtg =  $('#groupstable').DataTable();
         var dtm =  $('#menustable').DataTable();
         var dtp =  $('#pantstable').DataTable();
         var action = "";
@@ -200,7 +267,21 @@ $(function(){
             for(var i=0; i<srows.count(); i++) {
                 ids.push(srows.data()[i][0]);
             }
+        } else if (dtu.rows( { selected: true } ).count() != 0) {
+            action = '/seg/users/';
+            srows = dtu.rows( { selected: true } );
+            for(var i=0; i<srows.count(); i++) {
+                ids.push(srows.data()[i][0]);
+            }
+        } else if (dtg.rows( { selected: true } ).count() != 0) {
+            action = '/seg/groups/';
+            srows = dtg.rows( { selected: true } );
+            for(var i=0; i<srows.count(); i++) {
+                ids.push(srows.data()[i][0]);
+            }
         }
+        if (btnact == 'add-user') { action  = '/seg/users/create/'; }
+        if (btnact == 'add-group') { action  = '/seg/groups/create/'; }
         if (btnact == 'add-menu') { action  = '/seg/menus/create/'; }
         if (btnact == 'add-pant') { action  = '/seg/pants/create/'; }
         if (btnact == 'edit')     { action += 'update/'; }

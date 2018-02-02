@@ -187,6 +187,18 @@ def render_field_full_checkbox(parser, token):
     return FieldAttributeNode(form_field, set_attrs, append_attrs, full=True, template='tags/field_full_checkbox.html')
 
 
+@register.tag
+def render_field_full_email(parser, token):
+    form_field, set_attrs, append_attrs = common_field_render(parser, token)
+    return FieldAttributeNode(form_field, set_attrs, append_attrs, full=True, template='tags/field_full_email.html')
+
+
+@register.tag
+def render_field_full_select2(parser, token):
+    form_field, set_attrs, append_attrs = common_field_render(parser, token)
+    return FieldAttributeNode(form_field, set_attrs, append_attrs, full=True, template='tags/field_full_select2.html')
+
+
 @register.filter(name='set_focus', needs_autoscape=True)
 def field_set_focus(field, autoescape=True):
     if autoescape:
@@ -215,6 +227,8 @@ class FieldAttributeNode(Node):
         if field and field.required and 'WIDGET_REQUIRED_CLASS' in context:
             bounded_field = append_attr(bounded_field, 'class:%s' % context['WIDGET_REQUIRED_CLASS'])
         for k, v in self.set_attrs:
+            if k == "dropdownParent":
+                continue
             bounded_field = set_attr(bounded_field, '%s:%s' % (k, v.resolve(context)))
         for k, v in self.append_attrs:
             bounded_field = append_attr(bounded_field, '%s:%s' % (k, v.resolve(context)))
@@ -223,8 +237,13 @@ class FieldAttributeNode(Node):
             return bounded_field
         # En cambio si es full, hago un render del template
         datos = {'field': bounded_field }
+        for k, v in self.set_attrs:
+            if k == "dropdownParent":
+                datos['dropdownParent'] = str(v).replace('"','').replace("'","")
         if 'WIDGET_BASE_CLASS' in context:
             datos['WIDGET_BASE_CLASS'] = context['WIDGET_BASE_CLASS']
+        if 'WIDGET_REQUIRED_CLASS' in context:
+            datos['WIDGET_REQUIRED_CLASS'] = context['WIDGET_REQUIRED_CLASS']
         if 'WIDGET_GROUP_CLASS' in context:
             datos['WIDGET_GROUP_CLASS'] = context['WIDGET_GROUP_CLASS']
         if 'WIDGET_ERROR_CLASS' in context:

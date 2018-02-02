@@ -3,12 +3,7 @@
 
 <div class="{{ WIDGET_GROUP_CLASS }}{% if field.errors %} {{WIDGET_ERROR_CLASS }}{% endif %}">
     <label class="{{ WIDGET_BASE_CLASS }}-label{% if field.errors %} {{WIDGET_ERROR_CLASS }}{% endif %}" for="{{ field.id_for_label }}">{% trans field.label %}</label>
-    <div class="input-group">
-        <span class="input-group-addon">
-            <i id="{{ field.id_for_label }}_edit" class="icmn-icon"></i>
-        </span>
-        {% render_field field %}
-    </div>
+    {% render_field field %}
     {% if field.errors %}
     <div class="{{ WIDGET_ERROR_LIST_CLASS }}" data-error-list>
         <ul>
@@ -22,13 +17,8 @@
         $('#{{ field.id_for_label }}').select2({
             dropdownParent: $("{{ dropdownParent }}")
         });
-        $("[aria-labelledby='select2-{{ field.id_for_label }}-container']").attr("style","border-top-left-radius: 0;border-bottom-left-radius: 0;");
         if ("{{ field.field.required }}" == "True" ) {
             $("[aria-labelledby='select2-{{ field.id_for_label }}-container']").addClass("{{ WIDGET_REQUIRED_CLASS }}");
         }
-        $('#{{ field.id_for_label }}_edit').attr('class', $('#{{ field.id_for_label }}').val());
-        $('#{{ field.id_for_label }}').on('change', function() {
-            $('#{{ field.id_for_label }}_edit').attr('class', $(this).val());
-        });
     </script>
 </div>

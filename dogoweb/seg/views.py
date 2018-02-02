@@ -7,8 +7,8 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User, Group, Permission
 from django.contrib.sessions.models import Session
 from django.contrib.admin.models import LogEntry
-from .models import LoginLogout, DTFilter, Menu, Pantalla
-from .forms import MenuForm, PantallaForm
+from .models import LoginLogout, Menu, Pantalla, DTFilter, DTCreate, DTUpdate, DTDelete
+from .forms import MenuForm, PantallaForm, GroupForm, UserForm
 from ipwhois.utils import get_countries
 import json
 
@@ -97,8 +97,26 @@ def users(request):
         return JsonResponse({'error': "Bad request"})
     ret, objs = DTFilter(User.objects, jbody)
     for a in objs:
-        ret['data'].append([a.username, a.last_name + " " + a.first_name, html_check(a.is_active)])
+        ret['data'].append([a.id, a.username, a.last_name + " " + a.first_name, html_check(a.is_active)])
     return JsonResponse(ret)
+
+
+@login_required()
+@permission_required('seg.add_user')
+def user_create(request):
+    return JsonResponse(DTCreate(request, UserForm))
+
+
+@login_required()
+@permission_required('seg.change_user')
+def user_update(request, pks):
+    return JsonResponse(DTUpdate(User.objects, pks, request, UserForm))
+
+
+@login_required()
+@permission_required('seg.delete_user')
+def user_delete(request, pks):
+    return JsonResponse(DTDelete(User.objects, pks, request, UserForm))
 
 
 @login_required()
@@ -109,8 +127,26 @@ def groups(request):
         return JsonResponse({'error': "Bad request"})
     ret, objs = DTFilter(Group.objects, jbody)
     for a in objs:
-        ret['data'].append([a.name, a.user_set.all().count(), a.permissions.all().count()])
+        ret['data'].append([a.id, a.name, a.user_set.all().count(), a.permissions.all().count()])
     return JsonResponse(ret)
+
+
+@login_required()
+@permission_required('seg.add_group')
+def group_create(request):
+    return JsonResponse(DTCreate(request, GroupForm))
+
+
+@login_required()
+@permission_required('seg.change_group')
+def group_update(request, pks):
+    return JsonResponse(DTUpdate(Group.objects, pks, request, GroupForm))
+
+
+@login_required()
+@permission_required('seg.delete_group')
+def group_delete(request, pks):
+    return JsonResponse(DTDelete(Group.objects, pks, request, GroupForm))
 
 
 @login_required()
@@ -121,7 +157,7 @@ def perms(request):
         return JsonResponse({'error': "Bad request"})
     ret, objs = DTFilter(Permission.objects, jbody)
     for a in objs:
-        ret['data'].append([a.name, str(a.content_type), a.group_set.all().count()])
+        ret['data'].append([a.id, a.name, str(a.content_type), a.group_set.all().count()])
     return JsonResponse(ret)
 
 

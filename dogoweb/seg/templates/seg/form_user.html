@@ -1,0 +1,28 @@
+{% load seg_tags %}
+{% load i18n %}
+
+<div class="row">
+    <div class="col-lg-12">
+        {% render_field_full_email form.username %}
+        {{ form.username|set_focus }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        {% render_field_full form.first_name %}
+    </div>
+    <div class="col-lg-6">
+        {% render_field_full form.last_name %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        {% render_field_full_select2 form.grupo dropdownParent="#popup-modal" %}
+    </div>
+    <div class="col-lg-3">
+        {% render_field_full_checkbox form.is_staff %}
+    </div>
+    <div class="col-lg-3">
+        {% render_field_full_checkbox form.is_active %}
+    </div>
+</div>

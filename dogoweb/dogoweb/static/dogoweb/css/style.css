@@ -156,13 +156,18 @@ table.dataTable tbody tr.selected:hover {
 /* Required field */
 input[type=text].form-control-required, input[type=password].form-control-required,
 input[type=email].form-control-required, input[type=number].form-control-required,
-textarea.form-control-required {
+textarea.form-control-required, select.form-control-required,
+.select2 .form-control-required {
     background-color: #fff8f8;
 }
+
 /* checkboxes lindos */
 label.btn-checkbox-outline-yes {
     border-color: #3caa7a;
     color: #3caa7a;
+}
+label.btn-checkbox-outline-yes:focus {
+    border-color: #01a8fe;
 }
 label.btn-checkbox-outline-yes:hover {
     border-color: #3caa7a;
@@ -171,4 +176,7 @@ label.btn-checkbox-outline-yes.active {
     background: #3caa7a;
     border-color: #3caa7a;
     color: #ffffff;
+}
+label.btn-checkbox-outline-yes.active:focus {
+    border-color: #01a8fe;
 }

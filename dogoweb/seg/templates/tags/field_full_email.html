@@ -1,0 +1,21 @@
+{% load seg_tags %}
+{% load i18n %}
+
+<div class="{{ WIDGET_GROUP_CLASS }}{% if field.errors %} {{WIDGET_ERROR_CLASS }}{% endif %}">
+    <label class="{{ WIDGET_BASE_CLASS }}-label{% if field.errors %} {{WIDGET_ERROR_CLASS }}{% endif %}" for="{{ field.id_for_label }}">{% trans field.label %}</label>
+    <div class="input-group">
+        <span class="input-group-addon">
+            <i id="{{ field.id_for_label }}_edit" class="icmn-mail2"></i>
+        </span>
+        {% render_field field %}
+    </div>
+    {% if field.errors %}
+    <div class="{{ WIDGET_ERROR_LIST_CLASS }}" data-error-list>
+        <ul>
+            {% for error in field.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</div>

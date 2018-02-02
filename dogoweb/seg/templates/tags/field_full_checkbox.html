@@ -5,11 +5,11 @@
     <label class="{{ WIDGET_BASE_CLASS }}-label{% if field.errors %} {{WIDGET_ERROR_CLASS }}{% endif %}" for="{{ field.id_for_label }}">{% trans field.label %}</label>
     {% render_field field hidden=true %}
     <div class="btn-group input-group" data-toggle="buttons" id="{{ field.id_for_label }}_group">
-        <label class="btn" id="{{ field.id_for_label }}_yes" onclick="chkrd_yes();">
+        <label class="btn" id="{{ field.id_for_label }}_yes" onclick="{{ field.id_for_label }}_rd_yes();">
             <input type="radio" name="{{ field.id_for_label }}_rd" value="si"/>
             {% trans "Yes" %}
         </label>
-        <label class="btn" id="{{ field.id_for_label }}_no" onclick="chkrd_no();">
+        <label class="btn" id="{{ field.id_for_label }}_no" onclick="{{ field.id_for_label }}_rd_no();">
             <input type="radio" name="{{ field.id_for_label }}_rd" value="no"/>
             {% trans "No" %}
         </label>
@@ -24,26 +24,26 @@
     </div>
     {% endif %}
     <script>
-        if ($('#id_activo').is(':checked')) {
-            $('#id_activo_yes').addClass('btn-checkbox-outline-yes active');
-            $('#id_activo_no').addClass('btn-checkbox-outline-yes');
+        if ($('#{{ field.id_for_label }}').is(':checked')) {
+            $('#{{ field.id_for_label }}_yes').addClass('btn-checkbox-outline-yes active');
+            $('#{{ field.id_for_label }}_no').addClass('btn-checkbox-outline-yes');
         } else {
-            $('#id_activo_yes').addClass('btn-default-outline');
-            $('#id_activo_no').addClass('btn-default-outline active');
+            $('#{{ field.id_for_label }}_yes').addClass('btn-default-outline');
+            $('#{{ field.id_for_label }}_no').addClass('btn-default-outline active');
         }
-        var chkrd_yes = function () {
-            $('#id_activo').prop('checked', true);
-            $('#id_activo_yes').removeClass('btn-default-outline');
-            $('#id_activo_no').removeClass('btn-default-outline');
-            $('#id_activo_yes').addClass('btn-checkbox-outline-yes');
-            $('#id_activo_no').addClass('btn-checkbox-outline-yes');
+        var {{ field.id_for_label }}_rd_yes = function () {
+            $('#{{ field.id_for_label }}').prop('checked', true);
+            $('#{{ field.id_for_label }}_yes').removeClass('btn-default-outline');
+            $('#{{ field.id_for_label }}_no').removeClass('btn-default-outline');
+            $('#{{ field.id_for_label }}_yes').addClass('btn-checkbox-outline-yes');
+            $('#{{ field.id_for_label }}_no').addClass('btn-checkbox-outline-yes');
         }
-        var chkrd_no = function () {
-            $('#id_activo').prop('checked', false);
-            $('#id_activo_yes').removeClass('btn-checkbox-outline-yes');
-            $('#id_activo_no').removeClass('btn-checkbox-outline-yes');
-            $('#id_activo_yes').addClass('btn-default-outline');
-            $('#id_activo_no').addClass('btn-default-outline');
+        var {{ field.id_for_label }}_rd_no = function () {
+            $('#{{ field.id_for_label }}').prop('checked', false);
+            $('#{{ field.id_for_label }}_yes').removeClass('btn-checkbox-outline-yes');
+            $('#{{ field.id_for_label }}_no').removeClass('btn-checkbox-outline-yes');
+            $('#{{ field.id_for_label }}_yes').addClass('btn-default-outline');
+            $('#{{ field.id_for_label }}_no').addClass('btn-default-outline');
         }
     </script>
 </div>
