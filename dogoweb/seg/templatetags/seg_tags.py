@@ -178,7 +178,13 @@ def render_field_full(parser, token):
 @register.tag
 def render_field_full_icon(parser, token):
     form_field, set_attrs, append_attrs = common_field_render(parser, token)
-    return FieldAttributeNode(form_field, set_attrs, append_attrs, full=True, template='seg/tags/field_full_icon.html')
+    return FieldAttributeNode(form_field, set_attrs, append_attrs, full=True, template='tags/field_full_icon.html')
+
+
+@register.tag
+def render_field_full_checkbox(parser, token):
+    form_field, set_attrs, append_attrs = common_field_render(parser, token)
+    return FieldAttributeNode(form_field, set_attrs, append_attrs, full=True, template='tags/field_full_checkbox.html')
 
 
 @register.filter(name='set_focus', needs_autoscape=True)
@@ -192,7 +198,7 @@ def field_set_focus(field, autoescape=True):
 
 
 class FieldAttributeNode(Node):
-    def __init__(self, field, set_attrs, append_attrs, full=False, template='seg/tags/field_full.html'):
+    def __init__(self, field, set_attrs, append_attrs, full=False, template='tags/field_full.html'):
         self.field = field
         self.set_attrs = set_attrs
         self.append_attrs = append_attrs

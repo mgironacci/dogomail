@@ -13,6 +13,18 @@ from ipwhois.utils import get_countries
 import json
 
 
+# Utilidades
+def html_icon(icon):
+    return '<i class="%s"></i>' % icon
+
+
+def html_check(check):
+    ret = '<i class="icmn-checkbox-checked"></i>'
+    if not check:
+        ret = '<i class="icmn-checkbox-unchecked"></i>'
+    return ret
+
+
 @login_required()
 def index(request):
     return render(request, 'seg/index.html')
@@ -85,10 +97,7 @@ def users(request):
         return JsonResponse({'error': "Bad request"})
     ret, objs = DTFilter(User.objects, jbody)
     for a in objs:
-        uact = '<i class="icmn-checkbox-checked"></i>'
-        if not a.is_active:
-            uact = '<i class="icmn-checkbox-unchecked"></i>'
-        ret['data'].append([a.username, a.last_name + " " + a.first_name, uact])
+        ret['data'].append([a.username, a.last_name + " " + a.first_name, html_check(a.is_active)])
     return JsonResponse(ret)
 
 
@@ -125,11 +134,7 @@ def menus(request):
         return JsonResponse({'error': "Bad request"})
     ret, objs = Menu.objects.dt_filter(jbody)
     for a in objs:
-        mico = '<i class="%s"></i>' % a.icono
-        mact = '<i class="icmn-checkbox-checked"></i>'
-        if not a.activo:
-            mact = '<i class="icmn-checkbox-unchecked"></i>'
-        ret['data'].append([a.id, mico, a.nombre, a.orden, mact])
+        ret['data'].append([a.id, html_icon(a.icono), a.nombre, a.orden, html_check(a.activo)])
     return JsonResponse(ret)
 
 
@@ -160,11 +165,7 @@ def pants(request):
         return JsonResponse({'error': "Bad request"})
     ret, objs = Pantalla.objects.dt_filter(jbody)
     for a in objs:
-        mico = '<i class="%s"></i>' % a.icono
-        mact = '<i class="icmn-checkbox-checked"></i>'
-        if not a.activo:
-            mact = '<i class="icmn-checkbox-unchecked"></i>'
-        ret['data'].append([a.id, mico, a.nombre, str(a.menu), a.orden, a.permiso.name, mact])
+        ret['data'].append([a.id, html_icon(a.icono), a.nombre, str(a.menu), a.orden, a.permiso.name, html_check(a.activo)])
     return JsonResponse(ret)
 
 
