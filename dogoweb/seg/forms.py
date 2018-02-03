@@ -27,6 +27,8 @@ class UserForm(forms.ModelForm):
             self.fields['grupo'].initial = kw['instance'].groups.first()
 
     def save(self, commit=True):
+        if self.instance._state.adding:
+            super().save(commit=commit)
         self.instance.groups.clear()
         self.instance.groups.add(self.cleaned_data['grupo'])
         return super().save(commit=commit)
@@ -51,6 +53,8 @@ class GroupForm(forms.ModelForm):
             self.fields['users'].initial = kw['instance'].user_set.all()
 
     def save(self, commit=True):
+        if self.instance._state.adding:
+            super().save(commit=commit)
         self.instance.user_set.set(self.cleaned_data['users'])
         return super().save(commit=commit)
 
@@ -65,6 +69,7 @@ class PermissionForm(forms.ModelForm):
     class Meta:
         model = Permission
         fields = ('name', 'groups', )
+        localize = ('name', )
 
     def __init__(self, *args, **kw):
         super().__init__(*args, **kw)

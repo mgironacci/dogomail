@@ -45,12 +45,14 @@
                                 {% trans "Groups" %}
                             </a>
                         </li>
+                        {% if perms.seg.manage_groupperms %}
                         <li class="nav-item">
                             <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#secperms" role="tab">
                                 <i class="icmn-key5"></i>
                                 {% trans "Permissions" %}
                             </a>
                         </li>
+                        {% endif %}
                     </ul>
                     <div class="tab-content padding-vertical-20">
                         <div class="tab-pane active" id="secusers" role="tabpanel">
@@ -81,6 +83,7 @@
                                 </tbody>
                             </table>
                         </div>
+                        {% if perms.seg.manage_groupperms %}
                         <div class="tab-pane" id="secperms" role="tabpanel">
                             <table class="table table-hover nowrap" id="permstable" width="100%">
                                 <thead>
@@ -95,6 +98,7 @@
                                 </tbody>
                             </table>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

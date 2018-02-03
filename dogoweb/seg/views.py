@@ -13,6 +13,7 @@ from dogoweb.settings import VERSION, ICO_OK, ICO_WARN, ICO_INFO, ICO_CRIT
 from ipwhois.utils import get_countries
 import json
 
+
 # Utilidades ----------------
 # Decorador para ajax para validar permisos
 def ajax_permission_required(perm):
@@ -34,6 +35,7 @@ def modal_denied(request):
 
 # Indice del modulo ---------
 @login_required()
+@permission_required('seg.view_security')
 def index(request):
     return render(request, 'seg/index.html')
 
@@ -98,6 +100,7 @@ def auditoria(request):
 
 
 @login_required()
+@ajax_permission_required('seg.view_security')
 def users(request):
     if request.is_ajax() and request.method == 'POST':
         jbody = json.loads(request.body.decode(request._encoding))
@@ -110,7 +113,7 @@ def users(request):
 
 
 @login_required()
-@ajax_permission_required('seg.add_user')
+@ajax_permission_required('auth.add_user')
 def user_create(request):
     ret = DTCreate(request, UserForm)
     ret['panel'] = 'user'
@@ -118,7 +121,7 @@ def user_create(request):
 
 
 @login_required()
-@ajax_permission_required('seg.change_user')
+@ajax_permission_required('auth.change_user')
 def user_update(request, pks):
     ret = DTUpdate(User.objects, pks, request, UserForm)
     ret['panel'] = 'user'
@@ -126,7 +129,7 @@ def user_update(request, pks):
 
 
 @login_required()
-@ajax_permission_required('seg.delete_user')
+@ajax_permission_required('auth.delete_user')
 def user_delete(request, pks):
     ret = DTDelete(User.objects, pks, request, UserForm)
     ret['panel'] = 'user'
@@ -134,6 +137,7 @@ def user_delete(request, pks):
 
 
 @login_required()
+@ajax_permission_required('seg.view_security')
 def groups(request):
     if request.is_ajax() and request.method == 'POST':
         jbody = json.loads(request.body.decode(request._encoding))
@@ -144,7 +148,7 @@ def groups(request):
 
 
 @login_required()
-@ajax_permission_required('seg.add_group')
+@ajax_permission_required('auth.add_group')
 def group_create(request):
     ret = DTCreate(request, GroupForm)
     ret['panel'] = 'user'
@@ -152,7 +156,7 @@ def group_create(request):
 
 
 @login_required()
-@ajax_permission_required('seg.change_group')
+@ajax_permission_required('auth.change_group')
 def group_update(request, pks):
     ret = DTUpdate(Group.objects, pks, request, GroupForm)
     ret['panel'] = 'user'
@@ -160,7 +164,7 @@ def group_update(request, pks):
 
 
 @login_required()
-@ajax_permission_required('seg.delete_group')
+@ajax_permission_required('auth.delete_group')
 def group_delete(request, pks):
     ret = DTDelete(Group.objects, pks, request, GroupForm)
     ret['panel'] = 'user'
@@ -168,6 +172,7 @@ def group_delete(request, pks):
 
 
 @login_required()
+@ajax_permission_required('seg.manage_groupperms')
 def perms(request):
     if request.is_ajax() and request.method == 'POST':
         jbody = json.loads(request.body.decode(request._encoding))
@@ -178,7 +183,7 @@ def perms(request):
 
 
 @login_required()
-@ajax_permission_required('seg.change_group')
+@ajax_permission_required('seg.manage_groupperms')
 def perm_update(request, pks):
     ret = DTUpdate(Permission.objects, pks, request, PermissionForm)
     ret['panel'] = 'user'

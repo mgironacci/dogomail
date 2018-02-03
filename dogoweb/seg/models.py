@@ -390,6 +390,15 @@ class Profile(models.Model):
     cgravatar = models.CharField(max_length=7, default='')
     last_gravatar = models.DateTimeField(default=timezone.now)
 
+    class Meta:
+        permissions = (
+            ("view_security", "View menu security"),
+            ("manage_users", "Manage users and groups membership"),
+            ("manage_groupperms", "Manage groups and permissions"),
+            ("view_audit", "View menu audit"),
+            ("manage_audit", "View global audit"),
+        )
+
     def __str__(self):
         return self.user.username
 
@@ -517,7 +526,7 @@ def user_logged_in_callback(sender, request, user, **kwargs):
     try:
         login_logout_logs = LoginLogout.objects.filter(session_key=request.session.session_key, user=user.id)[:1]
         if not login_logout_logs:
-            login_logout_log = LoginLogout(login_time=datetime.datetime.now(),session_key=request.session.session_key, user=user, host=request.META['REMOTE_ADDR'], provider=prov, country=pais)
+            login_logout_log = LoginLogout(login_time=timezone.now(),session_key=request.session.session_key, user=user, host=request.META['REMOTE_ADDR'], provider=prov, country=pais)
             login_logout_log.save()
     except Exception as e:
         # log the error
@@ -549,9 +558,9 @@ def user_logged_out_callback(sender, request, user, **kwargs):
     # Registro el ingreso
     try:
         login_logout_logs = LoginLogout.objects.filter(session_key=request.session.session_key, user=user.id, host=request.META['REMOTE_ADDR'])
-        login_logout_logs.filter(logout_time__isnull=True).update(logout_time=datetime.datetime.now())
+        login_logout_logs.filter(logout_time__isnull=True).update(logout_time=timezone.now())
         if not login_logout_logs:
-            login_logout_log = LoginLogout(logout_time=datetime.datetime.now(), session_key=request.session.session_key, user=user, host=request.META['REMOTE_ADDR'], provider=prov, country=pais)
+            login_logout_log = LoginLogout(logout_time=timezone.now(), session_key=request.session.session_key, user=user, host=request.META['REMOTE_ADDR'], provider=prov, country=pais)
             login_logout_log.save()
     except Exception as e:
         # log the error

@@ -1,19 +1,38 @@
 {% load seg_tags %}
 {% load i18n %}
 
+{% if perms.seg.manage_groupperms %}
 <div class="row">
     <div class="col-lg-12">
         {% render_field_full form.name %}
         {{ form.name|set_focus }}
     </div>
 </div>
+{% else %}
+<div class="row">
+    <div class="col-lg-12">
+        {% render_field_full form.name readonly="true" %}
+    </div>
+</div>
+{% endif %}
 <div class="row">
     <div class="col-lg-12">
         {% render_field_full_select2 form.users dropdownParent="#popup-modal" %}
+        {% if not perms.seg.manage_groupperms %}
+        {{ form.name|set_focus }}
+        {% endif %}
     </div>
 </div>
+{% if perms.seg.manage_groupperms %}
 <div class="row">
     <div class="col-lg-12">
         {% render_field_full_select2 form.permissions dropdownParent="#popup-modal" %}
     </div>
 </div>
+{% else %}
+<div class="row">
+    <div class="col-lg-12">
+        {% render_field_full_select2 form.permissions dropdownParent="#popup-modal" readonly="true" %}
+    </div>
+</div>
+{% endif %}
