@@ -57,7 +57,7 @@ def accesos(request):
     else:
         return JsonResponse({'error': "Bad request"})
     paises = get_countries()
-    ret, objs = LoginLogout.objects.dt_filter(jbody, user=request.user, autodata=False)
+    ret, objs = LoginLogout.objects.dt_filter(jbody, filter={'user': request.user}, autodata=False)
 
     for a in objs:
         pais = ""
@@ -93,7 +93,7 @@ def auditoria(request):
         jbody = json.loads(request.body.decode(request._encoding))
     else:
         return JsonResponse({'error': "Bad request"})
-    ret, objs = DTFilter(LogEntry.objects, jbody, user=request.user, autodata=False)
+    ret, objs = DTFilter(LogEntry.objects, jbody, filter={'user': request.user}, autodata=False)
     for a in objs:
         ret['data'].append([timezone.localtime(a.action_time).strftime('%Y-%m-%d %X'), acc[a.action_flag], a.object_repr])
     return JsonResponse(ret)
@@ -178,7 +178,7 @@ def perms(request):
         jbody = json.loads(request.body.decode(request._encoding))
     else:
         return JsonResponse({'error': "Bad request"})
-    ret = DTFilter(Permission.objects, jbody)
+    ret = DTFilter(Permission.objects, jbody, exclude={'content_type__in': [1,2,5,6,11]})
     return JsonResponse(ret)
 
 

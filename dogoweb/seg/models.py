@@ -28,7 +28,7 @@ def html_check(check):
     return ret
 
 
-def DTFilter(mmodel, jbody, autodata=True, *args, **kw):
+def DTFilter(mmodel, jbody, autodata=True, filter=None, exclude=None):
     ret = {
         'draw': jbody['draw'],
         'recordsTotal': 0,
@@ -38,7 +38,14 @@ def DTFilter(mmodel, jbody, autodata=True, *args, **kw):
     }
     # Busqueda base con filtros de entrada
     try:
-        bobjs = mmodel.filter(*args, **kw)
+        if filter and exclude:
+            bobjs = mmodel.exclude(**exclude).filter(**filter)
+        elif filter:
+            bobjs = mmodel.filter(**filter)
+        elif exclude:
+            bobjs = mmodel.exclude(**exclude)
+        else:
+            bobjs = mmodel.all()
         ret['recordsTotal'] = bobjs.count()
         ret['recordsFiltered'] = ret['recordsTotal']
     except Exception as e:
