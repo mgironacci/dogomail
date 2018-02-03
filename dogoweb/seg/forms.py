@@ -21,6 +21,16 @@ class UserForm(forms.ModelForm):
             'username': forms.EmailField,
         }
 
+    def __init__(self, *args, **kw):
+        super().__init__(*args, **kw)
+        if 'instance' in kw and kw['instance'] is not None and kw['instance'].groups.count() > 0:
+            self.fields['grupo'].initial = kw['instance'].groups.first()
+
+    def save(self, commit=True):
+        self.instance.groups.clear()
+        self.instance.groups.add(self.cleaned_data['grupo'])
+        return super().save(commit=commit)
+
 
 class GroupForm(forms.ModelForm):
     form_header = {
@@ -41,6 +51,7 @@ class GroupForm(forms.ModelForm):
             self.fields['users'].initial = kw['instance'].user_set.all()
 
     def save(self, commit=True):
+        self.instance.user_set.set(self.cleaned_data['users'])
         return super().save(commit=commit)
 
 
@@ -62,6 +73,7 @@ class PermissionForm(forms.ModelForm):
             self.fields['groups'].initial = kw['instance'].group_set.all()
 
     def save(self, commit=True):
+        self.instance.group_set.set(self.cleaned_data['groups'])
         return super().save(commit=commit)
 
 
