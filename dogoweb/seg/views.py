@@ -9,10 +9,30 @@ from django.contrib.sessions.models import Session
 from django.contrib.admin.models import LogEntry
 from .models import LoginLogout, Menu, Pantalla, DTFilter, DTCreate, DTUpdate, DTDelete, html_icon, html_check
 from .forms import MenuForm, PantallaForm, GroupForm, UserForm, PermissionForm
+from dogoweb.settings import VERSION, ICO_OK, ICO_WARN, ICO_INFO, ICO_CRIT
 from ipwhois.utils import get_countries
 import json
 
+# Utilidades ----------------
+# Decorador para ajax para validar permisos
+def ajax_permission_required(perm):
+    return permission_required(perm, login_url='/seg/modal_denied/')
 
+
+# Mensaje ajax para cuando falla el acceso de permiso, usado por el decorador
+@login_required()
+def modal_denied(request):
+    data = dict()
+    data['form_is_valid'] = True
+    data['mensaje'] = {
+        'icon': ICO_CRIT,
+        'msg': _('Permission denied!'),
+        'tipo': 'danger',
+    }
+    return JsonResponse(data)
+
+
+# Indice del modulo ---------
 @login_required()
 def index(request):
     return render(request, 'seg/index.html')
@@ -90,7 +110,7 @@ def users(request):
 
 
 @login_required()
-@permission_required('seg.add_user')
+@ajax_permission_required('seg.add_user')
 def user_create(request):
     ret = DTCreate(request, UserForm)
     ret['panel'] = 'user'
@@ -98,7 +118,7 @@ def user_create(request):
 
 
 @login_required()
-@permission_required('seg.change_user')
+@ajax_permission_required('seg.change_user')
 def user_update(request, pks):
     ret = DTUpdate(User.objects, pks, request, UserForm)
     ret['panel'] = 'user'
@@ -106,7 +126,7 @@ def user_update(request, pks):
 
 
 @login_required()
-@permission_required('seg.delete_user')
+@ajax_permission_required('seg.delete_user')
 def user_delete(request, pks):
     ret = DTDelete(User.objects, pks, request, UserForm)
     ret['panel'] = 'user'
@@ -124,7 +144,7 @@ def groups(request):
 
 
 @login_required()
-@permission_required('seg.add_group')
+@ajax_permission_required('seg.add_group')
 def group_create(request):
     ret = DTCreate(request, GroupForm)
     ret['panel'] = 'user'
@@ -132,7 +152,7 @@ def group_create(request):
 
 
 @login_required()
-@permission_required('seg.change_group')
+@ajax_permission_required('seg.change_group')
 def group_update(request, pks):
     ret = DTUpdate(Group.objects, pks, request, GroupForm)
     ret['panel'] = 'user'
@@ -140,7 +160,7 @@ def group_update(request, pks):
 
 
 @login_required()
-@permission_required('seg.delete_group')
+@ajax_permission_required('seg.delete_group')
 def group_delete(request, pks):
     ret = DTDelete(Group.objects, pks, request, GroupForm)
     ret['panel'] = 'user'
@@ -158,7 +178,7 @@ def perms(request):
 
 
 @login_required()
-@permission_required('seg.change_group')
+@ajax_permission_required('seg.change_group')
 def perm_update(request, pks):
     ret = DTUpdate(Permission.objects, pks, request, PermissionForm)
     ret['panel'] = 'user'
@@ -166,7 +186,7 @@ def perm_update(request, pks):
 
 
 @login_required()
-@permission_required('seg.manage_menus')
+@ajax_permission_required('seg.manage_menus')
 def menus(request):
     if request.is_ajax() and request.method == 'POST':
         jbody = json.loads(request.body.decode(request._encoding))
@@ -177,7 +197,7 @@ def menus(request):
 
 
 @login_required()
-@permission_required('seg.add_menu')
+@ajax_permission_required('seg.add_menu')
 def menu_create(request):
     ret = Menu.objects.dt_create(request, MenuForm)
     ret['panel'] = 'menu'
@@ -185,7 +205,7 @@ def menu_create(request):
 
 
 @login_required()
-@permission_required('seg.change_menu')
+@ajax_permission_required('seg.change_menu')
 def menu_update(request, pks):
     ret = Menu.objects.dt_update(pks, request, MenuForm)
     ret['panel'] = 'menu'
@@ -193,7 +213,7 @@ def menu_update(request, pks):
 
 
 @login_required()
-@permission_required('seg.delete_menu')
+@ajax_permission_required('seg.delete_menu')
 def menu_delete(request, pks):
     ret = Menu.objects.dt_delete(pks, request, MenuForm)
     ret['panel'] = 'menu'
@@ -201,7 +221,7 @@ def menu_delete(request, pks):
 
 
 @login_required()
-@permission_required('seg.manage_menus')
+@ajax_permission_required('seg.manage_menus')
 def pants(request):
     if request.is_ajax() and request.method == 'POST':
         jbody = json.loads(request.body.decode(request._encoding))
@@ -212,7 +232,7 @@ def pants(request):
 
 
 @login_required()
-@permission_required('seg.add_pantalla')
+@ajax_permission_required('seg.add_pantalla')
 def pant_create(request):
     ret = Pantalla.objects.dt_create(request, PantallaForm)
     ret['panel'] = 'menu'
@@ -220,7 +240,7 @@ def pant_create(request):
 
 
 @login_required()
-@permission_required('seg.change_pantalla')
+@ajax_permission_required('seg.change_pantalla')
 def pant_update(request, pks):
     ret = Pantalla.objects.dt_update(pks, request, PantallaForm)
     ret['panel'] = 'menu'
@@ -228,7 +248,7 @@ def pant_update(request, pks):
 
 
 @login_required()
-@permission_required('seg.delete_pantalla')
+@ajax_permission_required('seg.delete_pantalla')
 def pant_delete(request, pks):
     ret = Pantalla.objects.dt_delete(pks, request, PantallaForm)
     ret['panel'] = 'menu'

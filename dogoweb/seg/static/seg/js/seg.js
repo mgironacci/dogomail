@@ -322,7 +322,24 @@ $(function(){
             type: 'GET',
             dataType: 'json',
             success: function (data) {
-                $("#popup-modal .modal-content").html(data.html_form);
+                if (data.mensaje) {
+                    $("#popup-modal").modal('hide');
+                    $.notify({
+                        icon: data.mensaje.icon,
+                        title: ' ',
+                        message: data.mensaje.msg
+                    },{
+                        type: data.mensaje.tipo,
+                        placement: {
+                            from: "bottom",
+                            align: "center"
+                        },
+                        newest_on_top: true,
+                        mouse_over: 'pause'
+                    });
+                } else {
+                    $("#popup-modal .modal-content").html(data.html_form);
+                }
             }
         });
     });
