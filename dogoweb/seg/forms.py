@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.translation import gettext as _
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User, Group, Permission
 from .models import Menu, Pantalla
 from .icons import ICON_SET
 
@@ -20,7 +20,7 @@ class UserForm(forms.ModelForm):
         field_classes = {
             'username': forms.EmailField,
         }
-        label_suffix = ''
+
 
 class GroupForm(forms.ModelForm):
     form_header = {
@@ -29,10 +29,40 @@ class GroupForm(forms.ModelForm):
         'delete': {'title': _('Delete group'), 'icon': 'icmn-minus-circle', 'url': 'seg_group_delete'},
         'templt': 'seg/form_group.html',
     }
+    users = forms.ModelMultipleChoiceField(User.objects.all(), required=False)
 
     class Meta:
         model = Group
-        fields = ('name', )
+        fields = ('name', 'permissions', )
+
+    def __init__(self, *args, **kw):
+        super().__init__(*args, **kw)
+        if 'instance' in kw and kw['instance'] is not None:
+            self.fields['users'].initial = kw['instance'].user_set.all()
+
+    def save(self, commit=True):
+        return super().save(commit=commit)
+
+
+class PermissionForm(forms.ModelForm):
+    form_header = {
+        'update': {'title': _('Change permission'), 'icon': 'icmn-pencil7', 'url': 'seg_perm_update'},
+        'templt': 'seg/form_perm.html',
+    }
+    groups = forms.ModelMultipleChoiceField(Group.objects.all(), required=False)
+
+    class Meta:
+        model = Permission
+        fields = ('name', 'groups', )
+
+    def __init__(self, *args, **kw):
+        super().__init__(*args, **kw)
+        self.fields['name'].disabled = True
+        if 'instance' in kw and kw['instance'] is not None:
+            self.fields['groups'].initial = kw['instance'].group_set.all()
+
+    def save(self, commit=True):
+        return super().save(commit=commit)
 
 
 class MenuForm(forms.ModelForm):

@@ -7,22 +7,10 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User, Group, Permission
 from django.contrib.sessions.models import Session
 from django.contrib.admin.models import LogEntry
-from .models import LoginLogout, Menu, Pantalla, DTFilter, DTCreate, DTUpdate, DTDelete
-from .forms import MenuForm, PantallaForm, GroupForm, UserForm
+from .models import LoginLogout, Menu, Pantalla, DTFilter, DTCreate, DTUpdate, DTDelete, html_icon, html_check
+from .forms import MenuForm, PantallaForm, GroupForm, UserForm, PermissionForm
 from ipwhois.utils import get_countries
 import json
-
-
-# Utilidades
-def html_icon(icon):
-    return '<i class="%s"></i>' % icon
-
-
-def html_check(check):
-    ret = '<i class="icmn-checkbox-checked"></i>'
-    if not check:
-        ret = '<i class="icmn-checkbox-unchecked"></i>'
-    return ret
 
 
 @login_required()
@@ -47,7 +35,7 @@ def accesos(request):
     else:
         return JsonResponse({'error': "Bad request"})
     paises = get_countries()
-    ret, objs = LoginLogout.objects.dt_filter(jbody, user=request.user)
+    ret, objs = LoginLogout.objects.dt_filter(jbody, user=request.user, autodata=False)
 
     for a in objs:
         pais = ""
@@ -83,7 +71,7 @@ def auditoria(request):
         jbody = json.loads(request.body.decode(request._encoding))
     else:
         return JsonResponse({'error': "Bad request"})
-    ret, objs = DTFilter(LogEntry.objects, jbody, user=request.user)
+    ret, objs = DTFilter(LogEntry.objects, jbody, user=request.user, autodata=False)
     for a in objs:
         ret['data'].append([timezone.localtime(a.action_time).strftime('%Y-%m-%d %X'), acc[a.action_flag], a.object_repr])
     return JsonResponse(ret)
@@ -95,7 +83,7 @@ def users(request):
         jbody = json.loads(request.body.decode(request._encoding))
     else:
         return JsonResponse({'error': "Bad request"})
-    ret, objs = DTFilter(User.objects, jbody)
+    ret, objs = DTFilter(User.objects, jbody, autodata=False)
     for a in objs:
         ret['data'].append([a.id, a.username, a.last_name + " " + a.first_name, html_check(a.is_active)])
     return JsonResponse(ret)
@@ -104,19 +92,25 @@ def users(request):
 @login_required()
 @permission_required('seg.add_user')
 def user_create(request):
-    return JsonResponse(DTCreate(request, UserForm))
+    ret = DTCreate(request, UserForm)
+    ret['panel'] = 'user'
+    return JsonResponse(ret)
 
 
 @login_required()
 @permission_required('seg.change_user')
 def user_update(request, pks):
-    return JsonResponse(DTUpdate(User.objects, pks, request, UserForm))
+    ret = DTUpdate(User.objects, pks, request, UserForm)
+    ret['panel'] = 'user'
+    return JsonResponse(ret)
 
 
 @login_required()
 @permission_required('seg.delete_user')
 def user_delete(request, pks):
-    return JsonResponse(DTDelete(User.objects, pks, request, UserForm))
+    ret = DTDelete(User.objects, pks, request, UserForm)
+    ret['panel'] = 'user'
+    return JsonResponse(ret)
 
 
 @login_required()
@@ -125,28 +119,32 @@ def groups(request):
         jbody = json.loads(request.body.decode(request._encoding))
     else:
         return JsonResponse({'error': "Bad request"})
-    ret, objs = DTFilter(Group.objects, jbody)
-    for a in objs:
-        ret['data'].append([a.id, a.name, a.user_set.all().count(), a.permissions.all().count()])
+    ret = DTFilter(Group.objects, jbody)
     return JsonResponse(ret)
 
 
 @login_required()
 @permission_required('seg.add_group')
 def group_create(request):
-    return JsonResponse(DTCreate(request, GroupForm))
+    ret = DTCreate(request, GroupForm)
+    ret['panel'] = 'user'
+    return JsonResponse(ret)
 
 
 @login_required()
 @permission_required('seg.change_group')
 def group_update(request, pks):
-    return JsonResponse(DTUpdate(Group.objects, pks, request, GroupForm))
+    ret = DTUpdate(Group.objects, pks, request, GroupForm)
+    ret['panel'] = 'user'
+    return JsonResponse(ret)
 
 
 @login_required()
 @permission_required('seg.delete_group')
 def group_delete(request, pks):
-    return JsonResponse(DTDelete(Group.objects, pks, request, GroupForm))
+    ret = DTDelete(Group.objects, pks, request, GroupForm)
+    ret['panel'] = 'user'
+    return JsonResponse(ret)
 
 
 @login_required()
@@ -155,9 +153,15 @@ def perms(request):
         jbody = json.loads(request.body.decode(request._encoding))
     else:
         return JsonResponse({'error': "Bad request"})
-    ret, objs = DTFilter(Permission.objects, jbody)
-    for a in objs:
-        ret['data'].append([a.id, a.name, str(a.content_type), a.group_set.all().count()])
+    ret = DTFilter(Permission.objects, jbody)
+    return JsonResponse(ret)
+
+
+@login_required()
+@permission_required('seg.change_group')
+def perm_update(request, pks):
+    ret = DTUpdate(Permission.objects, pks, request, PermissionForm)
+    ret['panel'] = 'user'
     return JsonResponse(ret)
 
 
@@ -168,28 +172,32 @@ def menus(request):
         jbody = json.loads(request.body.decode(request._encoding))
     else:
         return JsonResponse({'error': "Bad request"})
-    ret, objs = Menu.objects.dt_filter(jbody)
-    for a in objs:
-        ret['data'].append([a.id, html_icon(a.icono), a.nombre, a.orden, html_check(a.activo)])
+    ret = Menu.objects.dt_filter(jbody)
     return JsonResponse(ret)
 
 
 @login_required()
 @permission_required('seg.add_menu')
 def menu_create(request):
-    return JsonResponse(Menu.objects.dt_create(request, MenuForm))
+    ret = Menu.objects.dt_create(request, MenuForm)
+    ret['panel'] = 'menu'
+    return JsonResponse(ret)
 
 
 @login_required()
 @permission_required('seg.change_menu')
 def menu_update(request, pks):
-    return JsonResponse(Menu.objects.dt_update(pks, request, MenuForm))
+    ret = Menu.objects.dt_update(pks, request, MenuForm)
+    ret['panel'] = 'menu'
+    return JsonResponse(ret)
 
 
 @login_required()
 @permission_required('seg.delete_menu')
 def menu_delete(request, pks):
-    return JsonResponse(Menu.objects.dt_delete(pks, request, MenuForm))
+    ret = Menu.objects.dt_delete(pks, request, MenuForm)
+    ret['panel'] = 'menu'
+    return JsonResponse(ret)
 
 
 @login_required()
@@ -199,26 +207,30 @@ def pants(request):
         jbody = json.loads(request.body.decode(request._encoding))
     else:
         return JsonResponse({'error': "Bad request"})
-    ret, objs = Pantalla.objects.dt_filter(jbody)
-    for a in objs:
-        ret['data'].append([a.id, html_icon(a.icono), a.nombre, str(a.menu), a.orden, a.permiso.name, html_check(a.activo)])
+    ret = Pantalla.objects.dt_filter(jbody)
     return JsonResponse(ret)
 
 
 @login_required()
 @permission_required('seg.add_pantalla')
 def pant_create(request):
-    return JsonResponse(Pantalla.objects.dt_create(request, PantallaForm))
+    ret = Pantalla.objects.dt_create(request, PantallaForm)
+    ret['panel'] = 'menu'
+    return JsonResponse(ret)
 
 
 @login_required()
 @permission_required('seg.change_pantalla')
 def pant_update(request, pks):
-    return JsonResponse(Pantalla.objects.dt_update(pks, request, PantallaForm))
+    ret = Pantalla.objects.dt_update(pks, request, PantallaForm)
+    ret['panel'] = 'menu'
+    return JsonResponse(ret)
 
 
 @login_required()
 @permission_required('seg.delete_pantalla')
 def pant_delete(request, pks):
-    return JsonResponse(Pantalla.objects.dt_delete(pks, request, PantallaForm))
+    ret = Pantalla.objects.dt_delete(pks, request, PantallaForm)
+    ret['panel'] = 'menu'
+    return JsonResponse(ret)
 

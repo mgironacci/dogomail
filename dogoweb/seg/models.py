@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 from django.db import models
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.dispatch import receiver
 from django.contrib.auth.models import User, Permission
 from django.contrib.auth.signals import user_logged_in, user_logged_out, user_login_failed
@@ -17,7 +17,18 @@ from ipwhois import IPWhois
 
 # Utilidad para DataTables ---------------------------------------------
 
-def DTFilter(mmodel, jbody, *args, **kw):
+def html_icon(icon):
+    return '<i class="%s"></i>' % icon
+
+
+def html_check(check):
+    ret = '<i class="icmn-checkbox-checked"></i>'
+    if not check:
+        ret = '<i class="icmn-checkbox-unchecked"></i>'
+    return ret
+
+
+def DTFilter(mmodel, jbody, autodata=True, *args, **kw):
     ret = {
         'draw': jbody['draw'],
         'recordsTotal': 0,
@@ -32,6 +43,8 @@ def DTFilter(mmodel, jbody, *args, **kw):
         ret['recordsFiltered'] = ret['recordsTotal']
     except Exception as e:
         ret['error'] = str(e)
+        if autodata:
+            return ret
         return ret, []
     # Reviso si hay una busqueda general y la refino
     if jbody['search']['value'] and len(jbody['search']['value']) >= 2:
@@ -39,7 +52,15 @@ def DTFilter(mmodel, jbody, *args, **kw):
         cbuscar = []
         for cc in jbody['columns']:
             if cc['searchable']:
-                cbuscar.append(cc['name'] + "__icontains")
+                if cc['name'].count('+') == 0:
+                    cbuscar.append(cc['name'] + "__icontains")
+                elif cc['name'].count('+') == 1:
+                    fkn = False
+                    tipo, campo = cc['name'].split('+')
+                elif cc['name'].count('+') == 2:
+                    tipo, campo, fkn = cc['name'].split('+')
+                else:
+                    continue
         cfiltro = None
         for cf in cbuscar:
             fkw = {cf: jbody['search']['value']}
@@ -60,13 +81,38 @@ def DTFilter(mmodel, jbody, *args, **kw):
     if 'order' in jbody:
         try:
             campo = jbody['columns'][jbody['order'][0]['column']]['name']
-            direc = jbody['order'][0]['dir']
-            if direc == 'asc':
-                oobjs = sobjs.order_by(campo)
+            if jbody['columns'][jbody['order'][0]['column']]['orderable']:
+                if jbody['order'][0]['dir'] == 'asc':
+                    direc = ""
+                else:
+                    direc = "-"
+                if campo.find('+') > 0:
+                    if campo.count('+') == 1:
+                        fko = False
+                        tipo, subcampo = campo.split('+')
+                    elif campo.count('+') == 2:
+                        tipo, subcampo, fko = campo.split('+')
+                    if tipo == 'count':
+                        sobjs = sobjs.annotate(ord_count=Count(subcampo.replace('_set','')))
+                        campo = 'ord_count'
+                    elif tipo == 'fk':
+                        if fko:
+                            campo = "%s__%s" % (subcampo,fko)
+                        else:
+                            campo = subcampo
+                    elif tipo == 'perm':
+                        campo = "%s__name" % subcampo
+                    else:
+                        campo = subcampo
+                    oobjs = sobjs.order_by(direc+campo)
+                else:
+                    oobjs = sobjs.order_by(direc+campo)
             else:
-                oobjs = sobjs.order_by("-" + campo)
+                oobjs = sobjs
         except Exception as e:
             ret['error'] = str(e)
+            if autodata:
+                return ret
             return ret, sobjs
     else:
         oobjs = sobjs
@@ -79,6 +125,43 @@ def DTFilter(mmodel, jbody, *args, **kw):
     except Exception as e:
         ret['error'] = str(e)
         fobjs = oobjs
+
+    # Transformo en arreglo los objetos si autodata es true
+    if autodata:
+        for o in fobjs:
+            ao = [o.id, ]
+            for cc in jbody['columns']:
+                ccn = cc['name']
+                if cc['name'] == 'id': continue
+                # Si no tiene _ es nombre directo
+                if ccn.find("+") == -1:
+                    ao.append(getattr(o, ccn))
+                    continue
+                if ccn.count('+') == 1:
+                    fko = False
+                    tipo, ccn = ccn.split('+')
+                elif ccn.count('+') == 2:
+                    tipo, ccn, fko = ccn.split('+')
+                else:
+                    ao.append("invalid")
+                    continue
+                # En base al prefijo, armo conversion
+                if tipo == 'ico':
+                    ao.append(html_icon(getattr(o, ccn)))
+                elif tipo == 'check':
+                    ao.append(html_check(getattr(o, ccn)))
+                elif tipo == 'fk':
+                    if fko:
+                        ao.append(getattr(getattr(o, ccn),fko))
+                    else:
+                        ao.append(str(getattr(o, ccn)))
+                elif tipo == 'perm':
+                    ao.append(getattr(o, ccn).name)
+                elif tipo == 'count':
+                    ao.append(str(getattr(o, ccn).count()))
+
+            ret['data'].append(ao)
+        return ret
 
     return ret, fobjs
 
@@ -451,7 +534,7 @@ def user_logged_out_callback(sender, request, user, **kwargs):
         ipw = IPWhois(request.META['REMOTE_ADDR'])
         ipr = ipw.lookup_rdap(depth=1)
         pais = ipr['asn_country_code']
-        prov = ips['asn_description']
+        prov = ipr['asn_description']
     except Exception as e:
         pass
     # Veo si puedo mejorar el proveedor

@@ -9,6 +9,11 @@
 </div>
 <div class="row">
     <div class="col-lg-12">
-        {% render_field_full_select2 form.permisos %}
+        {% render_field_full_select2 form.users dropdownParent="#popup-modal" %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        {% render_field_full_select2 form.permissions dropdownParent="#popup-modal" %}
     </div>
 </div>

@@ -7,19 +7,30 @@ $(function(){
     $('#b_users_delete').hide();
 
     var clickDTug = function (et, e, dt, indexes) {
-        var dtm =  $('#userstable').DataTable();
-        var dtp =  $('#groupstable').DataTable();
+        var dtu =  $('#userstable').DataTable();
+        var dtg =  $('#groupstable').DataTable();
+        var dts =  $('#permstable').DataTable();
+        var dtuc = dtu.rows({selected:true}).count();
+        var dtgc = dtg.rows({selected:true}).count();
+        var dtsc = dts.rows({selected:true}).count();
         var evento = et.split(".")[0];
         var tabla = et.split(".")[1];
-        if (tabla == 'user' && dtp.rows({selected:true}).count() != 0 && dtm.rows({selected:true}).count() != 0) {
-            dtp.rows().deselect();
-        } else if (tabla == 'group' && dtm.rows({selected:true}).count() != 0 && dtp.rows({selected:true}).count() != 0) {
-            dtm.rows().deselect();
+        if (tabla == 'user' && dtuc != 0 && ( dtgc != 0 || dtsc != 0 ) ) {
+            dtg.rows().deselect();
+            dts.rows().deselect();
+        } else if (tabla == 'group' && dtgc != 0 && ( dtuc != 0 || dtsc != 0 ) ) {
+            dtu.rows().deselect();
+            dts.rows().deselect();
+        } else if (tabla == 'perm' && dtsc != 0 && ( dtuc != 0 || dtgc != 0 ) ) {
+            dtu.rows().deselect();
+            dtg.rows().deselect();
         }
         if (evento == 'select') {
             if (dt.rows( { selected: true } ).count() != 0) {
                 $('#b_users_edit').show();
-                $('#b_users_delete').show();
+                if ( tabla != 'perm' ) {
+                    $('#b_users_delete').show();
+                }
             }
         } else if (evento == 'deselect') {
             if (dt.rows( { selected: true } ).count() == 0) {
@@ -85,10 +96,10 @@ $(function(){
         },
         language: DTlang,
         columns: [
-            { name: "id", sorting: false, searchable: false, visible: false },
+            { name: "id", orderable: false, searchable: false, visible: false },
             { name: "username" },
             { name: "last_name" },
-            { name: "is_active", sorting: false, searchable: false }
+            { name: "check+is_active", orderable: false, searchable: false }
         ],
         order: [[ 0, "asc" ]],
         select: 'single',
@@ -117,10 +128,10 @@ $(function(){
         },
         language: DTlang,
         columns: [
-            { name: "id", sorting: false, searchable: false, visible: false },
+            { name: "id", orderable: false, searchable: false, visible: false },
             { name: "name" },
-            { name: "func_users", searchable: false },
-            { name: "func_perms", searchable: false }
+            { name: "count+user_set", searchable: false },
+            { name: "count+permissions", searchable: false }
         ],
         order: [[ 0, "asc" ]],
         select: true,
@@ -135,7 +146,10 @@ $(function(){
         //"dom": 'Bfrtip',
         cache: false,
     });
-    $('#permstable').DataTable({
+    $('#permstable')
+    .on('select.dt', function ( e, dt, type, indexes ) { clickDTug('select.perm', e, dt, indexes); } )
+    .on('deselect.dt', function ( e, dt, type, indexes ) { clickDTug('deselect.perm', e, dt, indexes); } )
+    .DataTable({
         responsive: true,
         serverSide: true,
         ajax: {
@@ -146,10 +160,10 @@ $(function(){
         },
         language: DTlang,
         columns: [
-            { name: "id", sorting: false, searchable: false, visible: false },
+            { name: "id", orderable: false, searchable: false, visible: false },
             { name: "name" },
-            { name: "content_type", searchable: false },
-            { name: "func_used", searchable: false }
+            { name: "fk+content_type+model" },
+            { name: "count+group_set", searchable: false }
         ],
         order: [[ 0, "asc" ]],
         select: true,
@@ -182,11 +196,11 @@ $(function(){
         //buttons: [ 'create', 'editSingle', 'removeSingle'],
         //buttons: true,
         columns: [
-            { name: "id", sorting: false, searchable: false },
-            { name: "icono", sorting: false, searchable: false },
+            { name: "id", orderable: false, searchable: false },
+            { name: "ico+icono", searchable: false, orderable: false },
             { name: "nombre" },
             { name: "orden" },
-            { name: "activo", sorting: false, searchable: false }
+            { name: "check+activo", searchable: false, orderable: false }
         ],
         order: [[ 3, "asc" ]],
         select: true,
@@ -215,13 +229,13 @@ $(function(){
         },
         language: DTlang,
         columns: [
-            { name: "id", sorting: false, searchable: false, visible: false },
-            { name: "icono", sorting: false, searchable: false },
+            { name: "id", orderable: false, searchable: false, visible: false },
+            { name: "ico+icono", orderable: false, searchable: false },
             { name: "nombre" },
-            { name: "menu", searchable: false },
+            { name: "fk+menu+nombre" },
             { name: "orden" },
-            { name: "permiso", searchable: false },
-            { name: "activo", sorting: false, searchable: false }
+            { name: "perm+permiso" },
+            { name: "check+activo", orderable: false, searchable: false }
         ],
         order: [[ 4, "asc" ]],
         select: true,
@@ -242,51 +256,67 @@ $(function(){
     // Llamado al pedir nuevo menu
     $("#popup-modal").on("shown.bs.modal", function () {
         $("#popup-modal .modal-content").html('');
-        var btnact = $("#popup-modal").attr('data-action');
+        var btnact = $("#popup-modal").attr('data-action').split('.')[0];
+        var btnpan = $("#popup-modal").attr('data-action').split('.')[1];
         if (typeof btnact == typeof undefined || btnact == false) {
             return false;
         }
         $("#popup-modal").removeAttr('data-action');
+        // Obtengo las tablas
         var dtu =  $('#userstable').DataTable();
         var dtg =  $('#groupstable').DataTable();
+        var dts =  $('#permstable').DataTable();
         var dtm =  $('#menustable').DataTable();
         var dtp =  $('#pantstable').DataTable();
         var action = "";
         var ids = [];
         var srows = [];
-        // Busco en el listado correcto
-        if (dtm.rows( { selected: true } ).count() != 0) {
-            action = '/seg/menus/';
-            srows = dtm.rows( { selected: true } );
-            for(var i=0; i<srows.count(); i++) {
-                ids.push(srows.data()[i][0]);
-            }
-        } else if (dtp.rows( { selected: true } ).count() != 0) {
-            action = '/seg/pants/';
-            srows = dtp.rows( { selected: true } );
-            for(var i=0; i<srows.count(); i++) {
-                ids.push(srows.data()[i][0]);
-            }
-        } else if (dtu.rows( { selected: true } ).count() != 0) {
-            action = '/seg/users/';
-            srows = dtu.rows( { selected: true } );
-            for(var i=0; i<srows.count(); i++) {
-                ids.push(srows.data()[i][0]);
-            }
-        } else if (dtg.rows( { selected: true } ).count() != 0) {
-            action = '/seg/groups/';
-            srows = dtg.rows( { selected: true } );
-            for(var i=0; i<srows.count(); i++) {
-                ids.push(srows.data()[i][0]);
-            }
-        }
         if (btnact == 'add-user') { action  = '/seg/users/create/'; }
         if (btnact == 'add-group') { action  = '/seg/groups/create/'; }
         if (btnact == 'add-menu') { action  = '/seg/menus/create/'; }
         if (btnact == 'add-pant') { action  = '/seg/pants/create/'; }
-        if (btnact == 'edit')     { action += 'update/'; }
-        if (btnact == 'delete')   { action += 'delete/'; }
-        if ((btnact == 'edit' || btnact == 'delete') && ids.length >0 ) { action += ids.join(); }
+        // Busco en el listado correcto si es edit o delete
+        if (btnact == 'edit' || btnact == 'delete' ) {
+            if (btnpan == 'menu') {
+                if (dtm.rows( { selected: true } ).count() != 0) {
+                    action = '/seg/menus/';
+                    srows = dtm.rows( { selected: true } );
+                    for(var i=0; i<srows.count(); i++) {
+                        ids.push(srows.data()[i][0]);
+                    }
+                } else if (dtp.rows( { selected: true } ).count() != 0) {
+                    action = '/seg/pants/';
+                    srows = dtp.rows( { selected: true } );
+                    for(var i=0; i<srows.count(); i++) {
+                        ids.push(srows.data()[i][0]);
+                    }
+                }
+            }
+            if (btnpan == 'user') {
+                if (dtu.rows( { selected: true } ).count() != 0) {
+                    action = '/seg/users/';
+                    srows = dtu.rows( { selected: true } );
+                    for(var i=0; i<srows.count(); i++) {
+                        ids.push(srows.data()[i][0]);
+                    }
+                } else if (dtg.rows( { selected: true } ).count() != 0) {
+                    action = '/seg/groups/';
+                    srows = dtg.rows( { selected: true } );
+                    for(var i=0; i<srows.count(); i++) {
+                        ids.push(srows.data()[i][0]);
+                    }
+                } else if (dts.rows( { selected: true } ).count() != 0) {
+                    action = '/seg/perms/';
+                    srows = dts.rows( { selected: true } );
+                    for(var i=0; i<srows.count(); i++) {
+                        ids.push(srows.data()[i][0]);
+                    }
+                }
+            }
+            if (btnact == 'edit')   { action += 'update/'; }
+            if (btnact == 'delete') { action += 'delete/'; }
+            if (ids.length > 0)     { action += ids.join(); }
+        }
         $.ajax({
             url: action,
             type: 'GET',
@@ -306,12 +336,20 @@ $(function(){
             dataType: 'json',
             success: function (data) {
                 if (data.form_is_valid) {
-                    $('#b_menus_edit').hide();
-                    $('#b_menus_delete').hide();
                     $("#popup-modal").modal('hide');
-                    $("#popup-modal .modal-content").html('');
-                    $('#menustable').DataTable().ajax.reload();
-                    $('#pantstable').DataTable().ajax.reload();
+                    if (data.panel == 'menu') {
+                        $('#b_menus_edit').hide();
+                        $('#b_menus_delete').hide();
+                        $('#menustable').DataTable().ajax.reload();
+                        $('#pantstable').DataTable().ajax.reload();
+                    }
+                    if (data.panel == 'user') {
+                        $('#b_users_edit').hide();
+                        $('#b_users_delete').hide();
+                        $('#userstable').DataTable().ajax.reload();
+                        $('#groupstable').DataTable().ajax.reload();
+                        $('#permstable').DataTable().ajax.reload();
+                    }
                 }
                 else {
                     $("#popup-modal .modal-content").html(data.html_form);
@@ -359,10 +397,15 @@ $(function(){
             dataType: 'json',
             success: function (data) {
                 if (data.form_is_valid) {
-                    $('#b_menus_edit').hide();
-                    $('#b_menus_delete').hide();
-                    $('#menustable').DataTable().ajax.reload();
-                    $('#pantstable').DataTable().ajax.reload();
+                    if (data.panel == 'menu') {
+                        $('#menustable').DataTable().ajax.reload();
+                        $('#pantstable').DataTable().ajax.reload();
+                    }
+                    if (data.panel == 'user') {
+                        $('#userstable').DataTable().ajax.reload();
+                        $('#groupstable').DataTable().ajax.reload();
+                        $('#permstable').DataTable().ajax.reload();
+                    }
                     if (data.snext == 'new') {
                         $("#popup-modal .modal-content").html('');
                     } else if (data.snext != '') {

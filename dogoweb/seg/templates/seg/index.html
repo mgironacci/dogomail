@@ -26,8 +26,8 @@
                         <a class="dropdown-item" href="javascript: $('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','add-group'); $('#popup-modal').modal();">{% trans "Group" %}</a>
                     </ul>
                 </div>
-                <button type="button" id="b_users_edit" onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','edit'); $('#popup-modal').modal();" class="btn btn-secondary pull-right panel-buttons width-100">{% trans "Edit" %}</button>
-                <button type="button" id="b_users_delete" onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','delete'); $('#popup-modal').modal();" class="btn btn-danger pull-right panel-buttons width-100">{% trans "Delete" %}</button>
+                <button type="button" id="b_users_edit" onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','edit.user'); $('#popup-modal').modal();" class="btn btn-secondary pull-right panel-buttons width-100">{% trans "Edit" %}</button>
+                <button type="button" id="b_users_delete" onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','delete.user'); $('#popup-modal').modal();" class="btn btn-danger pull-right panel-buttons width-100">{% trans "Delete" %}</button>
                 <h4>{% trans "Access" %}</h4>
             </div>
             <div class="panel-body">
@@ -88,7 +88,7 @@
                                     <th class="never">ID</th>
                                     <th>{% trans "Permission" %}</th>
                                     <th>{% trans "Model" %}</th>
-                                    <th>{% trans "Used" %}</th>
+                                    <th>{% trans "Groups" %}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -117,8 +117,8 @@
                         <a class="dropdown-item" href="javascript: $('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','add-pant'); $('#popup-modal').modal();">{% trans "Screen" %}</a>
                     </ul>
                 </div>
-                <button type="button" id="b_menus_edit" onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','edit'); $('#popup-modal').modal();" class="btn btn-secondary pull-right panel-buttons width-100">{% trans "Edit" %}</button>
-                <button type="button" id="b_menus_delete" onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','delete'); $('#popup-modal').modal();" class="btn btn-danger pull-right panel-buttons width-100">{% trans "Delete" %}</button>
+                <button type="button" id="b_menus_edit" onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','edit.menu'); $('#popup-modal').modal();" class="btn btn-secondary pull-right panel-buttons width-100">{% trans "Edit" %}</button>
+                <button type="button" id="b_menus_delete" onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','delete.menu'); $('#popup-modal').modal();" class="btn btn-danger pull-right panel-buttons width-100">{% trans "Delete" %}</button>
                 <h4>{% trans "Menus" %}</h4>
             </div>
             <div class="panel-body">
