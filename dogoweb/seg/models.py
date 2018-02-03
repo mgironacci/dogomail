@@ -407,17 +407,19 @@ class Profile(models.Model):
 
     def mis_menus(self):
         ret = []
+        menus = Menu.objects.filter(activo=True)
         if self.user.is_superuser:
-            menus = Menu.objects.filter(activo=True)
+            perms = Permission.objects.all()
         else:
-            # TODO: filtro en base a permisos del usuario
-            menus = Menu.objects.filter(activo=True)
+            perms = self.user.user_permissions.all() | Permission.objects.filter(group__user=self.user)
         for m in menus:
-            ret.append({
+            mm = {
                 'nombre': m.nombre,
                 'icono': m.icono,
-                'pantallas': m.pantalla_set.filter(activo=True),
-            })
+                'pantallas': m.pantalla_set.filter(activo=True).filter(permiso__in=perms),
+            }
+            if mm['pantallas'].count() > 0:
+                ret.append(mm)
         return ret
 
     def mi_avatar(self):
