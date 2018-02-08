@@ -334,9 +334,6 @@ class Menu(models.Model):
     icono = models.CharField('Icon', max_length=100, blank=True)
     activo = models.BooleanField('Active', default=True)
 
-    class Meta:
-        ordering = ["orden"]
-
     def __repr__(self):
         return '<Menu: nombre="%s">' % self.nombre
 
@@ -344,6 +341,7 @@ class Menu(models.Model):
         return self.nombre
 
     class Meta:
+        ordering = ["orden"]
         permissions = (
             ("manage_menus", "Manage menus"),
         )

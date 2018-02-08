@@ -1,10 +1,10 @@
-var jseg = {};
+var mail = {};
 
 $(function(){
-    $('#b_menus_edit').hide();
+/*    $('#b_menus_edit').hide();
     $('#b_menus_delete').hide();
     $('#b_users_edit').hide();
-    $('#b_users_delete').hide();
+    $('#b_users_delete').hide();*/
 
     var clickDTug = function (et, e, dt, indexes) {
         var dtu =  $('#userstable').DataTable();
@@ -40,29 +40,6 @@ $(function(){
         }
     }
 
-    var clickDTmp = function (et, e, dt, indexes) {
-        var dtm =  $('#menustable').DataTable();
-        var dtp =  $('#pantstable').DataTable();
-        var evento = et.split(".")[0];
-        var tabla = et.split(".")[1];
-        if (tabla == 'menu' && dtp.rows({selected:true}).count() != 0 && dtm.rows({selected:true}).count() != 0) {
-            dtp.rows().deselect();
-        } else if (tabla == 'pant' && dtm.rows({selected:true}).count() != 0 && dtp.rows({selected:true}).count() != 0) {
-            dtm.rows().deselect();
-        }
-        if (evento == 'select') {
-            if (dt.rows( { selected: true } ).count() != 0) {
-                $('#b_menus_edit').show();
-                $('#b_menus_delete').show();
-            }
-        } else if (evento == 'deselect') {
-            if (dt.rows( { selected: true } ).count() == 0) {
-                $('#b_menus_edit').hide();
-                $('#b_menus_delete').hide();
-            }
-        }
-    }
-
     var hideUGP = function () {
         var dtu =  $('#userstable').DataTable();
         var dtg =  $('#groupstable').DataTable();
@@ -73,121 +50,16 @@ $(function(){
         }
     }
 
-    var hideMP = function () {
-        var dtm =  $('#menustable').DataTable();
-        var dtp =  $('#pantstable').DataTable();
-        if (dtm.rows( { selected: true } ).count() == 0 && dtp.rows( { selected: true } ).count() == 0) {
-            $('#b_menus_edit').hide();
-            $('#b_menus_delete').hide();
-        }
-    }
-
-    $('#userstable')
-    .on('select.dt', function ( e, dt, type, indexes ) { clickDTug('select.user', e, dt, indexes); } )
-    .on('deselect.dt', function ( e, dt, type, indexes ) { clickDTug('deselect.user', e, dt, indexes); } )
+    // Servidores
+    $('#domains-table')
+    .on('select.dt', function ( e, dt, type, indexes ) { clickDTmp('select.domain', e, dt, indexes); } )
+    .on('deselect.dt', function ( e, dt, type, indexes ) { clickDTmp('deselect.domain', e, dt, indexes); } )
     .DataTable({
         responsive: true,
         serverSide: true,
         ajax: {
             type: "POST",
-            url: '/seg/users',
-            contentType: 'application/json; charset=utf-8',
-            data: function (data) { return data = JSON.stringify(data); }
-        },
-        language: DTlang,
-        columns: [
-            { name: "id", orderable: false, searchable: false, visible: false },
-            { name: "username" },
-            { name: "last_name" },
-            { name: "check+is_active", orderable: false, searchable: false }
-        ],
-        order: [[ 0, "asc" ]],
-        select: 'single',
-        drawCallback: function( settings ) {
-            hideUGP();
-        },
-        //"paging":   false,
-        //"ordering": false,
-        //"info":     false,
-        //"scrollX":  false,
-        //"searching": false,
-        //"dom": 'Bfrtip',
-        cache: false,
-    });
-    $('#groupstable')
-    .on('select.dt', function ( e, dt, type, indexes ) { clickDTug('select.group', e, dt, indexes); } )
-    .on('deselect.dt', function ( e, dt, type, indexes ) { clickDTug('deselect.group', e, dt, indexes); } )
-    .DataTable({
-        responsive: true,
-        serverSide: true,
-        ajax: {
-            type: "POST",
-            url: '/seg/groups',
-            contentType: 'application/json; charset=utf-8',
-            data: function (data) { return data = JSON.stringify(data); }
-        },
-        language: DTlang,
-        columns: [
-            { name: "id", orderable: false, searchable: false, visible: false },
-            { name: "name" },
-            { name: "count+user_set", searchable: false },
-            { name: "count+permissions", searchable: false }
-        ],
-        order: [[ 0, "asc" ]],
-        select: true,
-        drawCallback: function( settings ) {
-            hideUGP();
-        },
-        //"paging":   false,
-        //"ordering": false,
-        //"info":     false,
-        //"scrollX":  false,
-        //"searching": false,
-        //"dom": 'Bfrtip',
-        cache: false,
-    });
-    $('#permstable')
-    .on('select.dt', function ( e, dt, type, indexes ) { clickDTug('select.perm', e, dt, indexes); } )
-    .on('deselect.dt', function ( e, dt, type, indexes ) { clickDTug('deselect.perm', e, dt, indexes); } )
-    .DataTable({
-        responsive: true,
-        serverSide: true,
-        ajax: {
-            type: "POST",
-            url: '/seg/perms',
-            contentType: 'application/json; charset=utf-8',
-            data: function (data) { return data = JSON.stringify(data); }
-        },
-        language: DTlang,
-        columns: [
-            { name: "id", orderable: false, searchable: false, visible: false },
-            { name: "name" },
-            { name: "fk+content_type+model" },
-            { name: "count+group_set", searchable: false }
-        ],
-        order: [[ 0, "asc" ]],
-        select: true,
-        drawCallback: function( settings ) {
-            hideUGP();
-        },
-        //"paging":   false,
-        //"ordering": false,
-        //"info":     false,
-        //"scrollX":  false,
-        //"searching": false,
-        //"dom": 'Bfrtip',
-        cache: false,
-    });
-    // Panel de menus y pantallas
-    $('#menustable')
-    .on('select.dt', function ( e, dt, type, indexes ) { clickDTmp('select.menu', e, dt, indexes); } )
-    .on('deselect.dt', function ( e, dt, type, indexes ) { clickDTmp('deselect.menu', e, dt, indexes); } )
-    .DataTable({
-        responsive: true,
-        serverSide: true,
-        ajax: {
-            type: "POST",
-            url: '/seg/menus',
+            url: '/mail/domains',
             contentType: 'application/json; charset=utf-8',
             data: function (data) { return data = JSON.stringify(data); }
         },
@@ -197,17 +69,17 @@ $(function(){
         //buttons: true,
         columns: [
             { name: "id", orderable: false, searchable: false },
-            { name: "ico+icono", searchable: false, orderable: false },
             { name: "nombre" },
-            { name: "orden" },
+            { name: "fk+server" },
+            { name: "fk+cliente" },
             { name: "check+activo", searchable: false, orderable: false }
         ],
-        order: [[ 3, "asc" ]],
+        order: [[ 1, "asc" ]],
         select: true,
-        rowReorder: true,
-        drawCallback: function( settings ) {
+        //rowReorder: true,
+        /*drawCallback: function( settings ) {
             hideMP();
-        },
+        },*/
         //"paging":   false,
         //"info":     false,
         //"scrollX":  false,
@@ -215,42 +87,6 @@ $(function(){
         //"dom": 'Bfrtip',
         cache: false,
     });
-    $('#pantstable')
-    .on('select.dt', function ( e, dt, type, indexes ) { clickDTmp('select.pant', e, dt, indexes); } )
-    .on('deselect.dt', function ( e, dt, type, indexes ) { clickDTmp('deselect.pant', e, dt, indexes); } )
-    .DataTable({
-        responsive: true,
-        serverSide: true,
-        ajax: {
-            type: "POST",
-            url: '/seg/pants',
-            contentType: 'application/json; charset=utf-8',
-            data: function (data) { return data = JSON.stringify(data); }
-        },
-        language: DTlang,
-        columns: [
-            { name: "id", orderable: false, searchable: false, visible: false },
-            { name: "ico+icono", orderable: false, searchable: false },
-            { name: "nombre" },
-            { name: "fk+menu+nombre" },
-            { name: "orden" },
-            { name: "perm+permiso" },
-            { name: "check+activo", orderable: false, searchable: false }
-        ],
-        order: [[ 4, "asc" ]],
-        select: true,
-        drawCallback: function( settings ) {
-            hideMP();
-        },
-        //"paging":   false,
-        //"ordering": false,
-        //"info":     false,
-        //"scrollX":  false,
-        //"searching": false,
-        //"dom": 'Bfrtip',
-        cache: false,
-    });
-
     // Llamado al pedir nuevo menu
     $("#popup-modal").on("shown.bs.modal", function () {
         $("#popup-modal .modal-content").html('');

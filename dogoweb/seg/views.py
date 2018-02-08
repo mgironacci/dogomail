@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.template.loader import render_to_string
 from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
 from django.utils.translation import gettext as _
@@ -86,8 +85,8 @@ def accesos(request):
 def auditoria(request):
     acc = {
         1: _("Add"),
-        2:_("Change"),
-        3:_("Delete"),
+        2: _("Change"),
+        3: _("Delete"),
     }
     if request.is_ajax() and request.method == 'POST':
         jbody = json.loads(request.body.decode(request._encoding))

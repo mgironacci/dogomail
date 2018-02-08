@@ -3,8 +3,33 @@
 {% block titulo %}{% trans "Server Admin" %}{% endblock %}
 
 {% block encabezadomenu %}
+    <script src="/static/mail/js/srvadm.js"></script>
 {% endblock %}
 
 {% block contenidomenu %}
-<h1>{% trans "Server Admin" %}</h1>
+<div class="row row-top-15">
+    <div class="col-lg-6">
+        <section class="panel panel-with-borders">
+            <div class="panel-heading">
+                <button type="button" id="add" onclick="" class="btn btn-primary pull-right panel-buttons width-100">{% trans "Add" %}</button>
+                <h4>{% trans "Server Admin" %}</h4>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover nowrap" id="servers-table" width="100%">
+                    <thead>
+                    <tr>
+                        <th class="never">ID</th>
+                        <th>{% trans "Name" %}</th>
+                        <th>{% trans "DNS" %}</th>
+                        <th>{% trans "Status" %}</th>
+                        <th>{% trans "Active" %}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</div>
 {% endblock %}
