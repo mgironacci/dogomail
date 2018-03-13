@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='mailindex'),
+    url(r'^search/$', views.search, name='mailsearch'),
     url(r'^blocked/$', views.blocked, name='mailblocked'),
     url(r'^queues/$', views.queues, name='mailqueues'),
     url(r'^doms/$', views.doms, name='maildoms'),

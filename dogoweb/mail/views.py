@@ -16,6 +16,16 @@ def index(request):
 
 
 @login_required()
+def search(request):
+    if request.is_ajax() and request.method == 'POST':
+        jbody = json.loads(request.body.decode(request._encoding))
+    else:
+        return JsonResponse({'error': "Bad request"})
+    ret = Mensaje.objects.dt_filter(jbody)
+    return JsonResponse(ret)
+
+
+@login_required()
 def blocked(request):
     return render(request, 'mail/blocked.html')
 
