@@ -132,6 +132,20 @@ pre {
     margin-left: 5px;
 }
 
+/* Tablas mas chicas */
+table.dataTable thead tr {
+    font-size: 0.95rem;
+}
+table.dataTable tbody tr {
+    font-size: 0.95rem;
+}
+table.dataTable thead th {
+    padding: 0.65rem;
+}
+table.dataTable tbody td {
+    padding: 0.55rem;
+}
+
 /* Tablas con cursor hover */
 .table.table-hover tbody tr:hover {
     cursor: pointer;

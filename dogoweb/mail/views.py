@@ -5,7 +5,7 @@ from django.utils.translation import gettext as _
 from django.contrib.auth.decorators import login_required, permission_required
 from seg.views import ajax_permission_required
 from .models import Server, Dominio, Dogomail, Mensaje, Destinatario
-from .forms import ServerForm, DominioForm, DogomailForm
+from .forms import ServerForm, DominioForm, DogomailForm, SERVER_STEPS, DOM_STEPS
 from dogoweb.settings import VERSION, ICO_OK, ICO_WARN, ICO_INFO, ICO_CRIT
 import json
 
@@ -101,7 +101,7 @@ def domains(request):
 @login_required()
 @ajax_permission_required('mail.add_domain')
 def domain_create(request):
-    ret = Dominio.objects.dt_create(request, DominioForm)
+    ret = Dominio.objects.dt_wizard(request, DOM_STEPS)
     ret['panel'] = 'domain'
     return JsonResponse(ret)
 

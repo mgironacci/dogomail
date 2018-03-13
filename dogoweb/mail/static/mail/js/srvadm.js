@@ -1,59 +1,30 @@
-var mail = {};
+var jmail = {};
 
 $(function(){
-/*    $('#b_menus_edit').hide();
-    $('#b_menus_delete').hide();
-    $('#b_users_edit').hide();
-    $('#b_users_delete').hide();*/
+    $('#server-panel').hide();
 
-    var clickDTug = function (et, e, dt, indexes) {
-        var dtu =  $('#userstable').DataTable();
-        var dtg =  $('#groupstable').DataTable();
-        var dts =  $('#permstable').DataTable();
-        var dtuc = dtu.rows({selected:true}).count();
-        var dtgc = dtg.rows({selected:true}).count();
+    var clickDTs = function (et, e, dt, indexes) {
+        var dts =  $('#servers-table').DataTable();
         var dtsc = dts.rows({selected:true}).count();
         var evento = et.split(".")[0];
         var tabla = et.split(".")[1];
-        if (tabla == 'user' && dtuc != 0 && ( dtgc != 0 || dtsc != 0 ) ) {
-            dtg.rows().deselect();
-            dts.rows().deselect();
-        } else if (tabla == 'group' && dtgc != 0 && ( dtuc != 0 || dtsc != 0 ) ) {
-            dtu.rows().deselect();
-            dts.rows().deselect();
-        } else if (tabla == 'perm' && dtsc != 0 && ( dtuc != 0 || dtgc != 0 ) ) {
-            dtu.rows().deselect();
-            dtg.rows().deselect();
-        }
         if (evento == 'select') {
-            if (dt.rows( { selected: true } ).count() != 0) {
-                $('#b_users_edit').show();
-                if ( tabla != 'perm' ) {
-                    $('#b_users_delete').show();
-                }
-            }
+            var dtsn = dts.rows({selected:true}).data()[0][1];
+            var dtsd = dts.rows({selected:true}).data()[0][2];
+            var dtse = dts.rows({selected:true}).data()[0][3];
+            $('#server-name').html(dtsn);
+            $('#server-dns').html(dtsd);
+            $('#server-stat').html(dtse);
+            $('#server-panel').show();
         } else if (evento == 'deselect') {
-            if (dt.rows( { selected: true } ).count() == 0) {
-                $('#b_users_edit').hide();
-                $('#b_users_delete').hide();
-            }
-        }
-    }
-
-    var hideUGP = function () {
-        var dtu =  $('#userstable').DataTable();
-        var dtg =  $('#groupstable').DataTable();
-        var dtp =  $('#permstable').DataTable();
-        if (dtu.rows( { selected: true } ).count() == 0 && dtg.rows( { selected: true } ).count() == 0 && dtp.rows( { selected: true } ).count() == 0) {
-            $('#b_users_edit').hide();
-            $('#b_users_delete').hide();
+            $('#server-panel').hide();
         }
     }
 
     // Servidores
     $('#servers-table')
-    .on('select.dt', function ( e, dt, type, indexes ) { clickDTmp('select.server', e, dt, indexes); } )
-    .on('deselect.dt', function ( e, dt, type, indexes ) { clickDTmp('deselect.server', e, dt, indexes); } )
+    .on('select.dt', function ( e, dt, type, indexes ) { clickDTs('select.server', e, dt, indexes); } )
+    .on('deselect.dt', function ( e, dt, type, indexes ) { clickDTs('deselect.server', e, dt, indexes); } )
     .DataTable({
         responsive: true,
         serverSide: true,
@@ -70,12 +41,12 @@ $(function(){
         columns: [
             { name: "id", orderable: false, searchable: false },
             { name: "nombre" },
-            { name: "dirdns" },
-            { name: "estado" },
+            { name: "link+dirdns" },
+            { name: "est+estado" },
             { name: "check+activo", searchable: false, orderable: false }
         ],
         order: [[ 1, "asc" ]],
-        select: true,
+        select: 'single',
         //rowReorder: true,
         /*drawCallback: function( settings ) {
             hideMP();
@@ -97,50 +68,20 @@ $(function(){
         }
         $("#popup-modal").removeAttr('data-action');
         // Obtengo las tablas
-        var dtu =  $('#userstable').DataTable();
-        var dtg =  $('#groupstable').DataTable();
-        var dts =  $('#permstable').DataTable();
-        var dtm =  $('#menustable').DataTable();
-        var dtp =  $('#pantstable').DataTable();
+        var dts =  $('#servers-table').DataTable();
         var action = "";
         var ids = [];
         var srows = [];
-        if (btnact == 'add-user') { action  = '/seg/users/create/'; }
-        if (btnact == 'add-group') { action  = '/seg/groups/create/'; }
-        if (btnact == 'add-menu') { action  = '/seg/menus/create/'; }
-        if (btnact == 'add-pant') { action  = '/seg/pants/create/'; }
+        if (btnact == 'add') {
+            if (btnpan == 'server') {
+                action  = '/mail/servers/create/';
+            }
+        }
         // Busco en el listado correcto si es edit o delete
         if (btnact == 'edit' || btnact == 'delete' ) {
-            if (btnpan == 'menu') {
-                if (dtm.rows( { selected: true } ).count() != 0) {
-                    action = '/seg/menus/';
-                    srows = dtm.rows( { selected: true } );
-                    for(var i=0; i<srows.count(); i++) {
-                        ids.push(srows.data()[i][0]);
-                    }
-                } else if (dtp.rows( { selected: true } ).count() != 0) {
-                    action = '/seg/pants/';
-                    srows = dtp.rows( { selected: true } );
-                    for(var i=0; i<srows.count(); i++) {
-                        ids.push(srows.data()[i][0]);
-                    }
-                }
-            }
-            if (btnpan == 'user') {
-                if (dtu.rows( { selected: true } ).count() != 0) {
-                    action = '/seg/users/';
-                    srows = dtu.rows( { selected: true } );
-                    for(var i=0; i<srows.count(); i++) {
-                        ids.push(srows.data()[i][0]);
-                    }
-                } else if (dtg.rows( { selected: true } ).count() != 0) {
-                    action = '/seg/groups/';
-                    srows = dtg.rows( { selected: true } );
-                    for(var i=0; i<srows.count(); i++) {
-                        ids.push(srows.data()[i][0]);
-                    }
-                } else if (dts.rows( { selected: true } ).count() != 0) {
-                    action = '/seg/perms/';
+            if (btnpan == 'server') {
+                if (dts.rows( { selected: true } ).count() != 0) {
+                    action = '/mail/servers/';
                     srows = dts.rows( { selected: true } );
                     for(var i=0; i<srows.count(); i++) {
                         ids.push(srows.data()[i][0]);
@@ -188,18 +129,9 @@ $(function(){
             success: function (data) {
                 if (data.form_is_valid) {
                     $("#popup-modal").modal('hide');
-                    if (data.panel == 'menu') {
-                        $('#b_menus_edit').hide();
-                        $('#b_menus_delete').hide();
-                        $('#menustable').DataTable().ajax.reload();
-                        $('#pantstable').DataTable().ajax.reload();
-                    }
-                    if (data.panel == 'user') {
-                        $('#b_users_edit').hide();
-                        $('#b_users_delete').hide();
-                        $('#userstable').DataTable().ajax.reload();
-                        $('#groupstable').DataTable().ajax.reload();
-                        $('#permstable').DataTable().ajax.reload();
+                    if (data.panel == 'server') {
+                        $('#servers-table').DataTable().ajax.reload();
+                        $('#server-panel').hide();
                     }
                 }
                 else {
@@ -248,14 +180,8 @@ $(function(){
             dataType: 'json',
             success: function (data) {
                 if (data.form_is_valid) {
-                    if (data.panel == 'menu') {
-                        $('#menustable').DataTable().ajax.reload();
-                        $('#pantstable').DataTable().ajax.reload();
-                    }
-                    if (data.panel == 'user') {
-                        $('#userstable').DataTable().ajax.reload();
-                        $('#groupstable').DataTable().ajax.reload();
-                        $('#permstable').DataTable().ajax.reload();
+                    if (data.panel == 'server') {
+                        $('#servers-table').DataTable().ajax.reload();
                     }
                     if (data.snext == 'new') {
                         $("#popup-modal .modal-content").html('');
@@ -273,6 +199,6 @@ $(function(){
         });
     }
 
-    jseg.saltaEdit = saltaEdit;
-    jseg.salvaNext = salvaNext;
+    jmail.saltaEdit = saltaEdit;
+    jmail.salvaNext = salvaNext;
 });

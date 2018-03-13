@@ -105,9 +105,9 @@ class Server(models.Model):
     dirdns = models.CharField('DNS Address', unique=True, max_length=70)
     tipo_s = models.CharField('Type', choices=TIPO_SRVS, max_length=10)
     estado = models.CharField('Status', choices=ESTADO_SRVS, max_length=10, default='down')
-    sslcrt = models.TextField('Private SSL Cert', blank=True, help_text='Not commercial certificate or CA')
-    cliente = models.ForeignKey(Cliente, blank=True, on_delete=models.PROTECT, null=True)
-    servicios = models.CharField('Services', choices=MAIL_SERVICES, default='smtp', max_length=15)
+    sslcrt = models.TextField('Private SSL Cert', blank=True, default='', help_text='Not commercial certificate or CA')
+    cliente = models.ForeignKey(Cliente, blank=True, on_delete=models.PROTECT, null=True, default=None)
+    servicios = models.CharField('Services', choices=MAIL_SERVICES, default='smtp', max_length=35)
     adminusr = models.CharField('Admin User', blank=True, max_length=100)
     adminpas = models.CharField('Admin Password', blank=True, max_length=100)
 

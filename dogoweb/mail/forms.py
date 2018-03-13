@@ -1,6 +1,65 @@
 from django import forms
 from django.utils.translation import gettext as _
-from .models import Server, Dominio, Dogomail, Mensaje, Destinatario
+from .models import Server, Dominio, Dogomail, Mensaje, Destinatario, TIPO_SRVS
+
+
+class ServerNameForm(forms.Form):
+    form_header = {
+        'templt': 'mail/form_server_name.html',
+        'url': 'mail_server_create',
+    }
+
+    nombre = forms.CharField(label='Name', max_length=50, required=True)
+    dirdns = forms.CharField(label='DNS Address', max_length=70, required=True)
+
+
+class ServerInfoForm(forms.ModelForm):
+    form_header = {
+        'templt': 'mail/form_server_info.html',
+        'url': 'mail_server_create',
+    }
+
+    class Meta:
+        model = Server
+        fields = [ 'nombre', 'dirip4', 'dirip6', 'dirdns', 'tipo_s', 'sslcrt',
+                   'cliente', 'servicios', 'adminusr', 'adminpas', ]
+        localize = '__all__'
+
+
+SERVER_STEPS = {
+    'title': _('Add server'),
+    'icon': 'icmn-plus-circle',
+    'steps': [
+        {
+            'title': _('Name'),
+            'icon': 'icmn-server',
+            'form': ServerNameForm,
+        },
+        {
+            'title': _('Info'),
+            'icon': 'icmn-inf',
+            'form': ServerInfoForm,
+        },
+    ]
+}
+
+
+DOM_STEPS = {
+    'title': _('Add domain'),
+    'icon': 'icmn-plus-circle',
+    'steps': [
+        {
+            'title': _('Name'),
+            'icon': 'icmn-server',
+            'form': ServerNameForm,
+        },
+        {
+            'title': _('Info'),
+            'icon': 'icmn-inf',
+            'form': ServerInfoForm,
+        },
+    ]
+}
 
 
 class ServerForm(forms.ModelForm):
@@ -13,7 +72,8 @@ class ServerForm(forms.ModelForm):
 
     class Meta:
         model = Server
-        fields = '__all__'
+        #fields = '__all__'
+        fields = ['nombre', 'dirdns', 'tipo_s', 'activo', ]
         localize = '__all__'
 
 

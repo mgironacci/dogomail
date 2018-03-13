@@ -11,8 +11,10 @@
     <div class="col-lg-6">
         <section class="panel panel-with-borders">
             <div class="panel-heading">
-                <button type="button" id="add" onclick="" class="btn btn-primary pull-right panel-buttons width-100">{% trans "Add" %}</button>
-                <h4>{% trans "Server Admin" %}</h4>
+                {% if perms.mail.add_server %}
+                <button type="button" id="add" onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','add.server'); $('#popup-modal').modal();" class="btn btn-primary pull-right panel-buttons width-100">{% trans "Add" %}</button>
+                {% endif %}
+                <h4><small><i class="icmn-server"></i></small> {% trans "Server Admin" %}</h4>
             </div>
             <div class="panel-body">
                 <table class="table table-hover nowrap" id="servers-table" width="100%">
@@ -30,6 +32,78 @@
                 </table>
             </div>
         </section>
+    </div>
+    <div class="col-lg-6">
+        <section class="panel panel-with-borders" id="server-panel">
+            <div class="panel-heading">
+                {% if perms.mail.add_server %}
+                <button type="button" id="delete" onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','delete.server'); $('#popup-modal').modal();" class="btn btn-danger    pull-right panel-buttons width-100">{% trans "Delete" %}</button>
+                <button type="button" id="edit"   onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','edit.server');   $('#popup-modal').modal();" class="btn btn-secondary pull-right panel-buttons width-100">{% trans "Edit" %}</button>
+                {% endif %}
+                <h4 id="server-name"></h4>
+            </div>
+            <div class="panel-body">
+                <div class="nav-tabs-horizontal">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="javascript: void(0);" data-toggle="tab" data-target="#srvinfo" role="tab">
+                                <i class="icmn-info"></i>
+                                {% trans "Info" %}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#srvdoms" role="tab">
+                                <i class="icmn-at-sign"></i>
+                                {% trans "Domains" %}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#srvmbox" role="tab">
+                                <i class="icmn-mailbox"></i>
+                                {% trans "Mailboxes" %}
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content padding-vertical-20">
+                        <div class="tab-pane active" id="srvinfo" role="tabpanel">
+                            <h5 id="server-dns"></h5>
+                            <span id="server-stat"></span>
+                        </div>
+                        <div class="tab-pane" id="srvdoms" role="tabpanel">
+                            <table class="table table-hover nowrap" id="doms-table" width="100%">
+                                <thead>
+                                <tr>
+                                    <th class="never">ID</th>
+                                    <th>{% trans "Name" %}</th>
+                                    <th>{% trans "Active" %}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane" id="srvmbox" role="tabpanel">
+                            <table class="table table-hover nowrap" id="mbox-table" width="100%">
+                                <thead>
+                                <tr>
+                                    <th class="never">ID</th>
+                                    <th>{% trans "Name" %}</th>
+                                    <th>{% trans "Active" %}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<div class="modal fade modal-size-large" id="popup-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
     </div>
 </div>
 {% endblock %}

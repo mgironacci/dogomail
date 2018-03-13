@@ -28,6 +28,34 @@ def html_check(check):
     return ret
 
 
+def html_estado(stat, disp):
+    ESTADOS = {
+        # base
+        'success': 'success',
+        'primary': 'primary',
+        'secundary': 'secundary',
+        'info': 'info',
+        'warning': 'warning',
+        'critical': 'critical',
+        'default': 'default',
+        # propios
+        'normal': 'success',
+        'down': 'secondary',
+        'ok': 'success',
+        'disabled': 'default',
+    }
+    ret = '<span class="label label-%s">%s</span>' % (ESTADOS[stat], disp)
+    return ret
+
+
+def html_link(link):
+    if link[0:4] == 'http':
+        href = link
+    else:
+        href = 'http://' + link
+    return '<a href="%s" target="_blank">%s</a>' % (href, link)
+
+
 def DTFilter(mmodel, jbody, autodata=True, filter=None, exclude=None):
     ret = {
         'draw': jbody['draw'],
@@ -157,6 +185,12 @@ def DTFilter(mmodel, jbody, autodata=True, filter=None, exclude=None):
                     ao.append(html_icon(getattr(o, ccn)))
                 elif tipo == 'check':
                     ao.append(html_check(getattr(o, ccn)))
+                elif tipo == 'est':
+                    ao.append(html_estado(getattr(o, ccn), getattr(o, 'get_%s_display'%ccn)()))
+                elif tipo == 'cho':
+                    ao.append(getattr(o, 'get_%s_display' % ccn)())
+                elif tipo == 'link':
+                    ao.append(html_link(getattr(o, ccn)))
                 elif tipo == 'fk':
                     if fko:
                         ao.append(getattr(getattr(o, ccn),fko))
@@ -295,6 +329,36 @@ class DTManager(models.Manager):
 
     def dt_delete(self, pks, request, oform, otemplate='seg/modal_form_delete.html'):
         return DTDelete(self, pks, request, oform, otemplate)
+
+    def dt_wizard(self, request, steps, otemplate='seg/modal_form_wizard.html'):
+        data = dict()
+        if request.method == 'POST':
+            data['snext'] = request.POST.get('snext', '')
+            data['step'] = request.POST.get('step', '')
+            form = oform(request.POST)
+            if form.is_valid():
+                form.save()
+                data['form_is_valid'] = True
+                if data['snext'] == 'new':
+                    form = oform()
+                data['mensaje'] = {
+                    'icon': ICO_OK,
+                    'msg': _('The item was successfully created'),
+                    'tipo': 'success',
+                }
+            else:
+                data['form_is_valid'] = False
+                data['mensaje'] = {
+                    'icon': ICO_CRIT,
+                    'msg': _('The item had a problem, please review'),
+                    'tipo': 'danger',
+                }
+        else:
+            oform = steps['steps'][0]['form']
+            form = oform()
+        context = {'form': form, 'form_header': oform.form_header, 'form_steps': steps}
+        data['html_form'] = render_to_string(otemplate, context, request=request)
+        return data
 
 
 # Modelo de visualizacion ----------------------------------------------
