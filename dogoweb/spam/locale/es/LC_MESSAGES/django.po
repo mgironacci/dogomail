@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-01 17:30-0300\n"
-"PO-Revision-Date: 2018-01-14 21:47-0300\n"
+"POT-Creation-Date: 2018-03-13 02:18-0300\n"
+"PO-Revision-Date: 2018-03-13 02:20-0300\n"
 "Last-Translator: Andres Gironacci <mgironacci@itecnis.com>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -17,6 +17,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.8.7.1\n"
+
+#: spam/forms.py:8
+msgid "Add module"
+msgstr "Agregar módulo"
+
+#: spam/forms.py:9
+msgid "Change module"
+msgstr "Cambiar módulo"
+
+#: spam/forms.py:10
+msgid "Delete module"
+msgstr "Eliminar módulo"
+
+#: spam/forms.py:21
+msgid "Add policy"
+msgstr "Agregar política"
+
+#: spam/forms.py:22
+msgid "Change policy"
+msgstr "Cambiar política"
+
+#: spam/forms.py:23
+msgid "Delete policy"
+msgstr "Eliminar política"
 
 #: spam/templates/spam/avirus.html:3 spam/templates/spam/avirus.html:9
 msgid "Antivirus"
@@ -34,11 +58,31 @@ msgstr "Pizarrón"
 msgid "Lists"
 msgstr "Listas"
 
-#: spam/templates/spam/modules.html:3 spam/templates/spam/modules.html:9
+#: spam/templates/spam/modules.html:3 spam/templates/spam/modules.html:24
 msgid "Modules"
 msgstr "Módulos"
 
-#: spam/templates/spam/policies.html:3 spam/templates/spam/policies.html:9
+#: spam/templates/spam/modules.html:16 spam/templates/spam/policies.html:16
+msgid "Add"
+msgstr "Agregar"
+
+#: spam/templates/spam/modules.html:19 spam/templates/spam/policies.html:19
+msgid "Edit"
+msgstr "Editar"
+
+#: spam/templates/spam/modules.html:22 spam/templates/spam/policies.html:22
+msgid "Delete"
+msgstr "Eliminar"
+
+#: spam/templates/spam/modules.html:31 spam/templates/spam/policies.html:31
+msgid "Name"
+msgstr "Nombre"
+
+#: spam/templates/spam/modules.html:32 spam/templates/spam/policies.html:32
+msgid "Active"
+msgstr "Activo"
+
+#: spam/templates/spam/policies.html:3 spam/templates/spam/policies.html:24
 msgid "Policies"
 msgstr "Políticas"
 

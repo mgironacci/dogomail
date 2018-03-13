@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-01 17:30-0300\n"
-"PO-Revision-Date: 2018-02-01 17:31-0300\n"
+"POT-Creation-Date: 2018-03-13 02:18-0300\n"
+"PO-Revision-Date: 2018-03-13 02:21-0300\n"
 "Last-Translator: Andres Gironacci <mgironacci@itecnis.com>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -18,47 +18,83 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: seg/forms.py:8 seg/templates/seg/form_menu_new.html:11
+#: seg/forms.py:10
+msgid "Add user"
+msgstr "Agregar usuario"
+
+#: seg/forms.py:11
+msgid "Change user"
+msgstr "Cambiar usuario"
+
+#: seg/forms.py:12
+msgid "Delete user"
+msgstr "Eliminar usuario"
+
+#: seg/forms.py:15 seg/templates/seg/index.html:26
+msgid "Group"
+msgstr "Grupo"
+
+#: seg/forms.py:39
+msgid "Add group"
+msgstr "Agregar grupo"
+
+#: seg/forms.py:40
+msgid "Change group"
+msgstr "Cambiar grupo"
+
+#: seg/forms.py:41
+msgid "Delete group"
+msgstr "Eliminar grupo"
+
+#: seg/forms.py:64
+msgid "Change permission"
+msgstr "Cambiar permiso"
+
+#: seg/forms.py:87
 msgid "Add menu"
 msgstr "Agregar menú"
 
-#: seg/forms.py:9 seg/templates/seg/form_menu_edit.html:13
+#: seg/forms.py:88
 msgid "Change menu"
 msgstr "Cambiar menú"
 
-#: seg/forms.py:10
+#: seg/forms.py:89
 msgid "Delete menu"
 msgstr "Eliminar menú"
 
-#: seg/forms.py:20 seg/templates/seg/form_pant_new.html:11
+#: seg/forms.py:103
 msgid "Add screen"
 msgstr "Agregar pantalla"
 
-#: seg/forms.py:21 seg/templates/seg/form_pant_edit.html:13
+#: seg/forms.py:104
 msgid "Change screen"
 msgstr "Cambiar pantalla"
 
-#: seg/forms.py:22
+#: seg/forms.py:105
 msgid "Delete screen"
 msgstr "Eliminar pantalla"
 
-#: seg/models.py:98
+#: seg/icons.py:7
+msgid "None"
+msgstr "Nada"
+
+#: seg/models.py:222 seg/models.py:346
 msgid "The item was successfully created"
 msgstr "El ítem fue creado exitosamente"
 
-#: seg/models.py:105 seg/models.py:145
+#: seg/models.py:229 seg/models.py:269 seg/models.py:353
 msgid "The item had a problem, please review"
 msgstr "El ítem tuvo un problema, por favor revisar"
 
-#: seg/models.py:138
+#: seg/models.py:262
 msgid "The item was successfully saved"
 msgstr "El ítem fue guardado exitósamente"
 
-#: seg/models.py:178
+#: seg/models.py:302
 msgid "The items where successfully deleted"
 msgstr "Los ítems fueron eliminados correctamente"
 
-#: seg/models.py:185
+#: seg/models.py:309
 msgid "There was a problem deleting the items"
 msgstr "Hubo un problema eliminando los ítems"
 
@@ -99,174 +135,125 @@ msgstr "Ingresar"
 msgid "Audit"
 msgstr "Auditoria"
 
-#: seg/templates/seg/form_menu_edit.html:45
-#: seg/templates/seg/form_pant_edit.html:58
-msgid "Previous"
-msgstr "Previo"
-
-#: seg/templates/seg/form_menu_edit.html:48
-#: seg/templates/seg/form_pant_edit.html:61
-msgid "Choose"
-msgstr "Elegir"
-
-#: seg/templates/seg/form_menu_edit.html:56
-#: seg/templates/seg/form_pant_edit.html:69
-msgid "Next"
-msgstr "Próximo"
-
-#: seg/templates/seg/form_menu_edit.html:66
-#: seg/templates/seg/form_menu_new.html:40
-#: seg/templates/seg/form_pant_edit.html:79
-#: seg/templates/seg/form_pant_new.html:53 seg/templates/seg/index.html:155
-#: seg/templates/seg/index.html:191 seg/templates/seg/profile.html:138
-msgid "Save"
-msgstr "Guardar"
-
-#: seg/templates/seg/form_menu_edit.html:68
-#: seg/templates/seg/form_pant_edit.html:81
-msgid "Save and Next"
-msgstr "Guardar y Próximo"
-
-#: seg/templates/seg/form_menu_edit.html:70
-#: seg/templates/seg/form_menu_new.html:42
-#: seg/templates/seg/form_pant_edit.html:83
-#: seg/templates/seg/form_pant_new.html:55 seg/templates/seg/index.html:158
-#: seg/templates/seg/index.html:193 seg/templates/seg/modal_form_delete.html:22
-#: seg/templates/seg/profile.html:139
-msgid "Cancel"
-msgstr "Cancelar"
-
-#: seg/templates/seg/form_menu_new.html:41
-#: seg/templates/seg/form_pant_new.html:54 seg/templates/seg/index.html:156
-#: seg/templates/seg/index.html:192
-msgid "Save and Add"
-msgstr "Guardar y Agregar"
-
 #: seg/templates/seg/index.html:3
 msgid "Security"
 msgstr "Seguridad"
 
-#: seg/templates/seg/index.html:22 seg/templates/seg/index.html:209
-#: seg/views.py:66
+#: seg/templates/seg/index.html:22 seg/templates/seg/index.html:117
+#: seg/views.py:87
 msgid "Add"
 msgstr "Agregar"
 
-#: seg/templates/seg/index.html:25 seg/templates/seg/index.html:58
+#: seg/templates/seg/index.html:25 seg/templates/seg/index.html:63
 msgid "User"
 msgstr "Usuario"
 
-#: seg/templates/seg/index.html:26
-msgid "Group"
-msgstr "Grupo"
-
-#: seg/templates/seg/index.html:29 seg/templates/seg/profile.html:95
-msgid "Access"
-msgstr "Accesos"
-
-#: seg/templates/seg/index.html:37 seg/templates/seg/index.html:72
-msgid "Users"
-msgstr "Usuarios"
-
-#: seg/templates/seg/index.html:43
-msgid "Groups"
-msgstr "Grupos"
-
-#: seg/templates/seg/index.html:49 seg/templates/seg/index.html:73
-#: seg/templates/seg/index.html:184
-msgid "Permissions"
-msgstr "Permisos"
-
-#: seg/templates/seg/index.html:59 seg/templates/seg/index.html:71
-#: seg/templates/seg/index.html:176 seg/templates/seg/index.html:243
-#: seg/templates/seg/index.html:258
-msgid "Name"
-msgstr "Nombre"
-
-#: seg/templates/seg/index.html:60 seg/templates/seg/index.html:148
-#: seg/templates/seg/index.html:245 seg/templates/seg/index.html:262
-msgid "Active"
-msgstr "Activo"
-
-#: seg/templates/seg/index.html:84 seg/templates/seg/index.html:261
-msgid "Permission"
-msgstr "Permiso"
-
-#: seg/templates/seg/index.html:85
-msgid "Model"
-msgstr "Modelo"
-
-#: seg/templates/seg/index.html:86
-msgid "Used"
-msgstr "Usado"
-
-#: seg/templates/seg/index.html:104
-msgid "Add user"
-msgstr "Agregar usuario"
-
-#: seg/templates/seg/index.html:110 seg/templates/seg/profile.html:125
-msgid "Email"
-msgstr "Correo"
-
-#: seg/templates/seg/index.html:118
-msgid "Search"
-msgstr "Buscar"
-
-#: seg/templates/seg/index.html:128 seg/templates/seg/profile.html:111
-msgid "First name"
-msgstr "Nombre"
-
-#: seg/templates/seg/index.html:134 seg/templates/seg/profile.html:117
-msgid "Last name"
-msgstr "Apellido"
-
-#: seg/templates/seg/index.html:142
-msgid "Staff"
-msgstr "Operador"
-
-#: seg/templates/seg/index.html:157
-msgid "Save and View"
-msgstr "Guardar y Ver"
-
-#: seg/templates/seg/index.html:170
-msgid "Add group"
-msgstr "Agregar grupo"
-
-#: seg/templates/seg/index.html:212 seg/templates/seg/index.html:259
-msgid "Menu"
-msgstr "Menú"
-
-#: seg/templates/seg/index.html:213
-msgid "Screen"
-msgstr "Pantalla"
-
-#: seg/templates/seg/index.html:216
+#: seg/templates/seg/index.html:29 seg/templates/seg/index.html:124
 msgid "Edit"
 msgstr "Editar"
 
-#: seg/templates/seg/index.html:217 seg/templates/seg/modal_form_delete.html:21
-#: seg/views.py:68
+#: seg/templates/seg/index.html:30 seg/templates/seg/index.html:125
+#: seg/templates/seg/modal_form_delete.html:21 seg/views.py:89
 msgid "Delete"
 msgstr "Eliminar"
 
-#: seg/templates/seg/index.html:218 seg/templates/seg/index.html:226
+#: seg/templates/seg/index.html:31 seg/templates/seg/profile.html:95
+msgid "Access"
+msgstr "Accesos"
+
+#: seg/templates/seg/index.html:39 seg/templates/seg/index.html:78
+msgid "Users"
+msgstr "Usuarios"
+
+#: seg/templates/seg/index.html:45 seg/templates/seg/index.html:94
+msgid "Groups"
+msgstr "Grupos"
+
+#: seg/templates/seg/index.html:52 seg/templates/seg/index.html:79
+msgid "Permissions"
+msgstr "Permisos"
+
+#: seg/templates/seg/index.html:64 seg/templates/seg/index.html:77
+#: seg/templates/seg/index.html:151 seg/templates/seg/index.html:166
+msgid "Name"
+msgstr "Nombre"
+
+#: seg/templates/seg/index.html:65 seg/templates/seg/index.html:153
+#: seg/templates/seg/index.html:170
+msgid "Active"
+msgstr "Activo"
+
+#: seg/templates/seg/index.html:92 seg/templates/seg/index.html:169
+msgid "Permission"
+msgstr "Permiso"
+
+#: seg/templates/seg/index.html:93
+msgid "Model"
+msgstr "Modelo"
+
+#: seg/templates/seg/index.html:120 seg/templates/seg/index.html:167
+msgid "Menu"
+msgstr "Menú"
+
+#: seg/templates/seg/index.html:121
+msgid "Screen"
+msgstr "Pantalla"
+
+#: seg/templates/seg/index.html:126 seg/templates/seg/index.html:134
 msgid "Menus"
 msgstr "Menús"
 
-#: seg/templates/seg/index.html:232
+#: seg/templates/seg/index.html:140
 msgid "Screens"
 msgstr "Pantallas"
 
-#: seg/templates/seg/index.html:242 seg/templates/seg/index.html:257
+#: seg/templates/seg/index.html:150 seg/templates/seg/index.html:165
 msgid "Icon"
 msgstr "Ícono"
 
-#: seg/templates/seg/index.html:244 seg/templates/seg/index.html:260
+#: seg/templates/seg/index.html:152 seg/templates/seg/index.html:168
 msgid "Order"
 msgstr "Órden"
+
+#: seg/templates/seg/modal_form_create.html:19
+#: seg/templates/seg/modal_form_update.html:45
+#: seg/templates/seg/profile.html:138
+msgid "Save"
+msgstr "Guardar"
+
+#: seg/templates/seg/modal_form_create.html:20
+msgid "Save and Add"
+msgstr "Guardar y Agregar"
+
+#: seg/templates/seg/modal_form_create.html:21
+#: seg/templates/seg/modal_form_delete.html:22
+#: seg/templates/seg/modal_form_update.html:49
+#: seg/templates/seg/modal_form_wizard.html:39
+#: seg/templates/seg/profile.html:139
+msgid "Cancel"
+msgstr "Cancelar"
 
 #: seg/templates/seg/modal_form_delete.html:16
 msgid "Are you sure you want to delete this items?"
 msgstr "¿Está seguro de querer eliminar estos items?"
+
+#: seg/templates/seg/modal_form_update.html:24
+#: seg/templates/seg/modal_form_wizard.html:37
+msgid "Previous"
+msgstr "Previo"
+
+#: seg/templates/seg/modal_form_update.html:27
+msgid "Choose"
+msgstr "Elegir"
+
+#: seg/templates/seg/modal_form_update.html:35
+#: seg/templates/seg/modal_form_wizard.html:38
+msgid "Next"
+msgstr "Próximo"
+
+#: seg/templates/seg/modal_form_update.html:47
+msgid "Save and Next"
+msgstr "Guardar y Próximo"
 
 #: seg/templates/seg/profile.html:4
 msgid "Profile"
@@ -328,6 +315,18 @@ msgstr "Información"
 msgid "Personal Information"
 msgstr "Información Personal"
 
+#: seg/templates/seg/profile.html:111
+msgid "First name"
+msgstr "Nombre"
+
+#: seg/templates/seg/profile.html:117
+msgid "Last name"
+msgstr "Apellido"
+
+#: seg/templates/seg/profile.html:125
+msgid "Email"
+msgstr "Correo"
+
 #: seg/templates/seg/profile.html:131
 msgid "Date joined"
 msgstr "Fecha de registro"
@@ -372,17 +371,41 @@ msgstr "Acción"
 msgid "Description"
 msgstr "Descripción"
 
-#: seg/views.py:56
+#: seg/templates/tags/field_full_checkbox.html:10
+msgid "Yes"
+msgstr "Si"
+
+#: seg/templates/tags/field_full_checkbox.html:14
+msgid "No"
+msgstr "No"
+
+#: seg/views.py:29
+msgid "Permission denied!"
+msgstr "¡Permiso denegado!"
+
+#: seg/views.py:77
 msgid "Still logged in"
 msgstr "Sesión abierta"
 
-#: seg/views.py:58
+#: seg/views.py:79
 msgid "Expired"
 msgstr "Expirado"
 
-#: seg/views.py:67
+#: seg/views.py:88
 msgid "Change"
 msgstr "Cambiar"
+
+#~ msgid "Used"
+#~ msgstr "Usado"
+
+#~ msgid "Search"
+#~ msgstr "Buscar"
+
+#~ msgid "Staff"
+#~ msgstr "Operador"
+
+#~ msgid "Save and View"
+#~ msgstr "Guardar y Ver"
 
 #~ msgid "Are you sure you want to delete this screens?"
 #~ msgstr "¿Está seguro de querer eliminar estas pantallas?"

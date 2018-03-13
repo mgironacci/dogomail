@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-01 17:30-0300\n"
-"PO-Revision-Date: 2018-01-14 21:54-0300\n"
+"POT-Creation-Date: 2018-03-13 02:18-0300\n"
+"PO-Revision-Date: 2018-03-13 02:23-0300\n"
 "Last-Translator: Andres Gironacci <mgironacci@itecnis.com>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -18,15 +18,112 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: mail/templates/mail/blocked.html:3 mail/templates/mail/blocked.html:9
+#: mail/forms.py:30 mail/forms.py:67
+msgid "Add server"
+msgstr "Agregar servidor"
+
+#: mail/forms.py:34 mail/forms.py:52 mail/templates/mail/domadm.html:22
+#: mail/templates/mail/srvadm.html:24 mail/templates/mail/srvadm.html:77
+#: mail/templates/mail/srvadm.html:90
+msgid "Name"
+msgstr "Nombre"
+
+#: mail/forms.py:39 mail/forms.py:57 mail/templates/mail/srvadm.html:51
+msgid "Info"
+msgstr "Información"
+
+#: mail/forms.py:48 mail/forms.py:82
+msgid "Add domain"
+msgstr "Agregar dominio"
+
+#: mail/forms.py:68
+msgid "Change server"
+msgstr "Cambiar servidor"
+
+#: mail/forms.py:69
+msgid "Delete server"
+msgstr "Eliminar servidor"
+
+#: mail/forms.py:83
+msgid "Change domain"
+msgstr "Cambiar dominio"
+
+#: mail/forms.py:84
+msgid "Delete domain"
+msgstr "Eliminar dominio"
+
+#: mail/forms.py:96
+msgid "Add dogo"
+msgstr "Agregar dogo"
+
+#: mail/forms.py:97
+msgid "Change dogo"
+msgstr "Cambiar dogo"
+
+#: mail/forms.py:98
+msgid "Delete dogo"
+msgstr "Eliminar dogo"
+
+#: mail/models.py:19
+msgid "Normal"
+msgstr "Normal"
+
+#: mail/models.py:20
+msgid "Down"
+msgstr "Abajo"
+
+#: mail/models.py:21
+msgid "Warning"
+msgstr "Atención"
+
+#: mail/models.py:22
+msgid "Critical"
+msgstr "Crítico"
+
+#: mail/models.py:36
+msgid "Queued"
+msgstr "Encolado"
+
+#: mail/models.py:37
+msgid "Delivered"
+msgstr "Entregado"
+
+#: mail/models.py:38
+msgid "Rejected"
+msgstr "Rechazado"
+
+#: mail/models.py:39 mail/templates/mail/blocked.html:3
+#: mail/templates/mail/blocked.html:9
 msgid "Blocked"
 msgstr "Bloqueado"
 
-#: mail/templates/mail/domadm.html:3 mail/templates/mail/domadm.html:9
+#: mail/models.py:40
+msgid "Erased"
+msgstr "Borrado"
+
+#: mail/templates/mail/domadm.html:3 mail/templates/mail/domadm.html:15
 msgid "Domain Admin"
 msgstr "Administrador de Dominio"
 
+#: mail/templates/mail/domadm.html:14 mail/templates/mail/srvadm.html:15
+msgid "Add"
+msgstr "Agregar"
+
+#: mail/templates/mail/domadm.html:23
+msgid "Server"
+msgstr "Servidor"
+
+#: mail/templates/mail/domadm.html:24
+msgid "Client"
+msgstr "Cliente"
+
+#: mail/templates/mail/domadm.html:25 mail/templates/mail/srvadm.html:27
+#: mail/templates/mail/srvadm.html:78 mail/templates/mail/srvadm.html:91
+msgid "Active"
+msgstr "Activo"
+
 #: mail/templates/mail/doms.html:3 mail/templates/mail/doms.html:9
+#: mail/templates/mail/srvadm.html:57
 msgid "Domains"
 msgstr "Dominios"
 
@@ -35,6 +132,7 @@ msgid "Search"
 msgstr "Buscar"
 
 #: mail/templates/mail/mboxes.html:3 mail/templates/mail/mboxes.html:9
+#: mail/templates/mail/srvadm.html:63
 msgid "Mailboxes"
 msgstr "Casillas"
 
@@ -42,9 +140,25 @@ msgstr "Casillas"
 msgid "Queues"
 msgstr "Colas"
 
-#: mail/templates/mail/srvadm.html:3 mail/templates/mail/srvadm.html:9
+#: mail/templates/mail/srvadm.html:3 mail/templates/mail/srvadm.html:17
 msgid "Server Admin"
 msgstr "Administrador de Servidor"
+
+#: mail/templates/mail/srvadm.html:25
+msgid "DNS"
+msgstr "DNS"
+
+#: mail/templates/mail/srvadm.html:26
+msgid "Status"
+msgstr "Estado"
+
+#: mail/templates/mail/srvadm.html:40
+msgid "Delete"
+msgstr "Eliminar"
+
+#: mail/templates/mail/srvadm.html:41
+msgid "Edit"
+msgstr "Editar"
 
 #: mail/templates/mail/srvdash.html:3 mail/templates/mail/srvdash.html:9
 msgid "Dashboard"

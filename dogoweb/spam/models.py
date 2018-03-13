@@ -27,3 +27,27 @@ class Modulo(models.Model):
 
     def probar(self, datos):
         return False
+
+
+# Modelo de politicas
+class Politica(models.Model):
+    objects=DTManager()
+
+    nombre = models.CharField('Name', max_length=50, unique=True)
+    activo = models.BooleanField('Active', default=True)
+
+    def __repr__(self):
+        return '<Politica: nombre="%s">' % self.nombre
+
+    def __str__(self):
+        return self.nombre
+
+    class Meta:
+        ordering = ["nombre"]
+        permissions = (
+            ("view_politicas", "View menu policies"),
+            ("manage_politicas", "Manage policies"),
+        )
+
+    def probar(self, datos):
+        return False

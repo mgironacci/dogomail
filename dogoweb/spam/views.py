@@ -3,8 +3,8 @@ from django.http import HttpResponse, JsonResponse
 from django.utils.translation import gettext as _
 from django.contrib.auth.decorators import login_required, permission_required
 from seg.views import ajax_permission_required
-from .models import Modulo
-from .forms import ModuloForm
+from .models import Modulo, Politica
+from .forms import ModuloForm, PoliticaForm
 import json
 
 
@@ -67,6 +67,41 @@ def module_delete(request, pks):
 @login_required()
 def policies(request):
     return render(request, 'spam/policies.html')
+
+
+@login_required()
+@ajax_permission_required('spam.manage_politicas')
+def policy(request):
+    if request.is_ajax() and request.method == 'POST':
+        jbody = json.loads(request.body.decode(request._encoding))
+    else:
+        return JsonResponse({'error': "Bad request"})
+    ret = Politica.objects.dt_filter(jbody)
+    return JsonResponse(ret)
+
+
+@login_required()
+@ajax_permission_required('seg.add_politica')
+def policy_create(request):
+    ret = Politica.objects.dt_create(request, PoliticaForm)
+    ret['panel'] = 'politica'
+    return JsonResponse(ret)
+
+
+@login_required()
+@ajax_permission_required('seg.change_politica')
+def policy_update(request, pks):
+    ret = Politica.objects.dt_update(pks, request, PoliticaForm)
+    ret['panel'] = 'politica'
+    return JsonResponse(ret)
+
+
+@login_required()
+@ajax_permission_required('seg.delete_politica')
+def policy_delete(request, pks):
+    ret = Politica.objects.dt_delete(pks, request, PoliticaForm)
+    ret['panel'] = 'politica'
+    return JsonResponse(ret)
 
 
 @login_required()
