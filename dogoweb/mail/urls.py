@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^domadm/$', views.domadm, name='maildomadm'),
     url(r'^domains$', views.domains, name='mail_domains'),
     url(r'^domains/create/$', views.domain_create, name='mail_domain_create'),
+    url(r'^domains/smail/$', views.domain_smail, name='mail_domain_sendmail'),
     url(r'^domains/update/(?P<pks>[\,\d]+)*$', views.domain_update, name='mail_domain_update'),
     url(r'^domains/delete/(?P<pks>[\,\d]+)*$', views.domain_delete, name='mail_domain_delete'),
     url(r'^srvdash/$', views.srvdash, name='mailsrvdash'),

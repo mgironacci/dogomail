@@ -1,8 +1,11 @@
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext as _
+from django.contrib.auth.models import User
 from seg.models import DTManager
 from erp.models import Cliente
+from spam.models import Politica
+
 
 
 # Campos seleccionables
@@ -38,6 +41,13 @@ ESTADO_MSG = {
     (3, _('Rejected')),
     (4, _('Blocked')),
     (5, _('Erased')),
+}
+
+
+TIPO_AUTH = {
+    ('smtp', 'SMTP'),
+    ('pop3', 'POP'),
+    ('ldap', 'LDAP'),
 }
 
 
@@ -132,6 +142,9 @@ class Dominio(models.Model):
     activo = models.BooleanField('Active', default=True)
     server = models.ForeignKey(Server, on_delete=models.PROTECT)
     cliente = models.ForeignKey(Cliente, blank=True, on_delete=models.PROTECT, null=True)
+    politica = models.ForeignKey(Politica, on_delete=models.PROTECT)
+    autentica = models.CharField('Authentication', choices=TIPO_AUTH, default='smtp', max_length=6)
+    admins = models.ManyToManyField(User, blank=True)
 
     def __repr__(self):
         return '<Dominio: nombre="%s">' % self.nombre
@@ -145,6 +158,12 @@ class Dominio(models.Model):
             ("view_domains", "View menu domains"),
             ("manage_domains", "Manage domains"),
         )
+
+    def validar_casilla(self):
+        return False
+
+    def enviarPrueba(self, destino):
+        return True
 
 
 class Mensaje(models.Model):

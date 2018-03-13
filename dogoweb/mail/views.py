@@ -102,7 +102,18 @@ def domains(request):
 @ajax_permission_required('mail.add_domain')
 def domain_create(request):
     ret = Dominio.objects.dt_wizard(request, DOM_STEPS)
-    ret['panel'] = 'domain'
+    ret['panel'] = 'dominio'
+    return JsonResponse(ret)
+
+
+@login_required()
+@ajax_permission_required('mail.add_domain')
+def domain_smail(request):
+    ret = Dominio.objects.dt_wizard(request, DOM_STEPS)
+    # enviar correo
+    if request.POST.get('mprueba', '') != '':
+        pass
+    ret['panel'] = 'dominio'
     return JsonResponse(ret)
 
 
@@ -110,7 +121,7 @@ def domain_create(request):
 @ajax_permission_required('mail.change_domain')
 def domain_update(request, pks):
     ret = Dominio.objects.dt_update(pks, request, DominioForm)
-    ret['panel'] = 'domain'
+    ret['panel'] = 'dominio'
     return JsonResponse(ret)
 
 
@@ -118,5 +129,5 @@ def domain_update(request, pks):
 @ajax_permission_required('mail.delete_domain')
 def domain_delete(request, pks):
     ret = Dominio.objects.dt_delete(pks, request, DominioForm)
-    ret['panel'] = 'domain'
+    ret['panel'] = 'dominio'
     return JsonResponse(ret)

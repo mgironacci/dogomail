@@ -332,20 +332,28 @@ class DTManager(models.Manager):
 
     def dt_wizard(self, request, steps, otemplate='seg/modal_form_wizard.html'):
         data = dict()
+        cstep = 0
         if request.method == 'POST':
             data['snext'] = request.POST.get('snext', '')
-            data['step'] = request.POST.get('step', '')
+            cstep = int(request.POST.get('step', '0'))
+            data['step'] = cstep
+            oform = steps['steps'][data['step']]['form']
             form = oform(request.POST)
             if form.is_valid():
-                form.save()
+                if hasattr(form, 'save'):
+                    form.save()
+                cstep += 1
                 data['form_is_valid'] = True
-                if data['snext'] == 'new':
+                if cstep < steps['count']:
+                    data['snext'] = 'yes'
+                    oform = steps['steps'][cstep]['form']
                     form = oform()
-                data['mensaje'] = {
-                    'icon': ICO_OK,
-                    'msg': _('The item was successfully created'),
-                    'tipo': 'success',
-                }
+                else:
+                    data['mensaje'] = {
+                        'icon': ICO_OK,
+                        'msg': _('The item was successfully created'),
+                        'tipo': 'success',
+                    }
             else:
                 data['form_is_valid'] = False
                 data['mensaje'] = {
@@ -354,9 +362,15 @@ class DTManager(models.Manager):
                     'tipo': 'danger',
                 }
         else:
-            oform = steps['steps'][0]['form']
+            oform = steps['steps'][cstep]['form']
             form = oform()
-        context = {'form': form, 'form_header': oform.form_header, 'form_steps': steps}
+        context = {'form': form, 'form_header': oform.form_header, 'form_steps': steps }
+        if cstep < steps['count']:
+            context.update({
+                'cur_step': cstep,
+                'cur_step_icon': steps['steps'][cstep]['icon'],
+                'cur_step_title': steps['steps'][cstep]['title'],
+            })
         data['html_form'] = render_to_string(otemplate, context, request=request)
         return data
 

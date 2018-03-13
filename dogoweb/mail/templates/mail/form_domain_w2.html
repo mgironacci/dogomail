@@ -1,0 +1,9 @@
+{% load seg_tags %}
+{% load i18n %}
+
+<div class="row">
+    <div class="col-lg-12">
+        {% render_field_full form.mprueba %}
+        {{ form.mprueba|set_focus }}
+    </div>
+</div>

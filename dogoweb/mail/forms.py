@@ -29,6 +29,7 @@ class ServerInfoForm(forms.ModelForm):
 SERVER_STEPS = {
     'title': _('Add server'),
     'icon': 'icmn-plus-circle',
+    'count': 2,
     'steps': [
         {
             'title': _('Name'),
@@ -44,19 +45,59 @@ SERVER_STEPS = {
 }
 
 
+class DominioW1Form(forms.ModelForm):
+    form_header = {
+        'templt': 'mail/form_domain_w1.html',
+        'url': 'mail_domain_create',
+    }
+
+    step = forms.HiddenInput()
+
+    class Meta:
+        model = Dominio
+        fields = [ 'nombre', 'server', 'autentica', 'cliente', 'politica', 'admins' ]
+        localize = '__all__'
+
+
+class DominioW2Form(forms.Form):
+    form_header = {
+        'templt': 'mail/form_domain_w2.html',
+        'url': 'mail_domain_sendmail',
+    }
+
+    step = forms.HiddenInput()
+    mprueba = forms.CharField(label='Test mail', max_length=100, required=False)
+
+
+class DominioW3Form(forms.Form):
+    form_header = {
+        'templt': 'mail/form_domain_w3.html',
+        'url': 'mail_domain_create',
+    }
+
+    step = forms.HiddenInput()
+    dato = forms.CharField(label='Sent mail', max_length=100, required=False)
+
+
 DOM_STEPS = {
     'title': _('Add domain'),
     'icon': 'icmn-plus-circle',
+    'count': 3,
     'steps': [
         {
-            'title': _('Name'),
-            'icon': 'icmn-server',
-            'form': ServerNameForm,
+            'title': _('Info'),
+            'icon': 'icmn-at-sign',
+            'form': DominioW1Form,
         },
         {
-            'title': _('Info'),
-            'icon': 'icmn-inf',
-            'form': ServerInfoForm,
+            'title': _('Test'),
+            'icon': 'icmn-database-check',
+            'form': DominioW2Form,
+        },
+        {
+            'title': _('Test'),
+            'icon': 'icmn-checkmark',
+            'form': DominioW3Form,
         },
     ]
 }

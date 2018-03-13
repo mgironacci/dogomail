@@ -3,7 +3,7 @@
 
 <form method="post" id="modal-form" action="{% url form_header.url %}">
     {% csrf_token %}
-    <input type="hidden" id="step" name="step" value=""/>
+    <input type="hidden" id="step" name="step" value="{{ cur_step }}"/>
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -12,40 +12,15 @@
     </div>
     {% with WIDGET_BASE_CLASS='form-control' WIDGET_GROUP_CLASS='form-group' WIDGET_REQUIRED_CLASS='form-control-required' WIDGET_ERROR_LIST_CLASS='form-control-error' WIDGET_ERROR_CLASS='has-danger' %}
     <div class="modal-body modal-body-bottom-5">
-        <div class="row">
-            <div class="col-lg-12">
-                <div id="modal-wizard" class="cui-wizard">
-                    <h3><i class="icmn-user cui-wizard--steps--icon"></i> <span class="cui-wizard--steps--title">Account Info</span></h3>
-                    <section class="text-center">
-                        <p>Try the keyboard navigation by clicking arrow left or right!</p>
-                    </section>
-                    <h3><i class="icmn-wallet cui-wizard--steps--icon"></i> <span class="cui-wizard--steps--title">Billing Info</span></h3>
-                    <section class="text-center">
-                        <p>Wonderful transition effects.</p>
-                    </section>
-                    <h3><i class="icmn-checkmark cui-wizard--steps--icon"></i> <span class="cui-wizard--steps--title">Confirmation</span></h3>
-                    <section class="text-center">
-                        <p>The next and previous buttons help you to navigate through your content.</p>
-                    </section>
-                </div>
-            </div>
-        </div>
+        <h5><small><i class="{{ cur_step_icon }}"></i></small> {{ cur_step_title }}</h5>
         {% include form_header.templt %}
     </div>
     {% endwith %}
     <div class="modal-footer">
+        {% if cur_step > 0 %}
         <button type="submit" class="btn btn-secondary">{% trans "Previous" %}</button>
-        <button type="button" class="btn width-150 btn-primary">{% trans "Next" %}</button>
+        {% endif %}
+        <button type="submit" class="btn width-150 btn-primary">{% trans "Next" %}</button>
         <button type="button" class="btn" data-dismiss="modal">{% trans "Cancel" %}</button>
     </div>
 </form>
-<script>
-    $(function() {
-        $("#modal-wizard").steps({
-            headerTag: "h3",
-            bodyTag: "section",
-            transitionEffect: "slideLeft",
-            autoFocus: true
-        });
-    });
-</script>

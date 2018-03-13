@@ -1,0 +1,28 @@
+{% load seg_tags %}
+{% load i18n %}
+
+<div class="row">
+    <div class="col-lg-6">
+        {% render_field_full form.nombre %}
+        {{ form.nombre|set_focus }}
+    </div>
+    <div class="col-lg-6">
+        {% render_field_full form.server %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        {% render_field_full form.autentica %}
+    </div>
+    <div class="col-lg-6">
+        {% render_field_full form.cliente %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        {% render_field_full form.politica %}
+    </div>
+    <div class="col-lg-6">
+        {% render_field_full_select2 form.admins dropdownParent="#popup-modal" %}
+    </div>
+</div>

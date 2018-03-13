@@ -11,17 +11,20 @@
     <div class="col-lg-6">
         <section class="panel panel-with-borders">
             <div class="panel-heading">
-                <button type="button" id="add" onclick="" class="btn btn-primary pull-right panel-buttons width-100">{% trans "Add" %}</button>
-                <h4>{% trans "Domain Admin" %}</h4>
+                {% if perms.mail.add_dominio %}
+                <button type="button" id="add" onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','add.dominio'); $('#popup-modal').modal();" class="btn btn-primary pull-right panel-buttons width-100">{% trans "Add" %}</button>
+                {% endif %}
+                <h4><small><i class="icmn-at-sign"></i></small> {% trans "Domain Admin" %}</h4>
             </div>
             <div class="panel-body">
-                <table class="table table-hover nowrap" id="domains-table" width="100%">
+                <table class="table table-hover nowrap" id="dominios-table" width="100%">
                     <thead>
                     <tr>
                         <th class="never">ID</th>
                         <th>{% trans "Name" %}</th>
                         <th>{% trans "Server" %}</th>
                         <th>{% trans "Client" %}</th>
+                        <th>{% trans "Policy" %}</th>
                         <th>{% trans "Active" %}</th>
                     </tr>
                     </thead>
@@ -30,6 +33,61 @@
                 </table>
             </div>
         </section>
+    </div>
+    <div class="col-lg-6">
+        <section class="panel panel-with-borders" id="dominio-panel">
+            <div class="panel-heading">
+                {% if perms.mail.delete_dominio %}
+                <button type="button" id="delete" onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','delete.dominio'); $('#popup-modal').modal();" class="btn btn-danger    pull-right panel-buttons width-100">{% trans "Delete" %}</button>
+                {% endif %}
+                {% if perms.mail.change_dominio %}
+                <button type="button" id="edit"   onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','edit.dominio');   $('#popup-modal').modal();" class="btn btn-secondary pull-right panel-buttons width-100">{% trans "Edit" %}</button>
+                {% endif %}
+                <h4 id="dominio-name"></h4>
+            </div>
+            <div class="panel-body">
+                <div class="nav-tabs-horizontal">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="javascript: void(0);" data-toggle="tab" data-target="#srvinfo" role="tab">
+                                <i class="icmn-info"></i>
+                                {% trans "Info" %}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#srvmbox" role="tab">
+                                <i class="icmn-mailbox"></i>
+                                {% trans "Mailboxes" %}
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content padding-vertical-20">
+                        <div class="tab-pane active" id="srvinfo" role="tabpanel">
+                            <h5 id="dominio-dns"></h5>
+                            <span id="dominio-stat"></span>
+                        </div>
+                        <div class="tab-pane" id="srvmbox" role="tabpanel">
+                            <table class="table table-hover nowrap" id="mbox-table" width="100%">
+                                <thead>
+                                <tr>
+                                    <th class="never">ID</th>
+                                    <th>{% trans "Name" %}</th>
+                                    <th>{% trans "Active" %}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<div class="modal fade modal-size-large" id="popup-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
     </div>
 </div>
 {% endblock %}
