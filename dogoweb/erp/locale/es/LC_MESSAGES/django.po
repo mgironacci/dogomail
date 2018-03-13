@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-13 02:18-0300\n"
-"PO-Revision-Date: 2018-01-14 21:55-0300\n"
+"POT-Creation-Date: 2018-03-13 05:24-0300\n"
+"PO-Revision-Date: 2018-03-13 05:26-0300\n"
 "Last-Translator: Andres Gironacci <mgironacci@itecnis.com>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -18,6 +18,45 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: erp/templates/erp/index.html:3 erp/templates/erp/index.html:9
-msgid "Dashboard"
-msgstr "Pizarrón"
+#: erp/forms.py:8
+msgid "Add client"
+msgstr "Agregar cliente"
+
+#: erp/forms.py:9
+msgid "Change client"
+msgstr "Cambiar cliente"
+
+#: erp/forms.py:10
+msgid "Delete client"
+msgstr "Eliminar cliente"
+
+#: erp/templates/erp/index.html:3 erp/templates/erp/index.html:24
+msgid "Clients"
+msgstr "Clientes"
+
+#: erp/templates/erp/index.html:16
+msgid "Add"
+msgstr "Agregar"
+
+#: erp/templates/erp/index.html:19
+msgid "Edit"
+msgstr "Editar"
+
+#: erp/templates/erp/index.html:22
+msgid "Delete"
+msgstr "Eliminar"
+
+#: erp/templates/erp/index.html:31
+msgid "Name"
+msgstr "Nombre"
+
+#: erp/templates/erp/index.html:32
+msgid "oerpID"
+msgstr "oerpID"
+
+#: erp/templates/erp/index.html:33
+msgid "Active"
+msgstr "Activo"
+
+#~ msgid "Dashboard"
+#~ msgstr "Pizarrón"

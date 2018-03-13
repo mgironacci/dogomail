@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-13 02:18-0300\n"
-"PO-Revision-Date: 2018-03-13 02:23-0300\n"
+"POT-Creation-Date: 2018-03-13 05:24-0300\n"
+"PO-Revision-Date: 2018-03-13 05:25-0300\n"
 "Last-Translator: Andres Gironacci <mgironacci@itecnis.com>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -18,123 +18,179 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: mail/forms.py:30 mail/forms.py:67
+#: mail/forms.py:30 mail/forms.py:108
 msgid "Add server"
 msgstr "Agregar servidor"
 
-#: mail/forms.py:34 mail/forms.py:52 mail/templates/mail/domadm.html:22
-#: mail/templates/mail/srvadm.html:24 mail/templates/mail/srvadm.html:77
-#: mail/templates/mail/srvadm.html:90
+#: mail/forms.py:35 mail/templates/mail/domadm.html:24
+#: mail/templates/mail/domadm.html:74 mail/templates/mail/srvadm.html:24
+#: mail/templates/mail/srvadm.html:77 mail/templates/mail/srvadm.html:90
 msgid "Name"
 msgstr "Nombre"
 
-#: mail/forms.py:39 mail/forms.py:57 mail/templates/mail/srvadm.html:51
+#: mail/forms.py:40 mail/forms.py:88 mail/templates/mail/domadm.html:54
+#: mail/templates/mail/srvadm.html:51
 msgid "Info"
 msgstr "Información"
 
-#: mail/forms.py:48 mail/forms.py:82
+#: mail/forms.py:83 mail/forms.py:123
 msgid "Add domain"
 msgstr "Agregar dominio"
 
-#: mail/forms.py:68
+#: mail/forms.py:93 mail/forms.py:98
+msgid "Test"
+msgstr "Prueba"
+
+#: mail/forms.py:109
 msgid "Change server"
 msgstr "Cambiar servidor"
 
-#: mail/forms.py:69
+#: mail/forms.py:110
 msgid "Delete server"
 msgstr "Eliminar servidor"
 
-#: mail/forms.py:83
+#: mail/forms.py:124
 msgid "Change domain"
 msgstr "Cambiar dominio"
 
-#: mail/forms.py:84
+#: mail/forms.py:125
 msgid "Delete domain"
 msgstr "Eliminar dominio"
 
-#: mail/forms.py:96
+#: mail/forms.py:137
 msgid "Add dogo"
 msgstr "Agregar dogo"
 
-#: mail/forms.py:97
+#: mail/forms.py:138
 msgid "Change dogo"
 msgstr "Cambiar dogo"
 
-#: mail/forms.py:98
+#: mail/forms.py:139
 msgid "Delete dogo"
 msgstr "Eliminar dogo"
 
-#: mail/models.py:19
+#: mail/models.py:22
 msgid "Normal"
 msgstr "Normal"
 
-#: mail/models.py:20
+#: mail/models.py:23
 msgid "Down"
 msgstr "Abajo"
 
-#: mail/models.py:21
+#: mail/models.py:24
 msgid "Warning"
 msgstr "Atención"
 
-#: mail/models.py:22
+#: mail/models.py:25
 msgid "Critical"
 msgstr "Crítico"
 
-#: mail/models.py:36
+#: mail/models.py:39
 msgid "Queued"
 msgstr "Encolado"
 
-#: mail/models.py:37
+#: mail/models.py:40
 msgid "Delivered"
 msgstr "Entregado"
 
-#: mail/models.py:38
+#: mail/models.py:41
 msgid "Rejected"
 msgstr "Rechazado"
 
-#: mail/models.py:39 mail/templates/mail/blocked.html:3
+#: mail/models.py:42 mail/templates/mail/blocked.html:3
 #: mail/templates/mail/blocked.html:9
 msgid "Blocked"
 msgstr "Bloqueado"
 
-#: mail/models.py:40
+#: mail/models.py:43
 msgid "Erased"
 msgstr "Borrado"
 
-#: mail/templates/mail/domadm.html:3 mail/templates/mail/domadm.html:15
+#: mail/templates/mail/domadm.html:3 mail/templates/mail/domadm.html:17
 msgid "Domain Admin"
 msgstr "Administrador de Dominio"
 
-#: mail/templates/mail/domadm.html:14 mail/templates/mail/srvadm.html:15
+#: mail/templates/mail/domadm.html:15 mail/templates/mail/srvadm.html:15
 msgid "Add"
 msgstr "Agregar"
 
-#: mail/templates/mail/domadm.html:23
+#: mail/templates/mail/domadm.html:25 mail/templates/mail/index.html:48
 msgid "Server"
 msgstr "Servidor"
 
-#: mail/templates/mail/domadm.html:24
+#: mail/templates/mail/domadm.html:26
 msgid "Client"
 msgstr "Cliente"
 
-#: mail/templates/mail/domadm.html:25 mail/templates/mail/srvadm.html:27
-#: mail/templates/mail/srvadm.html:78 mail/templates/mail/srvadm.html:91
+#: mail/templates/mail/domadm.html:27
+msgid "Policy"
+msgstr "Política"
+
+#: mail/templates/mail/domadm.html:28 mail/templates/mail/domadm.html:75
+#: mail/templates/mail/srvadm.html:27 mail/templates/mail/srvadm.html:78
+#: mail/templates/mail/srvadm.html:91
 msgid "Active"
 msgstr "Activo"
+
+#: mail/templates/mail/domadm.html:41 mail/templates/mail/srvadm.html:40
+msgid "Delete"
+msgstr "Eliminar"
+
+#: mail/templates/mail/domadm.html:44 mail/templates/mail/srvadm.html:41
+msgid "Edit"
+msgstr "Editar"
+
+#: mail/templates/mail/domadm.html:60 mail/templates/mail/mboxes.html:3
+#: mail/templates/mail/mboxes.html:9 mail/templates/mail/srvadm.html:63
+msgid "Mailboxes"
+msgstr "Casillas"
 
 #: mail/templates/mail/doms.html:3 mail/templates/mail/doms.html:9
 #: mail/templates/mail/srvadm.html:57
 msgid "Domains"
 msgstr "Dominios"
 
-#: mail/templates/mail/index.html:3 mail/templates/mail/index.html:9
+#: mail/templates/mail/index.html:3 mail/templates/mail/index.html:15
+#: mail/templates/mail/index.html:54
 msgid "Search"
 msgstr "Buscar"
 
-#: mail/templates/mail/mboxes.html:3 mail/templates/mail/mboxes.html:9
-#: mail/templates/mail/srvadm.html:63
-msgid "Mailboxes"
-msgstr "Casillas"
+#: mail/templates/mail/index.html:22 mail/templates/mail/index.html:77
+msgid "Sender"
+msgstr "Remitente"
+
+#: mail/templates/mail/index.html:26 mail/templates/mail/index.html:79
+msgid "Subject"
+msgstr "Asunto"
+
+#: mail/templates/mail/index.html:30 mail/templates/mail/index.html:80
+msgid "Size"
+msgstr "Tamaño"
+
+#: mail/templates/mail/index.html:34 mail/templates/mail/index.html:75
+#: mail/templates/mail/srvadm.html:26
+msgid "Status"
+msgstr "Estado"
+
+#: mail/templates/mail/index.html:40
+msgid "Recipient"
+msgstr "Recipiente"
+
+#: mail/templates/mail/index.html:44 mail/templates/mail/index.html:76
+msgid "Date"
+msgstr "Fecha"
+
+#: mail/templates/mail/index.html:53
+msgid "Clear"
+msgstr "Limpiar"
+
+#: mail/templates/mail/index.html:68
+msgid "Results"
+msgstr "Resultados"
+
+#: mail/templates/mail/index.html:78
+msgid "Origen"
+msgstr "Origen"
 
 #: mail/templates/mail/queues.html:3 mail/templates/mail/queues.html:9
 msgid "Queues"
@@ -147,18 +203,6 @@ msgstr "Administrador de Servidor"
 #: mail/templates/mail/srvadm.html:25
 msgid "DNS"
 msgstr "DNS"
-
-#: mail/templates/mail/srvadm.html:26
-msgid "Status"
-msgstr "Estado"
-
-#: mail/templates/mail/srvadm.html:40
-msgid "Delete"
-msgstr "Eliminar"
-
-#: mail/templates/mail/srvadm.html:41
-msgid "Edit"
-msgstr "Editar"
 
 #: mail/templates/mail/srvdash.html:3 mail/templates/mail/srvdash.html:9
 msgid "Dashboard"

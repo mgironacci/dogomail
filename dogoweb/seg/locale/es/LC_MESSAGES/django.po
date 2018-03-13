@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-13 02:18-0300\n"
+"POT-Creation-Date: 2018-03-13 05:24-0300\n"
 "PO-Revision-Date: 2018-03-13 02:21-0300\n"
 "Last-Translator: Andres Gironacci <mgironacci@itecnis.com>\n"
 "Language-Team: \n"
@@ -78,11 +78,11 @@ msgstr "Eliminar pantalla"
 msgid "None"
 msgstr "Nada"
 
-#: seg/models.py:222 seg/models.py:346
+#: seg/models.py:222 seg/models.py:354
 msgid "The item was successfully created"
 msgstr "El ítem fue creado exitosamente"
 
-#: seg/models.py:229 seg/models.py:269 seg/models.py:353
+#: seg/models.py:229 seg/models.py:269 seg/models.py:361
 msgid "The item had a problem, please review"
 msgstr "El ítem tuvo un problema, por favor revisar"
 
@@ -228,7 +228,7 @@ msgstr "Guardar y Agregar"
 #: seg/templates/seg/modal_form_create.html:21
 #: seg/templates/seg/modal_form_delete.html:22
 #: seg/templates/seg/modal_form_update.html:49
-#: seg/templates/seg/modal_form_wizard.html:39
+#: seg/templates/seg/modal_form_wizard.html:24
 #: seg/templates/seg/profile.html:139
 msgid "Cancel"
 msgstr "Cancelar"
@@ -238,7 +238,7 @@ msgid "Are you sure you want to delete this items?"
 msgstr "¿Está seguro de querer eliminar estos items?"
 
 #: seg/templates/seg/modal_form_update.html:24
-#: seg/templates/seg/modal_form_wizard.html:37
+#: seg/templates/seg/modal_form_wizard.html:21
 msgid "Previous"
 msgstr "Previo"
 
@@ -247,7 +247,7 @@ msgid "Choose"
 msgstr "Elegir"
 
 #: seg/templates/seg/modal_form_update.html:35
-#: seg/templates/seg/modal_form_wizard.html:38
+#: seg/templates/seg/modal_form_wizard.html:23
 msgid "Next"
 msgstr "Próximo"
 
