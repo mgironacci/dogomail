@@ -1,0 +1,17 @@
+{% load seg_tags %}
+{% load i18n %}
+
+<div class="row">
+    <div class="col-lg-12">
+        {% render_field_full form.nombre %}
+        {{ form.nombre|set_focus }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        {% render_field_full form.oerpid %}
+    </div>
+    <div class="col-lg-6">
+        {% render_field_full_checkbox form.activo %}
+    </div>
+</div>
