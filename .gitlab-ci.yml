@@ -1,0 +1,46 @@
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  script:
+    - echo "Probando scripts"
+    - ./deploy.sh build
+  tags:
+    - itgit-shell
+
+test:
+  stage: test
+  script:
+    - echo "Ejecutando pruebas"
+    - ./deploy.sh unitest
+  tags:
+    - itgit-shell
+
+deploy_webtest:
+  stage: deploy
+  script:
+    - echo "Desplegando web en testing"
+    - ./deploy.sh webtest
+  environment:
+    name: test
+  when: manual
+  only:
+  - master
+  tags:
+    - itgit-shell
+
+deploy_webprod:
+  stage: deploy
+  script:
+    - echo "Desplegando web en produccion"
+    - ./deploy.sh webprod
+  environment:
+    name: prod
+  when: manual
+  only:
+  - /^release-.*$/
+  tags:
+    - itgit-shell
