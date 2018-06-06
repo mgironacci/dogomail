@@ -20,7 +20,7 @@ body {
 
 /* Icono que cambia cuando se achica el ancho */
 nav.top-menu .menu-icon-container {
-    margin-top: 0;
+    margin-top: 8px;
     margin-left: 5px;
     margin-right: 20px;
     font-size: 8pt;
@@ -34,12 +34,12 @@ nav.top-menu .menu-icon-container {
 /* MÉTODO PARA TENER FOOTER */
 main {
     flex-grow: 1;
-    flex-shrink 0;
+    flex-shrink: 0;
 }
 
 footer.cwt__footer {
     padding: 10px 20px 0px;
-    flex-shrink 0;
+    flex-shrink: 0;
 }
 
 body.single-page .page-content {

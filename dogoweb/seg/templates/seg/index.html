@@ -22,8 +22,8 @@
                         {% trans "Add" %}
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="" role="menu">
-                        <a class="dropdown-item" href="javascript: $('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','add-user'); $('#popup-modal').modal();">{% trans "User" %}</a>
-                        <a class="dropdown-item" href="javascript: $('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','add-group'); $('#popup-modal').modal();">{% trans "Group" %}</a>
+                        <button class="dropdown-item" onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','add-user'); $('#popup-modal').modal();">{% trans "User" %}</button>
+                        <button class="dropdown-item" onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','add-group'); $('#popup-modal').modal();">{% trans "Group" %}</button>
                     </ul>
                 </div>
                 <button type="button" id="b_users_edit" onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','edit.user'); $('#popup-modal').modal();" class="btn btn-secondary pull-right panel-buttons width-100">{% trans "Edit" %}</button>
@@ -117,8 +117,8 @@
                         {% trans "Add" %}
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="" role="menu">
-                        <a class="dropdown-item" href="javascript: $('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','add-menu'); $('#popup-modal').modal();">{% trans "Menu" %}</a>
-                        <a class="dropdown-item" href="javascript: $('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','add-pant'); $('#popup-modal').modal();">{% trans "Screen" %}</a>
+                        <button class="dropdown-item" onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','add-menu'); $('#popup-modal').modal();">{% trans "Menu" %}</button>
+                        <button class="dropdown-item" onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','add-pant'); $('#popup-modal').modal();">{% trans "Screen" %}</button>
                     </ul>
                 </div>
                 <button type="button" id="b_menus_edit" onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','edit.menu'); $('#popup-modal').modal();" class="btn btn-secondary pull-right panel-buttons width-100">{% trans "Edit" %}</button>

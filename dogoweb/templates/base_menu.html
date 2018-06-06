@@ -12,8 +12,6 @@
         <a href="{% url 'index' %}" class="logo">
             <img src="/static/dogoweb/img/dogomail-chico.png" alt="DogoMail" />
         </a>
-        <br/>
-        DogoMail <small>v{{ user.profile.version }}</small>
     </div>
     <div class="menu">
         <div class="menu-user-block">
@@ -77,6 +75,11 @@
                 <span>
                     <a href="http://www.itecnis.com" class="cwt__footer__link" target="_blank">Itecnis SRL</a> © 2017
                 </span>
+            </div>
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+                <span class="pull-right">DogoMail v{{ user.profile.version }}</span>
             </div>
         </div>
     </div>

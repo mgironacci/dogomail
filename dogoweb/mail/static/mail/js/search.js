@@ -42,7 +42,7 @@ $(function(){
             { name: "estado" },
             { name: "rcv_time" },
             { name: "sender" },
-            { name: "ip_origen" },
+            { name: "ip_orig" },
             { name: "subject" },
             { name: "sizemsg" },
         ],
