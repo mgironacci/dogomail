@@ -1,0 +1,27 @@
+{% load seg_tags %}
+{% load i18n %}
+
+<div class="row">
+    <div class="col-lg-6">
+        {% render_field_full form.tipo %}
+        {{ form.tipo|set_focus }}
+    </div>
+    <div class="col-lg-6">
+        {% render_field_full_checkbox form.activo %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        {% render_field_full form.ip %}
+    </div>
+    <div class="col-lg-6">
+        {% render_field_full form.remitente %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        {% render_field_full form.destino %}
+    </div>
+    <div class="col-lg-6">
+    </div>
+</div>

@@ -4,6 +4,10 @@ from . import views
 urlpatterns = [
     url(r'^$', views.index, name='spamindex'),
     url(r'^lists$', views.lists, name='spamlists'),
+    url(r'^list$', views.lista, name='spam_list'),
+    url(r'^list/create/$', views.lista_create, name='spam_list_create'),
+    url(r'^list/update/(?P<pks>[\,\d]+)*$', views.lista_update, name='spam_list_update'),
+    url(r'^list/delete/(?P<pks>[\,\d]+)*$', views.lista_delete, name='spam_list_delete'),
     url(r'^avirus$', views.avirus, name='spamavirus'),
     url(r'^modules$', views.modules, name='spammodules'),
     url(r'^module$', views.module, name='spam_module'),

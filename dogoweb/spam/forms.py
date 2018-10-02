@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.translation import gettext as _
-from .models import Modulo, Politica
+from .models import Modulo, Politica, Listas
 
 
 class ModuloForm(forms.ModelForm):
@@ -27,4 +27,17 @@ class PoliticaForm(forms.ModelForm):
     class Meta:
         model = Politica
         fields = ('nombre', 'activo')
+
+
+class ListaForm(forms.ModelForm):
+    form_header = {
+        'create': {'title': _('Add list'),    'icon': 'icmn-plus-circle',  'url': 'spam_list_create'},
+        'update': {'title': _('Change list'), 'icon': 'icmn-pencil7',      'url': 'spam_list_update'},
+        'delete': {'title': _('Delete list'), 'icon': 'icmn-minus-circle', 'url': 'spam_list_delete'},
+        'templt': 'spam/form_lista.html',
+    }
+
+    class Meta:
+        model = Listas
+        fields = ('tipo', 'ip', 'remitente', 'destino', 'activo')
 

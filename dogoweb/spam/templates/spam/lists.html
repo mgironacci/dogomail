@@ -3,8 +3,50 @@
 {% block titulo %}{% trans "Lists" %}{% endblock %}
 
 {% block encabezadomenu %}
+    <script src="/static/spam/js/listas.js"></script>
 {% endblock %}
 
 {% block contenidomenu %}
-<h1>{% trans "Lists" %}</h1>
+<div class="row row-top-15">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8 col-md-12">
+        <section class="panel panel-with-borders">
+            <div class="panel-heading">
+                {% if perms.spam.add_listas %}
+                <button type="button" id="add" onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','add.lista'); $('#popup-modal').modal();" class="btn btn-primary pull-right panel-buttons width-100">{% trans "Add" %}</button>
+                {% endif %}
+                {% if perms.spam.change_listas %}
+                <button type="button" id="edit"   onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','edit.lista');   $('#popup-modal').modal();" class="btn btn-secondary pull-right panel-buttons width-100">{% trans "Edit" %}</button>
+                {% endif %}
+                {% if perms.spam.delete_listas %}
+                <button type="button" id="delete" onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','delete.lista'); $('#popup-modal').modal();" class="btn btn-danger    pull-right panel-buttons width-100">{% trans "Delete" %}</button>
+                {% endif %}
+                <h4><small><i class="icmn-list"></i></small> {% trans "Lists" %}</h4>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover nowrap" id="listas-table" width="100%">
+                    <thead>
+                    <tr>
+                        <th class="never">ID</th>
+                        <th>{% trans "Type" %}</th>
+                        <th>{% trans "IP" %}</th>
+                        <th>{% trans "Sender" %}</th>
+                        <th>{% trans "Recipient" %}</th>
+                        <th>{% trans "Active" %}</th>
+                        <th>{% trans "Created" %}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+    <div class="col-lg-2"></div>
+</div>
+<div class="modal fade modal-size-large" id="popup-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+    </div>
+</div>
 {% endblock %}

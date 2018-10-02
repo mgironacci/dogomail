@@ -51,3 +51,38 @@ class Politica(models.Model):
 
     def probar(self, datos):
         return False
+
+
+# Modelo de politicas
+TIPO_LISTAS = {
+    ('blanca', 'Blanca'),
+    ('negra', 'Negra'),
+    ('rapida', 'Rápida'),
+    ('nosa', 'No SA'),
+    ('cliente', 'Cliente'),
+}
+
+
+class Listas(models.Model):
+    objects=DTManager()
+
+    tipo = models.CharField('Type', max_length=10, choices=TIPO_LISTAS, default='blanca', db_index=True)
+    ip = models.CharField('IP', max_length=15, db_index=True)
+    remitente = models.CharField('Sender', max_length=254, db_index=True)
+    destino = models.CharField('Recipient', max_length=254, default='%', db_index=True)
+    activo = models.BooleanField('Active', default=True)
+    creado_el = models.DateTimeField('Created', default=timezone.now)
+
+    def __repr__(self):
+        return '<Listas: tipo="%s", ip="%s", rem="%s", dest="%s">' % (self.tipo, self.ip, self.remitente, self.destino)
+
+    def __str__(self):
+        return self.tipo + ": " + self.ip
+
+    class Meta:
+        ordering = ["ip", "remitente", "destino"]
+        permissions = (
+            ("view_listas", "View menu listas"),
+            ("manage_listas", "Manage listas"),
+        )
+        unique_together = ("tipo", "ip", "remitente", "destino")
