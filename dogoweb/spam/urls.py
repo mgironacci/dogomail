@@ -20,4 +20,5 @@ urlpatterns = [
     url(r'^policy/update/(?P<pks>[\,\d]+)*$', views.policy_update, name='spam_policy_update'),
     url(r'^policy/delete/(?P<pks>[\,\d]+)*$', views.policy_delete, name='spam_policy_delete'),
     url(r'^rules$', views.rules, name='spamrules'),
+    url(r'^autorules$', views.autorules, name='spamautorules'),
 ]

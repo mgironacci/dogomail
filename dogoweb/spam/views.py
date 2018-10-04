@@ -145,5 +145,10 @@ def rules(request):
 
 
 @login_required()
+def autorules(request):
+    return render(request, 'spam/autorules.html')
+
+
+@login_required()
 def config(request):
     return render(request, 'spam/config.html')
