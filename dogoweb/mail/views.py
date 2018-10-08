@@ -141,3 +141,44 @@ def domain_delete(request, pks):
     ret = Dominio.objects.dt_delete(pks, request, DominioForm)
     ret['panel'] = 'dominio'
     return JsonResponse(ret)
+
+
+@login_required()
+@permission_required('mail.view_dogomail')
+def dogoadm(request):
+    return render(request, 'mail/dogoadm.html')
+
+
+@login_required()
+@ajax_permission_required('mail.view_dogomail')
+def dogos(request):
+    if request.is_ajax() and request.method == 'POST':
+        jbody = json.loads(request.body.decode(request._encoding))
+    else:
+        return JsonResponse({'error': "Bad request"})
+    ret = Dogomail.objects.dt_filter(jbody)
+    return JsonResponse(ret)
+
+
+@login_required()
+@ajax_permission_required('mail.add_server')
+def dogo_create(request):
+    ret = Dogomail.objects.dt_create(request, DogomailForm)
+    ret['panel'] = 'dogo'
+    return JsonResponse(ret)
+
+
+@login_required()
+@ajax_permission_required('mail.change_server')
+def dogo_update(request, pks):
+    ret = Dogomail.objects.dt_update(pks, request, DogomailForm)
+    ret['panel'] = 'dogo'
+    return JsonResponse(ret)
+
+
+@login_required()
+@ajax_permission_required('mail.delete_server')
+def dogo_delete(request, pks):
+    ret = Dogomail.objects.dt_delete(pks, request, DogomailForm)
+    ret['panel'] = 'dogo'
+    return JsonResponse(ret)

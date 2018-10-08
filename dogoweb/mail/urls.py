@@ -20,4 +20,9 @@ urlpatterns = [
     url(r'^servers/create/$', views.server_create, name='mail_server_create'),
     url(r'^servers/update/(?P<pks>[\,\d]+)*$', views.server_update, name='mail_server_update'),
     url(r'^servers/delete/(?P<pks>[\,\d]+)*$', views.server_delete, name='mail_server_delete'),
+    url(r'^dogoadm/$', views.dogoadm, name='maildogoadm'),
+    url(r'^dogo$', views.dogos, name='mail_dogo'),
+    url(r'^dogo/create/$', views.dogo_create, name='mail_dogo_create'),
+    url(r'^dogo/update/(?P<pks>[\,\d]+)*$', views.dogo_update, name='mail_dogo_update'),
+    url(r'^dogo/delete/(?P<pks>[\,\d]+)*$', views.dogo_delete, name='mail_dogo_delete'),
 ]

@@ -142,5 +142,5 @@ class DogomailForm(forms.ModelForm):
 
     class Meta:
         model = Dogomail
-        fields = '__all__'
+        fields = ['nombre', 'dirdns', 'dirip4', 'dirip6', 'activo', ]
         localize = '__all__'

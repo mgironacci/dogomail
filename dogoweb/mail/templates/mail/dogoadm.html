@@ -1,0 +1,52 @@
+{% extends "base_menu.html" %}
+{% load i18n %}
+{% block titulo %}{% trans "Relays" %}{% endblock %}
+
+{% block encabezadomenu %}
+    <script src="/static/mail/js/dogoadm.js"></script>
+{% endblock %}
+
+{% block contenidomenu %}
+<div class="row row-top-15">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8 col-md-12">
+        <section class="panel panel-with-borders">
+            <div class="panel-heading">
+                {% if perms.mail.add_dogomail %}
+                <button type="button" id="add" onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','add.objeto'); $('#popup-modal').modal();" class="btn btn-primary pull-right panel-buttons width-100">{% trans "Add" %}</button>
+                {% endif %}
+                {% if perms.mail.change_dogomail %}
+                <button type="button" id="edit"   onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','edit.objeto');   $('#popup-modal').modal();" class="btn btn-secondary pull-right panel-buttons width-100">{% trans "Edit" %}</button>
+                {% endif %}
+                {% if perms.mail.delete_dogomail %}
+                <button type="button" id="delete" onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','delete.objeto'); $('#popup-modal').modal();" class="btn btn-danger    pull-right panel-buttons width-100">{% trans "Delete" %}</button>
+                {% endif %}
+                <h4><small><i class="icmn-design"></i></small> {% trans "Relays" %}</h4>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover nowrap" id="objetos-table" width="100%">
+                    <thead>
+                    <tr>
+                        <th class="never">ID</th>
+                        <th>{% trans "Name" %}</th>
+                        <th>{% trans "DNS" %}</th>
+                        <th>{% trans "IP4" %}</th>
+                        <th>{% trans "IP6" %}</th>
+                        <th>{% trans "Status" %}</th>
+                        <th>{% trans "Active" %}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+    <div class="col-lg-2"></div>
+</div>
+<div class="modal fade modal-size-large" id="popup-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+    </div>
+</div>
+{% endblock %}

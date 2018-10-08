@@ -16,6 +16,7 @@ TIPO_SRVS = {
     ('zimbra6', 'Zimbra 6'),
     ('zimbra7', 'Zimbra 7'),
     ('zimbra8', 'Zimbra 8'),
+    ('exchange', 'Exchange'),
 }
 
 ESTADO_SRVS = {
@@ -43,6 +44,24 @@ ESTADO_MSG = {
     (5, _('Erased')),
 }
 
+RUN_DISPOSICION_MSG = {
+    (1,'Mensaje Entregado'),
+    (2,'Mensaje Retenido'),
+    (3,'Mensaje Rechazado'),
+    (4,'Mensaje Eliminado'),
+    (5,'Mensaje en Transito'),
+    (6,'Mensaje Liberado para enviar'),
+    (7,'Mensaje Liberado en Tránsito'),
+    (8,'Mensaje saliente entregado'),
+    (20,'Liberado pero no se encontro cuerpo')
+}
+
+RUN_ETAPA_MSG = {
+    (1,'Etapa indefinida'),
+    (2,'Validacion de remitente'),
+    (3,'Validacion de destinatarios'),
+    (4,'Examen del cuerpo del mensaje'),
+}
 
 TIPO_AUTH = {
     ('smtp', 'SMTP'),
