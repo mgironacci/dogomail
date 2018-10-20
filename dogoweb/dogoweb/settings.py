@@ -48,7 +48,7 @@ LOGIN_REDIRECT_URL = config.get('LOGIN_REDIRECT_URL')
 LOGOUT_REDIRECT_URL = config.get('LOGOUT_REDIRECT_URL')
 
 ICO_OK   = "icmn-checkmark4"
-ICO_WARN = "icmn-waring"
+ICO_WARN = "icmn-warning"
 ICO_INFO = "icmn-info"
 ICO_CRIT = "icmn-notification"
 
@@ -149,6 +149,10 @@ USE_TZ = True
 
 LOCALE_PATHS = [
     os.path.join(BASE_DIR, "dogoweb", "locale"),
+]
+
+FORMAT_MODULE_PATH = [
+    'dogoweb.formats',
 ]
 
 # Static files (CSS, JavaScript, Images)
