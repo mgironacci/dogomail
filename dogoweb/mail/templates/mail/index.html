@@ -57,6 +57,13 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <input type="text" name="msgids" class="form-control" id="id_msgids" placeholder='{% trans "Message IDs" %}'/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-lg-6 col-compact-left">
                             {% render_field_full form.estado %}
                         </div>
@@ -125,6 +132,7 @@
                         <th>{% trans "Origen" %}</th>
                         <th>{% trans "Subject" %}</th>
                         <th>{% trans "Size" %}</th>
+                        <th>{% trans "Message IDs" %}</th>
                         <th>{% trans "Recipients" %}</th>
                     </tr>
                     </thead>

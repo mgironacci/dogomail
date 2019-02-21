@@ -7,6 +7,7 @@ $(function(){
     $("#id_recipient").val("");
     $("#id_subject").val("");
     $("#id_ip_orig").val("");
+    $("#id_msgids").val("");
     $("#id_minsize").val("");
     $("#id_maxsize").val("");
     $("#id_rcv_from").val("");
@@ -29,6 +30,11 @@ $(function(){
         }
     });
     $("#id_ip_orig").keyup(function(event) {
+        if (event.keyCode === 13) {
+            $("#id_btn_buscar").click();
+        }
+    });
+    $("#id_msgids").keyup(function(event) {
         if (event.keyCode === 13) {
             $("#id_btn_buscar").click();
         }
@@ -119,7 +125,7 @@ $(function(){
                 }
                 if ($('#id_recipient').val()) {
                     var valor = $('#id_recipient').val();
-                    d['columns'][8]['search']['value'] = valor;
+                    d['columns'][9]['search']['value'] = valor;
                     d['colsearch'] = true;
                 }
                 if ($('#id_subject').val()) {
@@ -130,6 +136,11 @@ $(function(){
                 if ($('#id_ip_orig').val()) {
                     var valor = $('#id_ip_orig').val();
                     d['columns'][5]['search']['value'] = valor;
+                    d['colsearch'] = true;
+                }
+                if ($('#id_msgids').val()) {
+                    var valor = $('#id_msgids').val();
+                    d['columns'][8]['search']['value'] = valor;
                     d['colsearch'] = true;
                 }
                 if ($('#id_minsize').val() && $('#id_maxsize').val()) {
@@ -218,6 +229,7 @@ $(function(){
             { name: "ip_orig" },
             { name: "subject" },
             { name: "hb+sizemsg" },
+            { name: "msgids" },
             { name: "fks+destinatario_set+receptor" }
         ],
         order: [[ 2, "desc" ]],

@@ -168,6 +168,7 @@ class SearchMailForm(forms.Form):
     sender = forms.CharField(label='Sender', required=False)
     recipient = forms.CharField(label='Recipient', required=False)
     subject = forms.CharField(label='Subject', required=False)
+    msgids = forms.CharField(label='Message IDs', required=False)
     minsize = forms.CharField(label='Min Size', required=False)
     maxsize = forms.CharField(label='Max Size', required=False)
     estado = forms.ChoiceField(label='Status', choices=ESTADO_SRCH, required=False, initial=0)
