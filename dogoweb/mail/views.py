@@ -5,14 +5,15 @@ from django.utils.translation import gettext as _
 from django.contrib.auth.decorators import login_required, permission_required
 from seg.views import ajax_permission_required
 from .models import Server, Dominio, Dogomail, Mensaje, Destinatario
-from .forms import ServerForm, DominioForm, DogomailForm, SERVER_STEPS, DOM_STEPS
+from .forms import ServerForm, DominioForm, DogomailForm, SERVER_STEPS, DOM_STEPS, SearchMailForm
 from dogoweb.settings import VERSION, ICO_OK, ICO_WARN, ICO_INFO, ICO_CRIT
 import json
 
 
 @login_required()
 def index(request):
-    return render(request, 'mail/index.html')
+    form = SearchMailForm()
+    return render(request, 'mail/index.html', locals())
 
 
 @login_required()

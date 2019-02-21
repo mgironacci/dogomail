@@ -5,7 +5,7 @@ from django.dispatch import receiver
 from django.contrib.auth.models import User, Permission
 from django.contrib.auth.signals import user_logged_in, user_logged_out, user_login_failed
 from django.template.loader import render_to_string
-from django.utils import timezone
+from django.utils import timezone, formats
 from django.utils.translation import gettext as _
 from dogoweb.settings import VERSION, ICO_OK, ICO_WARN, ICO_INFO, ICO_CRIT
 import hashlib
@@ -109,6 +109,76 @@ def DTFilter(mmodel, jbody, autodata=True, filter=None, exclude=None):
             ret['recordsFiltered'] = sobjs.count()
         else:
             sobjs = bobjs
+    # Busco si es por columna
+    elif 'colsearch' in jbody and jbody['colsearch']:
+        # Busco columnas buscables
+        cbuscar = []
+        crelate = []
+        cpfetch = []
+        for cc in jbody['columns']:
+            if cc['searchable']:
+                if cc['search']['value'] == '':
+                    continue
+                if cc['name'].count('+') == 0:
+                    cbuscar.append((cc['name'] + "__icontains", cc['search']['value']))
+                    continue
+                elif cc['name'].count('+') == 1:
+                    fkn = False
+                    tipo, campo = cc['name'].split('+')
+                elif cc['name'].count('+') == 2:
+                    tipo, campo, fkn = cc['name'].split('+')
+                else:
+                    continue
+                if tipo == 'fks':
+                    cbuscar.append((campo.replace("_set", "") + "__" + fkn + "__icontains", cc['search']['value']))
+                    cpfetch.append(campo)
+                elif tipo == 'cho':
+                    cbuscar.append((campo, cc['search']['value']))
+                elif tipo == 'hb': # Tratamiento de entero
+                    imin, imax = cc['search']['value'].split("|")
+                    if imin != '' and imax != '':
+                        cbuscar.append((campo + "__range", (imin,imax)))
+                    elif imin != '':
+                        cbuscar.append((campo + "__gte", imin))
+                    elif imax != '':
+                        cbuscar.append((campo + "__lte", imax))
+                elif cc['search']['value'].find("|") >= 0: # Tratamiento de entero/fecha
+                    imin, imax = cc['search']['value'].split("|")
+                    if imin != '' and imax != '':
+                        cbuscar.append((campo + "__range", (imin,imax)))
+                    elif imin != '':
+                        cbuscar.append((campo + "__gte", imin))
+                    elif imax != '':
+                        cbuscar.append((campo + "__lte", imax))
+        if 'colhidden' in jbody:
+            for ch in jbody['colhidden']:
+                if ch[1].find("|") >= 0:
+                    imin, imax = ch[1].split("|")
+                    if imin != '' and imax != '':
+                        cbuscar.append((ch[0] + "__range", (imin, imax)))
+                    elif imin != '':
+                        cbuscar.append((ch[0] + "__gte", imin))
+                    elif imax != '':
+                        cbuscar.append((ch[0] + "__lte", imax))
+                else:
+                    cbuscar.append((ch[0], ch[1]))
+        cfiltro = None
+        for cr in crelate:
+            bobjs = bobjs.select_related(cr)
+        for cr in cpfetch:
+            bobjs = bobjs.prefetch_related(cr)
+        for cf in cbuscar:
+            fkw = {cf[0]: cf[1]}
+            if cfiltro:
+                cfiltro &= Q(**fkw)
+            else:
+                cfiltro = Q(**fkw)
+        # Armo filtro
+        if cfiltro:
+            sobjs = bobjs.filter(cfiltro)
+            ret['recordsFiltered'] = sobjs.count()
+        else:
+            sobjs = bobjs
     else:
         sobjs = bobjs
 
@@ -186,7 +256,7 @@ def DTFilter(mmodel, jbody, autodata=True, filter=None, exclude=None):
                 elif tipo == 'check':
                     ao.append(html_check(getattr(o, ccn)))
                 elif tipo == 'est':
-                    ao.append(html_estado(getattr(o, ccn), getattr(o, 'get_%s_display'%ccn)()))
+                    ao.append(html_estado(getattr(o, ccn), getattr(o, 'get_%s_display' % ccn)()))
                 elif tipo == 'cho':
                     ao.append(getattr(o, 'get_%s_display' % ccn)())
                 elif tipo == 'link':
@@ -200,6 +270,26 @@ def DTFilter(mmodel, jbody, autodata=True, filter=None, exclude=None):
                     ao.append(getattr(o, ccn).name)
                 elif tipo == 'count':
                     ao.append(str(getattr(o, ccn).count()))
+                elif tipo == 'fks':
+                    if fko:
+                        svals = [getattr(svo, fko) for svo in getattr(o, ccn).all()]
+                    else:
+                        svals = [str(svo) for svo in getattr(o, ccn).all()]
+                    ao.append(" ".join(svals))
+                elif tipo == 'hb':
+                    val = int(getattr(o, ccn))
+                    suf = ''
+                    if val >= 10485760:
+                        val /= (1048576)
+                        suf = ' M'
+                    elif val >= 10240:
+                        val /= 1024
+                        suf = ' K'
+                    ao.append(str(int(val)) + suf)
+                elif tipo=='date':
+                    ao.append(formats.date_format(getattr(o, ccn), format='SHORT_DATE_FORMAT'))
+                elif tipo=='datetime':
+                    ao.append(formats.date_format(getattr(o, ccn), format='SHORT_DATETIMESEC_FORMAT'))
 
             ret['data'].append(ao)
         return ret

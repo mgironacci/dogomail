@@ -1,6 +1,61 @@
-var jseg = {};
+var jobj = {};
 
 $(function(){
+
+    // Hacemos andar el enter en los campos de texto
+    $("#id_sender").keyup(function(event) {
+        if (event.keyCode === 13) {
+            $("#id_btn_buscar").click();
+        }
+    });
+    $("#id_recipient").keyup(function(event) {
+        if (event.keyCode === 13) {
+            $("#id_btn_buscar").click();
+        }
+    });
+    $("#id_subject").keyup(function(event) {
+        if (event.keyCode === 13) {
+            $("#id_btn_buscar").click();
+        }
+    });
+    $("#id_ip_orig").keyup(function(event) {
+        if (event.keyCode === 13) {
+            $("#id_btn_buscar").click();
+        }
+    });
+    $("#id_minsize").keyup(function(event) {
+        if (event.keyCode === 13) {
+            $("#id_btn_buscar").click();
+        }
+    });
+    $("#id_maxsize").keyup(function(event) {
+        if (event.keyCode === 13) {
+            $("#id_btn_buscar").click();
+        }
+    });
+    $('.datetimepicker-init').datetimepicker({
+        widgetPositioning: {
+            horizontal: 'left'
+        },
+        icons: {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-arrow-up",
+            down: "fa fa-arrow-down"
+        },
+        format: 'YYYY-MM-DD HH:mm:ss',
+        locale: LANGCODE
+    });
+    $('#id_rcv_until').datetimepicker({
+            useCurrent: false //Important! See issue #1075
+        });
+    $("#id_rcv_from").on("dp.change", function (e) {
+        $('#id_rcv_until').data("DateTimePicker").minDate(e.date);
+    });
+    $("#id_rcv_until").on("dp.change", function (e) {
+        $('#id_rcv_from').data("DateTimePicker").maxDate(e.date);
+    });
+
 
     var clickDTs = function (et, e, dt, indexes) {
         var dts =  $('#mails-table').DataTable();
@@ -31,7 +86,79 @@ $(function(){
             type: "POST",
             url: '/mail/search/',
             contentType: 'application/json; charset=utf-8',
-            data: function (data) { return data = JSON.stringify(data); }
+            data: function ( d ) {
+                d['colsearch'] = false;
+                d['colhidden'] = [];
+                if ($('#id_sender').val()) {
+                    var valor = $('#id_sender').val();
+                    d['columns'][3]['search']['value'] = valor;
+                    d['colsearch'] = true;
+                }
+                if ($('#id_recipient').val()) {
+                    var valor = $('#id_recipient').val();
+                    d['columns'][8]['search']['value'] = valor;
+                    d['colsearch'] = true;
+                }
+                if ($('#id_subject').val()) {
+                    var valor = $('#id_subject').val();
+                    d['columns'][6]['search']['value'] = valor;
+                    d['colsearch'] = true;
+                }
+                if ($('#id_ip_orig').val()) {
+                    var valor = $('#id_ip_orig').val();
+                    d['columns'][5]['search']['value'] = valor;
+                    d['colsearch'] = true;
+                }
+                if ($('#id_minsize').val() && $('#id_maxsize').val()) {
+                    var valor = $('#id_minsize').val() + "|" + $('#id_maxsize').val();
+                    d['columns'][7]['search']['value'] = valor;
+                    d['colsearch'] = true;
+                } else if ($('#id_minsize').val()) {
+                    var valor = $('#id_minsize').val() + "|";
+                    d['columns'][7]['search']['value'] = valor;
+                    d['colsearch'] = true;
+                } else if ($('#id_maxsize').val()) {
+                    var valor = "|" + $('#id_maxsize').val();
+                    d['columns'][7]['search']['value'] = valor;
+                    d['colsearch'] = true;
+                }
+                if ($('#id_estado').val() && $('#id_estado').val() > 0) {
+                    var valor = $('#id_estado').val();
+                    d['columns'][1]['search']['value'] = valor;
+                    d['colsearch'] = true;
+                }
+                if ($('#id_es_local').val() > 1) {
+                    if($('#id_es_local').val() == 2) { d['colhidden'].push(['es_cliente', 1]); }
+                    if($('#id_es_local').val() == 3) { d['colhidden'].push(['es_cliente', 0]); }
+                    d['colsearch'] = true;
+                }
+                if ($('#id_es_cliente').val() > 1) {
+                    if($('#id_es_cliente').val() == 2) { d['colhidden'].push(['es_cliente', 1]); }
+                    if($('#id_es_cliente').val() == 3) { d['colhidden'].push(['es_cliente', 0]); }
+                    d['colsearch'] = true;
+                }
+                var dtz = new Date().getTimezoneOffset() / 60;
+                var tdtz;
+                if(dtz > 0 && dtz < 10)  { tdtz = "-0" + dtz; }
+                if(dtz > 9)              { tdtz = "-"  + dtz; }
+                if(dtz > 10 && dtz <= 0) { tdtz = "+0" + dtz; }
+                if(dtz < -9)             { tdtz = "+"  + dtz; }
+                if ($('#id_rcv_from').val() && $('#id_rcv_until').val()) {
+                    var valor = $('#id_rcv_from').val() + tdtz + "|" + $('#id_rcv_until').val() + tdtz ;
+                    d['colhidden'].push(['rcv_time', valor]);
+                    d['colsearch'] = true;
+                } else if ($('#id_rcv_from').val()) {
+                    var valor = $('#id_rcv_from').val() + tdtz  + "|";
+                    d['colhidden'].push(['rcv_time', valor]);
+                    d['colsearch'] = true;
+                } else if ($('#id_rcv_until').val()) {
+                    var valor = "|" + $('#id_rcv_until').val() + tdtz ;
+                    d['colhidden'].push(['rcv_time', valor]);
+                    d['colsearch'] = true;
+                }
+                console.log(d);
+                return JSON.stringify(d);
+            }
         },
         language: DTlang,
         //dom: 'Bfrtip',
@@ -39,23 +166,34 @@ $(function(){
         //buttons: true,
         columns: [
             { name: "id", orderable: false, searchable: false },
-            { name: "estado" },
-            { name: "rcv_time" },
+            { name: "cho+estado", orderable: false },
+            { name: "datetime+rcv_time" },
             { name: "sender" },
+            { name: "count+destinatario_set" },
             { name: "ip_orig" },
             { name: "subject" },
-            { name: "sizemsg" },
+            { name: "hb+sizemsg" },
+            { name: "fks+destinatario_set+receptor" }
         ],
-        order: [[ 1, "asc" ]],
-        select: 'single',
+        order: [[ 2, "desc" ]],
+        select: 'multi+shift',
+        columnDefs: [
+            { width: "4%",  "targets": 1 },
+            { width: "12%", "targets": 2 },
+            { width: "20%", "targets": 3 },
+            { width: "5%",  "targets": 4 },
+            { width: "8%",  "targets": 5 },
+            { width: "30%", "targets": 6 },
+            { width: "5%",  "targets": 7 },
+        ],
         //rowReorder: true,
         /*drawCallback: function( settings ) {
             hideMP();
         },*/
         //"paging":   false,
         //"info":     false,
-        //"scrollX":  false,
-        //"searching": false,
+        //"scrollX":  true,
+        "searching": false,
         //"dom": 'Bfrtip',
         cache: false,
     });
@@ -204,6 +342,10 @@ $(function(){
         });
     }
 
-    jseg.saltaEdit = saltaEdit;
-    jseg.salvaNext = salvaNext;
+    var buscar = function() {
+        $('#mails-table').DataTable().draw();
+        $("#id_sender").focus();
+    }
+
+    jobj.buscar = buscar;
 });
