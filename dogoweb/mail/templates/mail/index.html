@@ -67,36 +67,40 @@
                             {% render_field_full form.es_cliente %}
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <label class="form-control-label" for="id_rcv_from">{% trans "Message Size" %}</label>
+                    <div id="gr_msgsize" class="form-group">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <label class="form-control-label" for="id_rcv_from">{% trans "Message Size" %}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-compact-left">
+                                    <input type="text" name="minsize" class="form-control" id="id_minsize" placeholder="{% trans 'Min' %}"/>
+                            </div>
+                            <div class="col-lg-6 col-compact-right">
+                                <input type="text" name="maxsize" class="form-control" id="id_maxsize" placeholder="{% trans 'Max' %}"/>
+                            </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-compact-left">
-                            <input type="number" name="minsize" min="0" class="form-control" id="id_minsize" placeholder="{% trans 'Min' %}"/>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <label class="form-control-label" for="id_rcv_from">{% trans "Received Time" %}</label>
+                            </div>
                         </div>
-                        <div class="col-lg-6 col-compact-right">
-                            <input type="number" name="maxsize" min="0" class="form-control" id="id_maxsize" placeholder="{% trans 'Max' %}"/>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <input type="text" name="rcv_from" class="form-control datetimepicker-init" id="id_rcv_from" placeholder='{% trans "From" %}'>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <label class="form-control-label" for="id_rcv_from">{% trans "Received Time" %}</label>
+                        <div class="row">
+                            <div class="col-lg-12">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <input type="text" name="rcv_from" class="form-control datetimepicker-init" id="id_rcv_from" placeholder='{% trans "From" %}'>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <input type="text" name="rcv_until" class="form-control datetimepicker-init" id="id_rcv_until" placeholder='{% trans "To" %}'>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <input type="text" name="rcv_until" class="form-control datetimepicker-init" id="id_rcv_until" placeholder='{% trans "To" %}'>
+                            </div>
                         </div>
                     </div>
                 </form>

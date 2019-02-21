@@ -2,6 +2,16 @@ var jobj = {};
 
 $(function(){
 
+    // Limpiamos valores
+    $("#id_sender").val("");
+    $("#id_recipient").val("");
+    $("#id_subject").val("");
+    $("#id_ip_orig").val("");
+    $("#id_minsize").val("");
+    $("#id_maxsize").val("");
+    $("#id_rcv_from").val("");
+    $("#id_rcv_until").val("");
+
     // Hacemos andar el enter en los campos de texto
     $("#id_sender").keyup(function(event) {
         if (event.keyCode === 13) {
@@ -97,6 +107,9 @@ $(function(){
             url: '/mail/search/',
             contentType: 'application/json; charset=utf-8',
             data: function ( d ) {
+                document.getElementById("gr_msgsize").className = "form-group";
+                document.getElementById("id_minsize").className = "form-control";
+                document.getElementById("id_maxsize").className = "form-control";
                 d['colsearch'] = false;
                 d['colhidden'] = [];
                 if ($('#id_sender').val()) {
@@ -120,17 +133,44 @@ $(function(){
                     d['colsearch'] = true;
                 }
                 if ($('#id_minsize').val() && $('#id_maxsize').val()) {
-                    var valor = $('#id_minsize').val() + "|" + $('#id_maxsize').val();
-                    d['columns'][7]['search']['value'] = valor;
+                    var terr = false;
+                    try {
+                        var v1 = String(parseInt(humanFormat.parse($('#id_minsize').val())));
+                    } catch(err) {
+                        document.getElementById("gr_msgsize").className = "form-group has-danger";
+                        document.getElementById("id_minsize").className = "form-control form-control-danger";
+                        terr = true;
+                    }
+                    try {
+                        var v2 = String(parseInt(humanFormat.parse($('#id_maxsize').val())));
+                    } catch(err) {
+                        document.getElementById("gr_msgsize").className = "form-group has-danger";
+                        document.getElementById("id_maxsize").className = "form-control form-control-danger";
+                        terr = true;
+                    }
+                    if(terr) { throw "Numero invalido"; }
+                    d['columns'][7]['search']['value'] = v1 + "|" + v2;
                     d['colsearch'] = true;
                 } else if ($('#id_minsize').val()) {
-                    var valor = $('#id_minsize').val() + "|";
-                    d['columns'][7]['search']['value'] = valor;
-                    d['colsearch'] = true;
+                    try {
+                        var valor = String(parseInt(humanFormat.parse($('#id_minsize').val()))) + "|";
+                        d['columns'][7]['search']['value'] = valor;
+                        d['colsearch'] = true;
+                    } catch(err) {
+                        document.getElementById("gr_msgsize").className = "form-group has-danger";
+                        document.getElementById("id_minsize").className = "form-control form-control-danger";
+                        throw "Numero invalido";
+                    }
                 } else if ($('#id_maxsize').val()) {
-                    var valor = "|" + $('#id_maxsize').val();
-                    d['columns'][7]['search']['value'] = valor;
-                    d['colsearch'] = true;
+                    try {
+                        var valor = "|" + String(parseInt(humanFormat.parse($('#id_maxsize').val())));
+                        d['columns'][7]['search']['value'] = valor;
+                        d['colsearch'] = true;
+                    } catch(err) {
+                        document.getElementById("gr_msgsize").className = "form-group has-danger";
+                        document.getElementById("id_maxsize").className = "form-control form-control-danger";
+                        throw "Numero invalido";
+                    }
                 }
                 if ($('#id_estado').val() && $('#id_estado').val() > 0) {
                     var valor = $('#id_estado').val();
