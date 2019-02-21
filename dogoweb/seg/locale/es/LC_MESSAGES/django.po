@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-13 05:24-0300\n"
+"POT-Creation-Date: 2019-02-20 21:35-0300\n"
 "PO-Revision-Date: 2018-03-13 02:21-0300\n"
 "Last-Translator: Andres Gironacci <mgironacci@itecnis.com>\n"
 "Language-Team: \n"
@@ -78,23 +78,23 @@ msgstr "Eliminar pantalla"
 msgid "None"
 msgstr "Nada"
 
-#: seg/models.py:222 seg/models.py:354
+#: seg/models.py:312 seg/models.py:444
 msgid "The item was successfully created"
 msgstr "El ítem fue creado exitosamente"
 
-#: seg/models.py:229 seg/models.py:269 seg/models.py:361
+#: seg/models.py:319 seg/models.py:359 seg/models.py:451
 msgid "The item had a problem, please review"
 msgstr "El ítem tuvo un problema, por favor revisar"
 
-#: seg/models.py:262
+#: seg/models.py:352
 msgid "The item was successfully saved"
 msgstr "El ítem fue guardado exitósamente"
 
-#: seg/models.py:302
+#: seg/models.py:392
 msgid "The items where successfully deleted"
 msgstr "Los ítems fueron eliminados correctamente"
 
-#: seg/models.py:309
+#: seg/models.py:399
 msgid "There was a problem deleting the items"
 msgstr "Hubo un problema eliminando los ítems"
 

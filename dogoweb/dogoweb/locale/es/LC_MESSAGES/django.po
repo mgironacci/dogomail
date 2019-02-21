@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-13 05:24-0300\n"
+"POT-Creation-Date: 2019-02-20 21:35-0300\n"
 "PO-Revision-Date: 2018-01-14 21:55-0300\n"
 "Last-Translator: Andres Gironacci <mgironacci@itecnis.com>\n"
 "Language-Team: \n"
@@ -18,15 +18,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: templates/base_menu.html:27
+#: templates/base_menu.html:25
 msgid "Profile"
 msgstr "Perfil"
 
-#: templates/base_menu.html:29
+#: templates/base_menu.html:27
 msgid "Admin"
 msgstr "Administrar"
 
-#: templates/base_menu.html:32
+#: templates/base_menu.html:30
 msgid "Logout"
 msgstr "Salir"
 

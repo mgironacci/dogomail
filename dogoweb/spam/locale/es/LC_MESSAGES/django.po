@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-02 17:36-0300\n"
+"POT-Creation-Date: 2019-02-20 21:35-0300\n"
 "PO-Revision-Date: 2018-10-02 17:39-0300\n"
 "Last-Translator: Andres Gironacci <mgironacci@itecnis.com>\n"
 "Language-Team: \n"
@@ -53,6 +53,12 @@ msgstr "Cambiar lista"
 #: spam/forms.py:36
 msgid "Delete list"
 msgstr "Eliminar lista"
+
+#: spam/templates/spam/autorules.html:3 spam/templates/spam/autorules.html:9
+#, fuzzy
+#| msgid "Modules"
+msgid "Autorules"
+msgstr "Módulos"
 
 #: spam/templates/spam/avirus.html:3 spam/templates/spam/avirus.html:9
 msgid "Antivirus"
