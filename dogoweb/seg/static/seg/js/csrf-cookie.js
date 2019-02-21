@@ -26,3 +26,14 @@ $.ajaxSetup({
         }
     }
 });
+
+function getMyTZ(notz) {
+    if(notz) { return "+00"; }
+    var dtz = new Date().getTimezoneOffset() / 60;
+    var tdtz;
+    if(dtz > 0 && dtz < 10)  { tdtz = "-0" + dtz; }
+    if(dtz > 9)              { tdtz = "-"  + dtz; }
+    if(dtz > 10 && dtz <= 0) { tdtz = "+0" + dtz; }
+    if(dtz < -9)             { tdtz = "+"  + dtz; }
+    return tdtz;
+}

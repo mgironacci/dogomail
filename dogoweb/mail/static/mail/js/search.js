@@ -33,6 +33,16 @@ $(function(){
             $("#id_btn_buscar").click();
         }
     });
+    $("#id_rcv_from").keyup(function(event) {
+        if (event.keyCode === 13) {
+            $("#id_btn_buscar").click();
+        }
+    });
+    $("#id_rcv_until").keyup(function(event) {
+        if (event.keyCode === 13) {
+            $("#id_btn_buscar").click();
+        }
+    });
     $('.datetimepicker-init').datetimepicker({
         widgetPositioning: {
             horizontal: 'left'
@@ -137,12 +147,7 @@ $(function(){
                     if($('#id_es_cliente').val() == 3) { d['colhidden'].push(['es_cliente', 0]); }
                     d['colsearch'] = true;
                 }
-                var dtz = new Date().getTimezoneOffset() / 60;
-                var tdtz;
-                if(dtz > 0 && dtz < 10)  { tdtz = "-0" + dtz; }
-                if(dtz > 9)              { tdtz = "-"  + dtz; }
-                if(dtz > 10 && dtz <= 0) { tdtz = "+0" + dtz; }
-                if(dtz < -9)             { tdtz = "+"  + dtz; }
+                var tdtz = getMyTZ(noTZ);
                 if ($('#id_rcv_from').val() && $('#id_rcv_until').val()) {
                     var valor = $('#id_rcv_from').val() + tdtz + "|" + $('#id_rcv_until').val() + tdtz ;
                     d['colhidden'].push(['rcv_time', valor]);

@@ -103,6 +103,7 @@ WSGI_APPLICATION = 'dogoweb.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
+DBENGINE = config.get('DB_ENGINE').replace('django.db.backends.','')
 DATABASES = {
     'default': {
         'ENGINE': config.get('DB_ENGINE'),

@@ -135,15 +135,15 @@ def DTFilter(mmodel, jbody, autodata=True, filter=None, exclude=None):
                 elif tipo == 'cho':
                     cbuscar.append((campo, cc['search']['value']))
                 elif tipo == 'hb': # Tratamiento de entero
-                    imin, imax = cc['search']['value'].split("|")
+                    imin, imax = str(cc['search']['value']).split("|")
                     if imin != '' and imax != '':
                         cbuscar.append((campo + "__range", (imin,imax)))
                     elif imin != '':
                         cbuscar.append((campo + "__gte", imin))
                     elif imax != '':
                         cbuscar.append((campo + "__lte", imax))
-                elif cc['search']['value'].find("|") >= 0: # Tratamiento de entero/fecha
-                    imin, imax = cc['search']['value'].split("|")
+                elif str(cc['search']['value']).find("|") >= 0: # Tratamiento de entero/fecha
+                    imin, imax = str(cc['search']['value']).split("|")
                     if imin != '' and imax != '':
                         cbuscar.append((campo + "__range", (imin,imax)))
                     elif imin != '':
@@ -152,8 +152,8 @@ def DTFilter(mmodel, jbody, autodata=True, filter=None, exclude=None):
                         cbuscar.append((campo + "__lte", imax))
         if 'colhidden' in jbody:
             for ch in jbody['colhidden']:
-                if ch[1].find("|") >= 0:
-                    imin, imax = ch[1].split("|")
+                if str(ch[1]).find("|") >= 0:
+                    imin, imax = str(ch[1]).split("|")
                     if imin != '' and imax != '':
                         cbuscar.append((ch[0] + "__range", (imin, imax)))
                     elif imin != '':

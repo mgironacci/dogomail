@@ -4,6 +4,7 @@ import types
 from django.template import Library, Node, Context, TemplateSyntaxError
 from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
+from django.conf import settings
 
 register = Library()
 
@@ -252,3 +253,8 @@ class FieldAttributeNode(Node):
             datos['WIDGET_ERROR_LIST_CLASS'] = context['WIDGET_ERROR_LIST_CLASS']
         full_field = context.template.engine.get_template(self.Ntemplate)
         return full_field.render(Context(datos, autoescape=context.autoescape, use_l10n=context.use_l10n, use_tz=context.use_tz))
+
+
+@register.simple_tag
+def settings_value(name):
+    return getattr(settings, name, "")
