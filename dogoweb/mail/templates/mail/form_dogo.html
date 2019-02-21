@@ -2,11 +2,14 @@
 {% load i18n %}
 
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-4">
         {% render_field_full form.nombre %}
         {{ form.nombre|set_focus }}
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-4">
+        {% render_field_full form.tipodm %}
+    </div>
+    <div class="col-lg-4">
         {% render_field_full_checkbox form.activo %}
     </div>
 </div>

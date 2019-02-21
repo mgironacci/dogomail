@@ -43,6 +43,7 @@ $(function(){
             { name: "id", orderable: false, searchable: false },
             { name: "nombre" },
             { name: "dirdns" },
+            { name: "cho+tipodm" },
             { name: "dirip4" },
             { name: "dirip6" },
             { name: "est+estado" },

@@ -1,6 +1,17 @@
 from django import forms
 from django.utils.translation import gettext as _
-from .models import Server, Dominio, Dogomail, Mensaje, Destinatario, TIPO_SRVS
+from .models import Server, Dominio, Dogomail, Mensaje, Destinatario, TIPO_SRVS, ESTADO_SRCH
+
+
+DATEFMT = ['%Y-%m-%d %H:%M:%S',
+ '%Y-%m-%d %H:%M',
+ '%Y-%m-%d',
+ '%d/%m/%Y %H:%M:%S',
+ '%d/%m/%Y %H:%M',
+ '%d/%m/%Y',
+ '%d/%m/%y %H:%M:%S',
+ '%d/%m/%y %H:%M',
+ '%d/%m/%y']
 
 
 class ServerNameForm(forms.Form):
@@ -142,5 +153,26 @@ class DogomailForm(forms.ModelForm):
 
     class Meta:
         model = Dogomail
-        fields = ['nombre', 'dirdns', 'dirip4', 'dirip6', 'activo', ]
+        fields = ['nombre', 'dirdns', 'dirip4', 'dirip6', 'activo', 'tipodm' ]
+        localize = '__all__'
+
+
+class SearchMailForm(forms.Form):
+    form_header = {
+        'templt': 'mail/form_search_mail.html',
+        'url': 'mailsearch',
+    }
+
+    msgids = forms.CharField(label='MessageID', required=False)
+    ip_orig = forms.GenericIPAddressField(label='Origin IP', protocol='IPv4', required=False)
+    sender = forms.CharField(label='Sender', required=False)
+    recipient = forms.CharField(label='Recipient', required=False)
+    subject = forms.CharField(label='Subject', required=False)
+    minsize = forms.IntegerField(label='Min Size', required=False, min_value=0)
+    maxsize = forms.IntegerField(label='Max Size', required=False, min_value=0)
+    estado = forms.ChoiceField(label='Status', choices=ESTADO_SRCH, required=False, initial=0)
+    es_local = forms.NullBooleanField(label='Local', required=False)
+    es_cliente = forms.NullBooleanField(label='Client', required=False)
+
+    class Meta:
         localize = '__all__'

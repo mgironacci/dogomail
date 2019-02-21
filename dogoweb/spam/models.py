@@ -86,3 +86,40 @@ class Listas(models.Model):
             ("manage_listas", "Manage listas"),
         )
         unique_together = ("tipo", "ip", "remitente", "destino")
+
+
+TEST_REGLA = {
+    (2, 'por IP'),
+    (3, 'por Remitente'),
+    (4, 'por Asunto'),
+    (5, 'por Cuerpo'),
+}
+
+
+class AutoReglas(models.Model):
+    objects=DTManager()
+
+    rdogoid = models.IntegerField('dogo ID', db_index=True)
+    dogo = models.ForeignKey('mail.Dogomail', on_delete=models.PROTECT)
+    testid = models.IntegerField('Test', choices=TEST_REGLA, db_index=True)
+    valor = models.CharField('Value', max_length=255)
+    activo = models.BooleanField('Active', default=True)
+    hora = models.DateTimeField('Time')
+    cantidad = models.IntegerField('Count')
+    descripcion = models.CharField('Description', max_length=255)
+    confirmada = models.BooleanField('Confirmed', default=False)
+    cambiado_el = models.DateTimeField('Updated', default=timezone.now)
+
+    def __repr__(self):
+        return '<AutoReglas: id="%d", rdogoid="%d", dogo="%s", valor="%s">' % \
+               (self.id, self.rdogoid, self.dogo.nombre, self.valor)
+
+    def __str__(self):
+        return str(self.id)
+
+    class Meta:
+        ordering = ["hora"]
+        permissions = (
+            ("manage_autorules", "Manage AutoRules"),
+        )
+        unique_together = ['dogo', 'rdogoid']
