@@ -87,7 +87,7 @@ class API:
             if not len(self.selector.mails) and not len(self.selector.filters):
                 self.selector.reset()
             return "%d mails loaded from queue" % (len(self.pstore.mails))
-        except (OSError, IOError, CalledProcessError), exc:
+        except (OSError, IOError, CalledProcessError) as exc:
             return "*** Error: unable to load store: %s" % (exc,)
 
     def hola(self):
