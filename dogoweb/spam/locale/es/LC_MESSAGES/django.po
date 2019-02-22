@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-20 21:35-0300\n"
-"PO-Revision-Date: 2018-10-02 17:39-0300\n"
+"POT-Creation-Date: 2019-02-22 14:53-0300\n"
+"PO-Revision-Date: 2019-02-22 14:55-0300\n"
 "Last-Translator: Andres Gironacci <mgironacci@itecnis.com>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.1.1\n"
 
 #: spam/forms.py:8
 msgid "Add module"
@@ -54,11 +54,63 @@ msgstr "Cambiar lista"
 msgid "Delete list"
 msgstr "Eliminar lista"
 
-#: spam/templates/spam/autorules.html:3 spam/templates/spam/autorules.html:9
-#, fuzzy
-#| msgid "Modules"
+#: spam/templates/spam/autorules.html:4 spam/templates/spam/autorules.html:97
 msgid "Autorules"
-msgstr "Módulos"
+msgstr "Autoreglas"
+
+#: spam/templates/spam/autorules.html:16 spam/templates/spam/autorules.html:27
+msgid "Search"
+msgstr "Buscar"
+
+#: spam/templates/spam/autorules.html:24
+msgid "Clear"
+msgstr "Limpiar"
+
+#: spam/templates/spam/autorules.html:33 spam/templates/spam/autorules.html:106
+#: spam/templates/spam/modules.html:31 spam/templates/spam/policies.html:31
+msgid "Name"
+msgstr "Nombre"
+
+#: spam/templates/spam/autorules.html:41 spam/templates/spam/autorules.html:107
+msgid "Value"
+msgstr "Valor"
+
+#: spam/templates/spam/autorules.html:56
+msgid "Message Count"
+msgstr "Cantidad Mensajes"
+
+#: spam/templates/spam/autorules.html:61
+msgid "Min"
+msgstr "Mín"
+
+#: spam/templates/spam/autorules.html:64
+msgid "Max"
+msgstr "Máx"
+
+#: spam/templates/spam/autorules.html:71 spam/templates/spam/autorules.html:105
+msgid "Date"
+msgstr "Fecha"
+
+#: spam/templates/spam/autorules.html:76
+msgid "From"
+msgstr "Desde"
+
+#: spam/templates/spam/autorules.html:85
+msgid "To"
+msgstr "Hasta"
+
+#: spam/templates/spam/autorules.html:104
+msgid "Confirmed"
+msgstr "Confirmada"
+
+#: spam/templates/spam/autorules.html:108
+msgid "#Msgs"
+msgstr "#Msjs"
+
+#: spam/templates/spam/autorules.html:109 spam/templates/spam/lists.html:35
+#: spam/templates/spam/modules.html:32 spam/templates/spam/policies.html:32
+msgid "Active"
+msgstr "Activo"
 
 #: spam/templates/spam/avirus.html:3 spam/templates/spam/avirus.html:9
 msgid "Antivirus"
@@ -107,11 +159,6 @@ msgstr "Remitente"
 msgid "Recipient"
 msgstr "Recipiente"
 
-#: spam/templates/spam/lists.html:35 spam/templates/spam/modules.html:32
-#: spam/templates/spam/policies.html:32
-msgid "Active"
-msgstr "Activo"
-
 #: spam/templates/spam/lists.html:36
 msgid "Created"
 msgstr "Creado el"
@@ -119,10 +166,6 @@ msgstr "Creado el"
 #: spam/templates/spam/modules.html:3 spam/templates/spam/modules.html:24
 msgid "Modules"
 msgstr "Módulos"
-
-#: spam/templates/spam/modules.html:31 spam/templates/spam/policies.html:31
-msgid "Name"
-msgstr "Nombre"
 
 #: spam/templates/spam/policies.html:3 spam/templates/spam/policies.html:24
 msgid "Policies"

@@ -41,3 +41,14 @@ class ListaForm(forms.ModelForm):
         model = Listas
         fields = ('tipo', 'ip', 'remitente', 'destino', 'activo')
 
+
+class AutoReglasSearchForm(forms.Form):
+    valor = forms.CharField(label='Value', required=False)
+    activo = forms.NullBooleanField(label='Active', required=False)
+    mincant = forms.CharField(label='Min Quantity', required=False)
+    maxcant = forms.CharField(label='Max Quantity', required=False)
+    descripcion = forms.CharField(label='Description', required=False)
+    confirmada = forms.NullBooleanField(label='Confirmed', required=False)
+
+    class Meta:
+        localize = '__all__'

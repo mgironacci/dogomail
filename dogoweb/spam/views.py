@@ -3,8 +3,8 @@ from django.http import HttpResponse, JsonResponse
 from django.utils.translation import gettext as _
 from django.contrib.auth.decorators import login_required, permission_required
 from seg.views import ajax_permission_required
-from .models import Modulo, Politica, Listas
-from .forms import ModuloForm, PoliticaForm, ListaForm
+from .models import Modulo, Politica, Listas, AutoReglas
+from .forms import ModuloForm, PoliticaForm, ListaForm, AutoReglasSearchForm
 import json
 
 
@@ -146,7 +146,18 @@ def rules(request):
 
 @login_required()
 def autorules(request):
-    return render(request, 'spam/autorules.html')
+    form = AutoReglasSearchForm()
+    return render(request, 'spam/autorules.html', locals())
+
+
+@login_required()
+def autorules_search(request):
+    if request.is_ajax() and request.method == 'POST':
+        jbody = json.loads(request.body.decode(request._encoding))
+    else:
+        return JsonResponse({'error': "Bad request"})
+    ret = AutoReglas.objects.dt_filter(jbody)
+    return JsonResponse(ret)
 
 
 @login_required()

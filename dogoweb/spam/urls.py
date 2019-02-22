@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^policy/delete/(?P<pks>[\,\d]+)*$', views.policy_delete, name='spam_policy_delete'),
     url(r'^rules$', views.rules, name='spamrules'),
     url(r'^autorules$', views.autorules, name='spamautorules'),
+    url(r'^aurorulessearch/$', views.autorules_search, name='spamautorulesearch'),
 ]

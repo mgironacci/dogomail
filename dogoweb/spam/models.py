@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext as _
-from seg.models import DTManager
+from seg.models import DTManager, html_check
 
 
 # Modelo de modulos
@@ -123,3 +123,9 @@ class AutoReglas(models.Model):
             ("manage_autorules", "Manage AutoRules"),
         )
         unique_together = ['dogo', 'rdogoid']
+
+    def get_confirmada_display(self):
+        return html_check(bool(self.confirmada))
+
+    def get_activo_display(self):
+        return html_check(bool(self.activo))
