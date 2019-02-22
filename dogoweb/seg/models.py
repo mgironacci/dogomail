@@ -253,6 +253,8 @@ def DTFilter(mmodel, jbody, autodata=True, filter=None, exclude=None):
                 # En base al prefijo, armo conversion
                 if tipo == 'ico':
                     ao.append(html_icon(getattr(o, ccn)))
+                elif tipo == 'int':
+                    ao.append(getattr(o, ccn))
                 elif tipo == 'check':
                     ao.append(html_check(getattr(o, ccn)))
                 elif tipo == 'est':
