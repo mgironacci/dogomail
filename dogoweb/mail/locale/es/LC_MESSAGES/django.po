@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-21 13:50-0300\n"
-"PO-Revision-Date: 2019-02-21 13:52-0300\n"
+"POT-Creation-Date: 2019-02-22 14:53-0300\n"
+"PO-Revision-Date: 2019-02-22 14:53-0300\n"
 "Last-Translator: Andres Gironacci <mgironacci@itecnis.com>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -233,8 +233,8 @@ msgid "To"
 msgstr "Hasta"
 
 #: mail/templates/mail/index.html:121
-msgid "Results"
-msgstr "Resultados"
+msgid "Mails"
+msgstr "Correos"
 
 #: mail/templates/mail/index.html:129
 msgid "Date"
@@ -267,3 +267,6 @@ msgstr "Administrador de Servidor"
 #: mail/templates/mail/srvdash.html:3 mail/templates/mail/srvdash.html:9
 msgid "Dashboard"
 msgstr "Pizarrón"
+
+#~ msgid "Results"
+#~ msgstr "Resultados"

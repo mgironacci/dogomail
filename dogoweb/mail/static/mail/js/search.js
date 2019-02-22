@@ -101,7 +101,7 @@ $(function(){
         }
     }
 
-    // Servidores
+    // Correos
     $('#mails-table')
     .on('select.dt', function ( e, dt, type, indexes ) { clickDTs('select.mail', e, dt, indexes); } )
     .on('deselect.dt', function ( e, dt, type, indexes ) { clickDTs('deselect.mail', e, dt, indexes); } )
@@ -189,8 +189,8 @@ $(function(){
                     d['colsearch'] = true;
                 }
                 if ($('#id_es_local').val() > 1) {
-                    if($('#id_es_local').val() == 2) { d['colhidden'].push(['es_cliente', 1]); }
-                    if($('#id_es_local').val() == 3) { d['colhidden'].push(['es_cliente', 0]); }
+                    if($('#id_es_local').val() == 2) { d['colhidden'].push(['es_local', 1]); }
+                    if($('#id_es_local').val() == 3) { d['colhidden'].push(['es_local', 0]); }
                     d['colsearch'] = true;
                 }
                 if ($('#id_es_cliente').val() > 1) {
@@ -212,7 +212,7 @@ $(function(){
                     d['colhidden'].push(['rcv_time', valor]);
                     d['colsearch'] = true;
                 }
-                console.log(d);
+                //console.log(d);
                 return JSON.stringify(d);
             }
         },
