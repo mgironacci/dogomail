@@ -4,7 +4,7 @@ from django.utils.translation import gettext as _
 from django.contrib.auth.decorators import login_required, permission_required
 from seg.views import ajax_permission_required
 from .models import Modulo, Politica, Listas, AutoReglas
-from .forms import ModuloForm, PoliticaForm, ListaForm, AutoReglasSearchForm
+from .forms import ModuloForm, PoliticaForm, ListaForm, AutoReglasSearchForm, ListaSearchForm
 import json
 
 
@@ -20,7 +20,8 @@ def avirus(request):
 
 @login_required()
 def lists(request):
-    return render(request, 'spam/lists.html')
+    form = ListaSearchForm()
+    return render(request, 'spam/lists.html', locals())
 
 
 @login_required()

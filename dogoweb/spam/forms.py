@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.translation import gettext as _
-from .models import Modulo, Politica, Listas
+from .models import Modulo, Politica, Listas, TIPO_LISTAS_SRCH
 
 
 class ModuloForm(forms.ModelForm):
@@ -49,6 +49,17 @@ class AutoReglasSearchForm(forms.Form):
     maxcant = forms.CharField(label='Max Quantity', required=False)
     descripcion = forms.CharField(label='Description', required=False)
     confirmada = forms.NullBooleanField(label='Confirmed', required=False)
+
+    class Meta:
+        localize = '__all__'
+
+
+class ListaSearchForm(forms.Form):
+    tipo = forms.ChoiceField(label='Type', choices=TIPO_LISTAS_SRCH, required=False, initial=0)
+    ip_orig = forms.GenericIPAddressField(label='IP', protocol='IPv4', required=False)
+    sender = forms.CharField(label='Sender', required=False)
+    recipient = forms.CharField(label='Recipient', required=False)
+    activo = forms.NullBooleanField(label='Active', required=False)
 
     class Meta:
         localize = '__all__'

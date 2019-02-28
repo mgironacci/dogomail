@@ -131,6 +131,11 @@ pre {
     margin-top: -8px;
     margin-left: 5px;
 }
+.panel .panel-heading .panel-buttons-sm{
+    margin-top: -4px;
+    margin-left: 5px;
+}
+
 
 .panel.panel-compact .panel-body {
     padding: 10px;

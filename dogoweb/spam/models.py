@@ -62,6 +62,15 @@ TIPO_LISTAS = {
     ('cliente', 'Cliente'),
 }
 
+TIPO_LISTAS_SRCH = (
+    ('', '-'),
+    ('blanca', 'Blanca'),
+    ('negra', 'Negra'),
+    ('rapida', 'Rápida'),
+    ('nosa', 'No SA'),
+    ('cliente', 'Cliente'),
+)
+
 
 class Listas(models.Model):
     objects=DTManager()

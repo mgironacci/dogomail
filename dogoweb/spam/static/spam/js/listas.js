@@ -4,6 +4,68 @@ $(function(){
     $('#edit').hide();
     $('#delete').hide();
 
+    // Limpiamos valores
+    $("#id_sender").val("");
+    $("#id_recipient").val("");
+    $("#id_ip_orig").val("");
+    $("#id_tipo").val("");
+    $("#id_rcv_from").val("");
+    $("#id_rcv_until").val("");
+
+    // Hacemos andar el enter en los campos de texto
+    $("#id_sender").keyup(function(event) {
+        if (event.keyCode === 13) {
+            $("#id_btn_buscar").click();
+        }
+    });
+    $("#id_recipient").keyup(function(event) {
+        if (event.keyCode === 13) {
+            $("#id_btn_buscar").click();
+        }
+    });
+    $("#id_ip_orig").keyup(function(event) {
+        if (event.keyCode === 13) {
+            $("#id_btn_buscar").click();
+        }
+    });
+    $("#id_tipo").keyup(function(event) {
+        if (event.keyCode === 13) {
+            $("#id_btn_buscar").click();
+        }
+    });
+    $("#id_rcv_from").keyup(function(event) {
+        if (event.keyCode === 13) {
+            $("#id_btn_buscar").click();
+        }
+    });
+    $("#id_rcv_until").keyup(function(event) {
+        if (event.keyCode === 13) {
+            $("#id_btn_buscar").click();
+        }
+    });
+    $('.datetimepicker-init').datetimepicker({
+        widgetPositioning: {
+            horizontal: 'left'
+        },
+        icons: {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-arrow-up",
+            down: "fa fa-arrow-down"
+        },
+        format: 'YYYY-MM-DD HH:mm:ss',
+        locale: LANGCODE
+    });
+    $('#id_rcv_until').datetimepicker({
+            useCurrent: false //Important! See issue #1075
+        });
+    $("#id_rcv_from").on("dp.change", function (e) {
+        $('#id_rcv_until').data("DateTimePicker").minDate(e.date);
+    });
+    $("#id_rcv_until").on("dp.change", function (e) {
+        $('#id_rcv_from').data("DateTimePicker").maxDate(e.date);
+    });
+
     var clickDTs = function (et, e, dt, indexes) {
         var dts =  $('#listas-table').DataTable();
         var dtsc = dts.rows({selected:true}).count();
@@ -33,7 +95,51 @@ $(function(){
             type: "POST",
             url: '/spam/list',
             contentType: 'application/json; charset=utf-8',
-            data: function (data) { return data = JSON.stringify(data); }
+            data: function ( d ) {
+                d['colsearch'] = false;
+                d['colhidden'] = [];
+                if ($('#id_sender').val()) {
+                    var valor = $('#id_sender').val();
+                    d['columns'][3]['search']['value'] = valor;
+                    d['colsearch'] = true;
+                }
+                if ($('#id_recipient').val()) {
+                    var valor = $('#id_recipient').val();
+                    d['columns'][4]['search']['value'] = valor;
+                    d['colsearch'] = true;
+                }
+                if ($('#id_ip_orig').val()) {
+                    var valor = $('#id_ip_orig').val();
+                    d['columns'][2]['search']['value'] = valor;
+                    d['colsearch'] = true;
+                }
+                if ($('#id_tipo').val() && $('#id_tipo').val() != '') {
+                    var valor = $('#id_tipo').val();
+                    d['columns'][1]['search']['value'] = valor;
+                    d['colsearch'] = true;
+                }
+                if ($('#id_activo').val() > 1) {
+                    if($('#id_activo').val() == 2) { d['colhidden'].push(['activo', 1]); }
+                    if($('#id_activo').val() == 3) { d['colhidden'].push(['activo', 0]); }
+                    d['colsearch'] = true;
+                }
+                var tdtz = getMyTZ(noTZ);
+                if ($('#id_rcv_from').val() && $('#id_rcv_until').val()) {
+                    var valor = $('#id_rcv_from').val() + tdtz + "|" + $('#id_rcv_until').val() + tdtz ;
+                    d['colhidden'].push(['creado_el', valor]);
+                    d['colsearch'] = true;
+                } else if ($('#id_rcv_from').val()) {
+                    var valor = $('#id_rcv_from').val() + tdtz  + "|";
+                    d['colhidden'].push(['creado_el', valor]);
+                    d['colsearch'] = true;
+                } else if ($('#id_rcv_until').val()) {
+                    var valor = "|" + $('#id_rcv_until').val() + tdtz ;
+                    d['colhidden'].push(['creado_el', valor]);
+                    d['colsearch'] = true;
+                }
+                //console.log(d);
+                return JSON.stringify(d);
+            }
         },
         language: DTlang,
         //dom: 'Bfrtip',
@@ -46,7 +152,7 @@ $(function(){
             { name: "remitente" },
             { name: "destino" },
             { name: "check+activo", searchable: false, orderable: false },
-            { name: "creado_el" }
+            { name: "datetime+creado_el" }
         ],
         order: [[ 1, "asc" ]],
         select: true,
@@ -57,7 +163,7 @@ $(function(){
         //"paging":   false,
         //"info":     false,
         //"scrollX":  false,
-        //"searching": false,
+        searching: false,
         //"dom": 'Bfrtip',
         cache: false,
     });
@@ -203,6 +309,12 @@ $(function(){
         });
     }
 
+    var buscar = function() {
+        $('#listas-table').DataTable().draw();
+        $("#id_sender").focus();
+    }
+
+    jseg.buscar = buscar;
     jseg.saltaEdit = saltaEdit;
     jseg.salvaNext = salvaNext;
 });
