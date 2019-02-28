@@ -5,6 +5,7 @@ urlpatterns = [
     url(r'^$', views.index, name='mailindex'),
     url(r'^search/$', views.search, name='mailsearch'),
     url(r'^blocked/$', views.blocked, name='mailblocked'),
+    url(r'^blockedsearch/$', views.blocked_search, name='mailblockedsearch'),
     url(r'^queues/$', views.queues, name='mailqueues'),
     url(r'^doms/$', views.doms, name='maildoms'),
     url(r'^mboxes/$', views.mboxes, name='mailmboxes'),

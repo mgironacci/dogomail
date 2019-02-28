@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-22 14:53-0300\n"
-"PO-Revision-Date: 2019-02-22 14:53-0300\n"
+"PO-Revision-Date: 2019-02-22 16:42-0300\n"
 "Last-Translator: Andres Gironacci <mgironacci@itecnis.com>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -19,6 +19,7 @@ msgstr ""
 "X-Generator: Poedit 2.1.1\n"
 
 #: mail/forms.py:41 mail/forms.py:119
+#, fuzzy
 msgid "Add server"
 msgstr "Agregar servidor"
 
@@ -101,7 +102,7 @@ msgstr "Rechazado"
 #: mail/models.py:48 mail/models.py:75 mail/templates/mail/blocked.html:3
 #: mail/templates/mail/blocked.html:9
 msgid "Blocked"
-msgstr "Bloqueado"
+msgstr "Retenido"
 
 #: mail/models.py:49 mail/models.py:76
 msgid "Erased"

@@ -28,7 +28,18 @@ def search(request):
 
 @login_required()
 def blocked(request):
-    return render(request, 'mail/blocked.html')
+    form = SearchMailForm()
+    return render(request, 'mail/blocked.html', locals())
+
+
+@login_required()
+def blocked_search(request):
+    if request.is_ajax() and request.method == 'POST':
+        jbody = json.loads(request.body.decode(request._encoding))
+    else:
+        return JsonResponse({'error': "Bad request"})
+    ret = Mensaje.objects.dt_filter(jbody)
+    return JsonResponse(ret)
 
 
 @login_required()

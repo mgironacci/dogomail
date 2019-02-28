@@ -1,10 +1,143 @@
 {% extends "base_menu.html" %}
 {% load i18n %}
+{% load seg_tags %}
 {% block titulo %}{% trans "Blocked" %}{% endblock %}
 
 {% block encabezadomenu %}
+    <script>var noTZ; if ("{% settings_value "DBENGINE" %}" == "mysql") { noTZ=true; } else { noTZ=false; } </script>
+    <script src="/static/mail/js/blocked.js"></script>
 {% endblock %}
 
 {% block contenidomenu %}
-<h1>{% trans "Blocked" %}</h1>
+<div class="row row-top-15">
+    <div class="col-lg-2">
+        <section class="panel panel-with-borders panel-compact">
+            <div class="panel-heading">
+                <h5><small><i class="icmn-search"></i></small> {% trans "Search" %}</h5>
+            </div>
+            <div class="panel-body">
+                {% with WIDGET_BASE_CLASS='form-control' WIDGET_GROUP_CLASS='form-group' WIDGET_REQUIRED_CLASS='form-control-required' WIDGET_ERROR_LIST_CLASS='form-control-error' WIDGET_ERROR_CLASS='has-danger' %}
+                <form id='busca_form' method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <button type="button" class="btn" onclick="document.getElementById('busca_form').reset();jobj.buscar();">{% trans "Clear" %}</button>
+                        </div>
+                        <div class="col-lg-6 text-right">
+                            <button type="button" class="btn btn-primary" id="id_btn_buscar" onclick="jobj.buscar();">{% trans "Search" %}</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <input type="text" name="sender" class="form-control" id="id_sender" placeholder='{% trans "Sender" %}'/>
+                                <script>$('#id_sender').focus();</script>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <input type="text" name="recipient" class="form-control" id="id_recipient" placeholder='{% trans "Recipient" %}'/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <input type="text" name="subject" class="form-control" id="id_subject" placeholder='{% trans "Subject" %}'/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <input type="text" name="ip_orig" class="form-control" id="id_ip_orig" placeholder='{% trans "Origin IP" %}'/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <input type="text" name="msgids" class="form-control" id="id_msgids" placeholder='{% trans "Message IDs" %}'/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-compact-left">
+                            {% render_field_full form.es_local %}
+                        </div>
+                        <div class="col-lg-6 col-compact-right">
+                            {% render_field_full form.es_cliente %}
+                        </div>
+                    </div>
+                    <div id="gr_msgsize" class="form-group">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <label class="form-control-label" for="id_rcv_from">{% trans "Message Size" %}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-compact-left">
+                                    <input type="text" name="minsize" class="form-control" id="id_minsize" placeholder="{% trans 'Min' %}"/>
+                            </div>
+                            <div class="col-lg-6 col-compact-right">
+                                <input type="text" name="maxsize" class="form-control" id="id_maxsize" placeholder="{% trans 'Max' %}"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <label class="form-control-label" for="id_rcv_from">{% trans "Received Time" %}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <input type="text" name="rcv_from" class="form-control datetimepicker-init" id="id_rcv_from" placeholder='{% trans "From" %}'>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <input type="text" name="rcv_until" class="form-control datetimepicker-init" id="id_rcv_until" placeholder='{% trans "To" %}'>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                {% endwith %}
+            </div>
+        </section>
+    </div>
+    <div class="col-lg-10">
+        <section class="panel panel-with-borders panel-compact">
+            <div class="panel-heading">
+                <h5><small><i class="icmn-list"></i></small> {% trans "Blocked" %}</h5>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover nowrap table-compact" style="table-layout: fixed;" id="mails-table" width="100%">
+                    <thead>
+                    <tr>
+                        <th class="never">ID</th>
+                        <th>{% trans "Status" %}</th>
+                        <th>{% trans "Date" %}</th>
+                        <th>{% trans "Sender" %}</th>
+                        <th>{% trans "#Rcpt" %}</th>
+                        <th>{% trans "Origen" %}</th>
+                        <th>{% trans "Subject" %}</th>
+                        <th>{% trans "Size" %}</th>
+                        <th>{% trans "Message IDs" %}</th>
+                        <th>{% trans "Recipients" %}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</div>
 {% endblock %}
