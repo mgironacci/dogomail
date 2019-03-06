@@ -1,6 +1,8 @@
 var jobj = {};
 
 $(function(){
+    $('#ignorerule').hide();
+    $('#confirmrule').hide();
 
     // Limpiamos valores
     $("#id_descripcion").val("");
@@ -71,15 +73,15 @@ $(function(){
         var evento = et.split(".")[0];
         var tabla = et.split(".")[1];
         if (evento == 'select') {
-            var dtsn = dts.rows({selected:true}).data()[0][1];
-            var dtsd = dts.rows({selected:true}).data()[0][2];
-            var dtse = dts.rows({selected:true}).data()[0][3];
-            $('#mail-name').html(dtsn);
-            $('#mail-dns').html(dtsd);
-            $('#mail-stat').html(dtse);
-            $('#mail-panel').show();
+            if (dtsc != 0) {
+                $('#ignorerule').show();
+                $('#confirmrule').show();
+            }
         } else if (evento == 'deselect') {
-            $('#mail-panel').hide();
+            if (dtsc == 0) {
+                $('#ignorerule').hide();
+                $('#confirmrule').hide();
+            }
         }
     }
 
