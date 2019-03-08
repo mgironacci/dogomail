@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-22 14:53-0300\n"
-"PO-Revision-Date: 2019-02-22 14:55-0300\n"
+"POT-Creation-Date: 2019-03-08 15:46-0300\n"
+"PO-Revision-Date: 2019-03-08 14:50-0300\n"
 "Last-Translator: Andres Gironacci <mgironacci@itecnis.com>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -54,24 +54,25 @@ msgstr "Cambiar lista"
 msgid "Delete list"
 msgstr "Eliminar lista"
 
-#: spam/templates/spam/autorules.html:4 spam/templates/spam/autorules.html:97
+#: spam/templates/spam/autorules.html:4 spam/templates/spam/autorules.html:103
 msgid "Autorules"
 msgstr "Autoreglas"
 
 #: spam/templates/spam/autorules.html:16 spam/templates/spam/autorules.html:27
+#: spam/templates/spam/lists.html:16 spam/templates/spam/lists.html:27
 msgid "Search"
 msgstr "Buscar"
 
-#: spam/templates/spam/autorules.html:24
+#: spam/templates/spam/autorules.html:24 spam/templates/spam/lists.html:24
 msgid "Clear"
 msgstr "Limpiar"
 
-#: spam/templates/spam/autorules.html:33 spam/templates/spam/autorules.html:106
+#: spam/templates/spam/autorules.html:33 spam/templates/spam/autorules.html:112
 #: spam/templates/spam/modules.html:31 spam/templates/spam/policies.html:31
 msgid "Name"
 msgstr "Nombre"
 
-#: spam/templates/spam/autorules.html:41 spam/templates/spam/autorules.html:107
+#: spam/templates/spam/autorules.html:41 spam/templates/spam/autorules.html:113
 msgid "Value"
 msgstr "Valor"
 
@@ -87,27 +88,35 @@ msgstr "Mín"
 msgid "Max"
 msgstr "Máx"
 
-#: spam/templates/spam/autorules.html:71 spam/templates/spam/autorules.html:105
+#: spam/templates/spam/autorules.html:71 spam/templates/spam/autorules.html:111
 msgid "Date"
 msgstr "Fecha"
 
-#: spam/templates/spam/autorules.html:76
+#: spam/templates/spam/autorules.html:76 spam/templates/spam/lists.html:68
 msgid "From"
 msgstr "Desde"
 
-#: spam/templates/spam/autorules.html:85
+#: spam/templates/spam/autorules.html:85 spam/templates/spam/lists.html:77
 msgid "To"
 msgstr "Hasta"
 
-#: spam/templates/spam/autorules.html:104
+#: spam/templates/spam/autorules.html:98
+msgid "Ignore rule"
+msgstr "Ignorar regla"
+
+#: spam/templates/spam/autorules.html:101
+msgid "Confirm rule"
+msgstr "Confirmar regla"
+
+#: spam/templates/spam/autorules.html:110
 msgid "Confirmed"
 msgstr "Confirmada"
 
-#: spam/templates/spam/autorules.html:108
+#: spam/templates/spam/autorules.html:114
 msgid "#Msgs"
 msgstr "#Msjs"
 
-#: spam/templates/spam/autorules.html:109 spam/templates/spam/lists.html:35
+#: spam/templates/spam/autorules.html:115 spam/templates/spam/lists.html:109
 #: spam/templates/spam/modules.html:32 spam/templates/spam/policies.html:32
 msgid "Active"
 msgstr "Activo"
@@ -124,44 +133,44 @@ msgstr "Configuración Global"
 msgid "Dashboard"
 msgstr "Pizarrón"
 
-#: spam/templates/spam/lists.html:3 spam/templates/spam/lists.html:24
+#: spam/templates/spam/lists.html:4 spam/templates/spam/lists.html:98
 msgid "Lists"
 msgstr "Listas"
 
-#: spam/templates/spam/lists.html:16 spam/templates/spam/modules.html:16
+#: spam/templates/spam/lists.html:33 spam/templates/spam/lists.html:107
+msgid "Sender"
+msgstr "Remitente"
+
+#: spam/templates/spam/lists.html:41 spam/templates/spam/lists.html:108
+msgid "Recipient"
+msgstr "Recipiente"
+
+#: spam/templates/spam/lists.html:48 spam/templates/spam/lists.html:106
+msgid "IP"
+msgstr "IP"
+
+#: spam/templates/spam/lists.html:63 spam/templates/spam/lists.html:110
+msgid "Created"
+msgstr "Creado el"
+
+#: spam/templates/spam/lists.html:90 spam/templates/spam/modules.html:16
 #: spam/templates/spam/policies.html:16
 msgid "Add"
 msgstr "Agregar"
 
-#: spam/templates/spam/lists.html:19 spam/templates/spam/modules.html:19
+#: spam/templates/spam/lists.html:93 spam/templates/spam/modules.html:19
 #: spam/templates/spam/policies.html:19
 msgid "Edit"
 msgstr "Editar"
 
-#: spam/templates/spam/lists.html:22 spam/templates/spam/modules.html:22
+#: spam/templates/spam/lists.html:96 spam/templates/spam/modules.html:22
 #: spam/templates/spam/policies.html:22
 msgid "Delete"
 msgstr "Eliminar"
 
-#: spam/templates/spam/lists.html:31
+#: spam/templates/spam/lists.html:105
 msgid "Type"
 msgstr "Tipo"
-
-#: spam/templates/spam/lists.html:32
-msgid "IP"
-msgstr "IP"
-
-#: spam/templates/spam/lists.html:33
-msgid "Sender"
-msgstr "Remitente"
-
-#: spam/templates/spam/lists.html:34
-msgid "Recipient"
-msgstr "Recipiente"
-
-#: spam/templates/spam/lists.html:36
-msgid "Created"
-msgstr "Creado el"
 
 #: spam/templates/spam/modules.html:3 spam/templates/spam/modules.html:24
 msgid "Modules"
