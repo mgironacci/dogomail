@@ -132,7 +132,7 @@ pre {
     margin-left: 5px;
 }
 .panel .panel-heading .panel-buttons-sm{
-    margin-top: -4px;
+    margin-top: -5px;
     margin-left: 5px;
 }
 
@@ -237,6 +237,11 @@ table.dataTable tbody tr.selected:hover {
 /* Modal body */
 .modal-body-bottom-5 {
     padding-bottom: 5px;
+}
+.modal-header {
+    background-color: #F6F6F6;
+    border-top-left-radius: 3.9px;
+    border-top-right-radius: 3.9px;
 }
 
 /* Forms */
