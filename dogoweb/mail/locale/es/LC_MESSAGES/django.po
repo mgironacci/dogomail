@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-22 14:53-0300\n"
-"PO-Revision-Date: 2019-02-22 16:42-0300\n"
+"POT-Creation-Date: 2019-03-08 15:46-0300\n"
+"PO-Revision-Date: 2019-03-08 15:48-0300\n"
 "Last-Translator: Andres Gironacci <mgironacci@itecnis.com>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -18,58 +18,61 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.1.1\n"
 
-#: mail/forms.py:41 mail/forms.py:119
-#, fuzzy
+#: mail/forms.py:42 mail/forms.py:120
 msgid "Add server"
 msgstr "Agregar servidor"
 
-#: mail/forms.py:46 mail/templates/mail/dogoadm.html:31
+#: mail/forms.py:47 mail/templates/mail/dogoadm.html:31
 #: mail/templates/mail/domadm.html:24 mail/templates/mail/domadm.html:74
 #: mail/templates/mail/srvadm.html:24 mail/templates/mail/srvadm.html:77
 #: mail/templates/mail/srvadm.html:90
 msgid "Name"
 msgstr "Nombre"
 
-#: mail/forms.py:51 mail/forms.py:99 mail/templates/mail/domadm.html:54
+#: mail/forms.py:52 mail/forms.py:100 mail/templates/mail/domadm.html:54
 #: mail/templates/mail/srvadm.html:51
 msgid "Info"
 msgstr "Información"
 
-#: mail/forms.py:94 mail/forms.py:134
+#: mail/forms.py:95 mail/forms.py:135
 msgid "Add domain"
 msgstr "Agregar dominio"
 
-#: mail/forms.py:104 mail/forms.py:109
+#: mail/forms.py:105 mail/forms.py:110
 msgid "Test"
 msgstr "Prueba"
 
-#: mail/forms.py:120
+#: mail/forms.py:121
 msgid "Change server"
 msgstr "Cambiar servidor"
 
-#: mail/forms.py:121
+#: mail/forms.py:122
 msgid "Delete server"
 msgstr "Eliminar servidor"
 
-#: mail/forms.py:135
+#: mail/forms.py:136
 msgid "Change domain"
 msgstr "Cambiar dominio"
 
-#: mail/forms.py:136
+#: mail/forms.py:137
 msgid "Delete domain"
 msgstr "Eliminar dominio"
 
-#: mail/forms.py:148
+#: mail/forms.py:149
 msgid "Add dogo"
 msgstr "Agregar dogo"
 
-#: mail/forms.py:149
+#: mail/forms.py:150
 msgid "Change dogo"
 msgstr "Cambiar dogo"
 
-#: mail/forms.py:150
+#: mail/forms.py:151
 msgid "Delete dogo"
 msgstr "Eliminar dogo"
+
+#: mail/forms.py:185
+msgid "View message"
+msgstr "Ver mensaje"
 
 #: mail/models.py:28
 msgid "Normal"
@@ -99,14 +102,101 @@ msgstr "Entregado"
 msgid "Rejected"
 msgstr "Rechazado"
 
-#: mail/models.py:48 mail/models.py:75 mail/templates/mail/blocked.html:3
-#: mail/templates/mail/blocked.html:9
+#: mail/models.py:48 mail/models.py:75 mail/templates/mail/blocked.html:4
+#: mail/templates/mail/blocked.html:118
 msgid "Blocked"
 msgstr "Retenido"
 
 #: mail/models.py:49 mail/models.py:76
 msgid "Erased"
 msgstr "Borrado"
+
+#: mail/models.py:261 mail/templates/mail/form_mail.html:6
+msgid "Empty"
+msgstr "Vacío"
+
+#: mail/templates/mail/blocked.html:16 mail/templates/mail/blocked.html:27
+#: mail/templates/mail/index.html:4 mail/templates/mail/index.html:16
+#: mail/templates/mail/index.html:27
+msgid "Search"
+msgstr "Buscar"
+
+#: mail/templates/mail/blocked.html:24 mail/templates/mail/index.html:24
+msgid "Clear"
+msgstr "Limpiar"
+
+#: mail/templates/mail/blocked.html:33 mail/templates/mail/blocked.html:127
+#: mail/templates/mail/index.html:33 mail/templates/mail/index.html:133
+msgid "Sender"
+msgstr "Remitente"
+
+#: mail/templates/mail/blocked.html:41 mail/templates/mail/index.html:41
+msgid "Recipient"
+msgstr "Recipiente"
+
+#: mail/templates/mail/blocked.html:48 mail/templates/mail/blocked.html:130
+#: mail/templates/mail/index.html:48 mail/templates/mail/index.html:136
+msgid "Subject"
+msgstr "Asunto"
+
+#: mail/templates/mail/blocked.html:55 mail/templates/mail/index.html:55
+msgid "Origin IP"
+msgstr "IP Origen"
+
+#: mail/templates/mail/blocked.html:62 mail/templates/mail/blocked.html:132
+#: mail/templates/mail/index.html:62 mail/templates/mail/index.html:138
+msgid "Message IDs"
+msgstr "Mensaje IDs"
+
+#: mail/templates/mail/blocked.html:77 mail/templates/mail/index.html:80
+msgid "Message Size"
+msgstr "Tamaño Mensaje"
+
+#: mail/templates/mail/blocked.html:82 mail/templates/mail/index.html:85
+msgid "Min"
+msgstr "Mín"
+
+#: mail/templates/mail/blocked.html:85 mail/templates/mail/index.html:88
+msgid "Max"
+msgstr "Máx"
+
+#: mail/templates/mail/blocked.html:92 mail/templates/mail/index.html:95
+msgid "Received Time"
+msgstr "Fecha Recibido"
+
+#: mail/templates/mail/blocked.html:97 mail/templates/mail/index.html:100
+msgid "From"
+msgstr "Desde"
+
+#: mail/templates/mail/blocked.html:106 mail/templates/mail/index.html:109
+msgid "To"
+msgstr "Hasta"
+
+#: mail/templates/mail/blocked.html:125 mail/templates/mail/dogoadm.html:36
+#: mail/templates/mail/index.html:131 mail/templates/mail/srvadm.html:26
+msgid "Status"
+msgstr "Estado"
+
+#: mail/templates/mail/blocked.html:126 mail/templates/mail/index.html:132
+msgid "Date"
+msgstr "Fecha"
+
+#: mail/templates/mail/blocked.html:128 mail/templates/mail/index.html:134
+msgid "#Rcpt"
+msgstr "#Rcpes"
+
+#: mail/templates/mail/blocked.html:129
+msgid "Origen"
+msgstr "Origen"
+
+#: mail/templates/mail/blocked.html:131 mail/templates/mail/index.html:137
+msgid "Size"
+msgstr "Tamaño"
+
+#: mail/templates/mail/blocked.html:133 mail/templates/mail/form_mail.html:123
+#: mail/templates/mail/index.html:139
+msgid "Recipients"
+msgstr "Recipientes"
 
 #: mail/templates/mail/dogoadm.html:3 mail/templates/mail/dogoadm.html:24
 msgid "Relays"
@@ -143,11 +233,6 @@ msgstr "IP4"
 msgid "IP6"
 msgstr "IP6"
 
-#: mail/templates/mail/dogoadm.html:36 mail/templates/mail/index.html:128
-#: mail/templates/mail/srvadm.html:26
-msgid "Status"
-msgstr "Estado"
-
 #: mail/templates/mail/dogoadm.html:37 mail/templates/mail/domadm.html:28
 #: mail/templates/mail/domadm.html:75 mail/templates/mail/srvadm.html:27
 #: mail/templates/mail/srvadm.html:78 mail/templates/mail/srvadm.html:91
@@ -180,82 +265,49 @@ msgstr "Casillas"
 msgid "Domains"
 msgstr "Dominios"
 
-#: mail/templates/mail/index.html:4 mail/templates/mail/index.html:16
-#: mail/templates/mail/index.html:27
-msgid "Search"
-msgstr "Buscar"
+#: mail/templates/mail/form_mail.html:13
+msgid "Basics"
+msgstr "Básicos"
 
-#: mail/templates/mail/index.html:24
-msgid "Clear"
-msgstr "Limpiar"
+#: mail/templates/mail/form_mail.html:19
+msgid "Validations"
+msgstr "Validaciones"
 
-#: mail/templates/mail/index.html:33 mail/templates/mail/index.html:130
-msgid "Sender"
-msgstr "Remitente"
+#: mail/templates/mail/form_mail.html:25
+msgid "Routing"
+msgstr "Ruteo"
 
-#: mail/templates/mail/index.html:41
-msgid "Recipient"
-msgstr "Recipiente"
+#: mail/templates/mail/form_mail.html:31
+msgid "Headers"
+msgstr "Encabezados"
 
-#: mail/templates/mail/index.html:48 mail/templates/mail/index.html:133
-msgid "Subject"
-msgstr "Asunto"
+#: mail/templates/mail/index.html:122
+msgid "View"
+msgstr "Ver"
 
-#: mail/templates/mail/index.html:55
-msgid "Origin IP"
-msgstr "IP Origen"
-
-#: mail/templates/mail/index.html:62 mail/templates/mail/index.html:135
-msgid "Message IDs"
-msgstr "Mensaje IDs"
-
-#: mail/templates/mail/index.html:80
-msgid "Message Size"
-msgstr "Tamaño Mensaje"
-
-#: mail/templates/mail/index.html:85
-msgid "Min"
-msgstr "Mín"
-
-#: mail/templates/mail/index.html:88
-msgid "Max"
-msgstr "Máx"
-
-#: mail/templates/mail/index.html:95
-msgid "Received Time"
-msgstr "Fecha Recibido"
-
-#: mail/templates/mail/index.html:100
-msgid "From"
-msgstr "Desde"
-
-#: mail/templates/mail/index.html:109
-msgid "To"
-msgstr "Hasta"
-
-#: mail/templates/mail/index.html:121
+#: mail/templates/mail/index.html:124
 msgid "Mails"
 msgstr "Correos"
 
-#: mail/templates/mail/index.html:129
-msgid "Date"
-msgstr "Fecha"
-
-#: mail/templates/mail/index.html:131
-msgid "#Rcpt"
-msgstr "#Rcpes"
-
-#: mail/templates/mail/index.html:132
-msgid "Origen"
+#: mail/templates/mail/index.html:135
+msgid "Origin"
 msgstr "Origen"
 
-#: mail/templates/mail/index.html:134
-msgid "Size"
-msgstr "Tamaño"
+#: mail/templates/mail/index.html:156
+msgid "Is Local"
+msgstr "Es Local"
 
-#: mail/templates/mail/index.html:136
-msgid "Recipients"
-msgstr "Recipientes"
+#: mail/templates/mail/index.html:157
+msgid "Is Client"
+msgstr "Es Cliente"
+
+#: mail/templates/mail/index.html:158
+msgid "Body SHA"
+msgstr "Cuerpo SHA"
+
+#: mail/templates/mail/index.html:159
+msgid "Stage"
+msgstr "Etapa"
 
 #: mail/templates/mail/queues.html:3 mail/templates/mail/queues.html:9
 msgid "Queues"

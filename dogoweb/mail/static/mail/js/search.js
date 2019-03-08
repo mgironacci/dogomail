@@ -1,6 +1,8 @@
-var jobj = {};
+var jseg = {};
 
 $(function(){
+    // Ocultamos botones
+    $('#showemail').hide();
 
     // Limpiamos valores
     $("#id_sender").val("");
@@ -72,16 +74,16 @@ $(function(){
         format: 'YYYY-MM-DD HH:mm:ss',
         locale: LANGCODE
     });
-    $('#id_rcv_until').datetimepicker({
-            useCurrent: false //Important! See issue #1075
-        });
+/*    $('#id_rcv_until').datetimepicker({
+        useCurrent: false //Important! See issue #1075
+    });
     $("#id_rcv_from").on("dp.change", function (e) {
         $('#id_rcv_until').data("DateTimePicker").minDate(e.date);
     });
     $("#id_rcv_until").on("dp.change", function (e) {
         $('#id_rcv_from').data("DateTimePicker").maxDate(e.date);
     });
-
+*/
 
     var clickDTs = function (et, e, dt, indexes) {
         var dts =  $('#mails-table').DataTable();
@@ -89,15 +91,13 @@ $(function(){
         var evento = et.split(".")[0];
         var tabla = et.split(".")[1];
         if (evento == 'select') {
-            var dtsn = dts.rows({selected:true}).data()[0][1];
-            var dtsd = dts.rows({selected:true}).data()[0][2];
-            var dtse = dts.rows({selected:true}).data()[0][3];
-            $('#mail-name').html(dtsn);
-            $('#mail-dns').html(dtsd);
-            $('#mail-stat').html(dtse);
-            $('#mail-panel').show();
+            if (dtsc != 0) {
+                $('#showemail').show();
+            }
         } else if (evento == 'deselect') {
-            $('#mail-panel').hide();
+            if (dtsc == 0) {
+                $('#showemail').hide();
+            }
         }
     }
 
@@ -254,12 +254,12 @@ $(function(){
         //"dom": 'Bfrtip',
         cache: false,
     });
+
     // Llamado al pedir nuevo menu
     $("#popup-modal").on("shown.bs.modal", function () {
         $("#popup-modal .modal-content").html('');
-        var btnact = $("#popup-modal").attr('data-action').split('.')[0];
-        var btnpan = $("#popup-modal").attr('data-action').split('.')[1];
-        if (typeof btnact == typeof undefined || btnact == false) {
+        var btnact = $("#popup-modal").attr('data-action');
+        if (typeof btnact == typeof undefined) {
             return false;
         }
         $("#popup-modal").removeAttr('data-action');
@@ -268,26 +268,19 @@ $(function(){
         var action = "";
         var ids = [];
         var srows = [];
-        if (btnact == 'add') {
-            if (btnpan == 'mail') {
-                action  = '/mail/domains/create/';
+        // Armo array en el listado con ids
+        if (dts.rows( { selected: true } ).count() != 0) {
+            srows = dts.rows( { selected: true } );
+            for(var i=0; i<srows.count(); i++) {
+                ids.push(srows.data()[i][0]);
             }
         }
-        // Busco en el listado correcto si es edit o delete
-        if (btnact == 'edit' || btnact == 'delete' ) {
-            if (btnpan == 'mail') {
-                if (dts.rows( { selected: true } ).count() != 0) {
-                    action = '/mail/domains/';
-                    srows = dts.rows( { selected: true } );
-                    for(var i=0; i<srows.count(); i++) {
-                        ids.push(srows.data()[i][0]);
-                    }
-                }
-            }
-            if (btnact == 'edit')   { action += 'update/'; }
-            if (btnact == 'delete') { action += 'delete/'; }
-            if (ids.length > 0)     { action += ids.join(); }
+        // Reviso la accion
+        if (btnact == 'show') {
+            action  = '/mail/show/';
         }
+        // Adjunto a la accion GET los ids
+        if (ids.length > 0)     { action += ids.join(); }
         $.ajax({
             url: action,
             type: 'GET',
@@ -314,6 +307,7 @@ $(function(){
             }
         });
     });
+
     // Llamado al darle submit
     $("#popup-modal").on("submit", function () {
         var form = $('#modal-form');
@@ -370,39 +364,11 @@ $(function(){
         });
     }
 
-    var salvaNext = function (npk) {
-        var form = $('#modal-form');
-        $('#snext').val(npk);
-        $.ajax({
-            url: form.attr("action"),
-            data: form.serialize(),
-            type: 'POST',
-            dataType: 'json',
-            success: function (data) {
-                if (data.form_is_valid) {
-                    if (data.panel == 'mail') {
-                        $('#mails-table').DataTable().ajax.reload();
-                    }
-                    if (data.snext == 'new') {
-                        $("#popup-modal .modal-content").html('');
-                    } else if (data.snext != '') {
-                        saltaEdit(data.snext);
-                        return;
-                    } else {
-                        $("#popup-modal").modal('hide');
-                        $("#popup-modal .modal-content").html('');
-                        return;
-                    }
-                }
-                $("#popup-modal .modal-content").html(data.html_form);
-            }
-        });
-    }
-
     var buscar = function() {
         $('#mails-table').DataTable().draw();
         $("#id_sender").focus();
     }
 
-    jobj.buscar = buscar;
+    jseg.buscar = buscar;
+    jseg.saltaEdit = saltaEdit;
 });

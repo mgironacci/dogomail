@@ -1,0 +1,165 @@
+{% load seg_tags %}
+{% load i18n %}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h5>{{ form.get_estado|safe }} {% if form.subject.value is not None %}{{ form.subject.value }}{% else %}<i>{% trans "Empty" %}</i>{% endif %}</h5>
+        <div class="margin-bottom-10 height-400">
+            <div class="nav-tabs-horizontal">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="javascript: void(0);" data-toggle="tab" data-target="#basic" role="tab">
+                            <i class="icmn-home"></i>
+                            {% trans "Basics" %}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#validate" role="tab">
+                            <i class="icmn-checkmark"></i>
+                            {% trans "Validations" %}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#routing" role="tab">
+                            <i class="icmn-direction"></i>
+                            {% trans "Routing" %}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#headers" role="tab">
+                            <i class="icmn-menu7"></i>
+                            {% trans "Headers" %}
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content padding-vertical-20">
+                    <div class="tab-pane active" id="basic" role="tabpanel">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <b>{% trans form.rcv_time.label %}:</b>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        {{ form.rcv_time.value|default_if_none:"" }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <b>{% trans form.sender.label %}:</b>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        {{ form.sender.value|default_if_none:"" }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <b>{% trans form.sizemsg.label %}:</b>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        {{ form.sizemsg.value|default_if_none:"" }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <b>{% trans form.ip_orig.label %}:</b>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        {{ form.ip_orig.value|default_if_none:"" }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <b>{% trans form.es_local.label %}:</b>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        {{ form.get_es_local|safe }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <b>{% trans form.es_cliente.label %}:</b>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        {{ form.get_es_cliente|safe }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <b>{% trans form.bodysha.label %}:</b>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        {{ form.bodysha.value|default_if_none:"" }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <b>{% trans form.etapa.label %}:</b>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        {{ form.get_etapa }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <b>{% trans form.msgids.label %}:</b>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        {{ form.msgids.value|default_if_none:"" }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <b>{% trans form.dogo.label %}:</b>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        {{ form.get_dogo|default_if_none:"" }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <b>{% trans "Recipients" %}:</b>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        {{ form.get_recipient_count }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="height-250 jscroll" style="overflow: auto; height: 250px;">
+                                            <div>
+                                                {{ form.get_recipients|safe }}
+                                            </div>
+                                        </div>
+                                        <script>$('.jscroll').jScrollPane();</script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="validate" role="tabpanel">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <b>{% trans form.autoregla.label %}:</b>
+                            </div>
+                            <div class="col-lg-9">
+                                {{ form.autoregla.value|default_if_none:"" }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="routing" role="tabpanel">
+                    </div>
+                    <div class="tab-pane" id="headers" role="tabpanel">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                {{ form.headers.value|default_if_none:"" }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

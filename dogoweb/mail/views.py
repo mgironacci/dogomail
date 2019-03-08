@@ -5,7 +5,7 @@ from django.utils.translation import gettext as _
 from django.contrib.auth.decorators import login_required, permission_required
 from seg.views import ajax_permission_required
 from .models import Server, Dominio, Dogomail, Mensaje, Destinatario
-from .forms import ServerForm, DominioForm, DogomailForm, SERVER_STEPS, DOM_STEPS, SearchMailForm
+from .forms import ServerForm, DominioForm, DogomailForm, SERVER_STEPS, DOM_STEPS, SearchMailForm, MailForm
 from dogoweb.settings import VERSION, ICO_OK, ICO_WARN, ICO_INFO, ICO_CRIT
 import json
 
@@ -23,6 +23,13 @@ def search(request):
     else:
         return JsonResponse({'error': "Bad request"})
     ret = Mensaje.objects.dt_filter(jbody)
+    return JsonResponse(ret)
+
+
+@login_required()
+def show(request, ids):
+    ret = Mensaje.objects.dt_show(ids, request, MailForm)
+    ret['panel'] = 'mail'
     return JsonResponse(ret)
 
 

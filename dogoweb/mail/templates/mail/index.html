@@ -21,10 +21,10 @@
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-lg-6">
-                            <button type="button" class="btn" onclick="document.getElementById('busca_form').reset();jobj.buscar();">{% trans "Clear" %}</button>
+                            <button type="button" class="btn" onclick="document.getElementById('busca_form').reset();jseg.buscar();">{% trans "Clear" %}</button>
                         </div>
                         <div class="col-lg-6 text-right">
-                            <button type="button" class="btn btn-primary" id="id_btn_buscar" onclick="jobj.buscar();">{% trans "Search" %}</button>
+                            <button type="button" class="btn btn-primary" id="id_btn_buscar" onclick="jseg.buscar();">{% trans "Search" %}</button>
                         </div>
                     </div>
                     <div class="row">
@@ -118,6 +118,9 @@
     <div class="col-lg-10">
         <section class="panel panel-with-borders panel-compact">
             <div class="panel-heading">
+                {% if perms.spam.change_autoreglas %}
+                <button type="button" id="showemail" onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','show'); $('#popup-modal').modal();" class="btn btn-primary btn-sm pull-right panel-buttons-sm width-100"><i class="icmn-envelop4"></i> {% trans "View" %}</button>
+                {% endif %}
                 <h5><small><i class="icmn-list"></i></small> {% trans "Mails" %}</h5>
             </div>
             <div class="panel-body">
@@ -129,7 +132,7 @@
                         <th>{% trans "Date" %}</th>
                         <th>{% trans "Sender" %}</th>
                         <th>{% trans "#Rcpt" %}</th>
-                        <th>{% trans "Origen" %}</th>
+                        <th>{% trans "Origin" %}</th>
                         <th>{% trans "Subject" %}</th>
                         <th>{% trans "Size" %}</th>
                         <th>{% trans "Message IDs" %}</th>
@@ -143,4 +146,16 @@
         </section>
     </div>
 </div>
+<div class="modal fade modal-size-large" id="popup-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+<!--
+{% trans "Is Local" %}
+{% trans "Is Client" %}
+{% trans "Body SHA" %}
+{% trans "Stage" %}
+-->
 {% endblock %}

@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     url(r'^$', views.index, name='mailindex'),
     url(r'^search/$', views.search, name='mailsearch'),
+    url(r'^show/(?P<ids>[\,\d]+)*$', views.show, name='mailshow'),
     url(r'^blocked/$', views.blocked, name='mailblocked'),
     url(r'^blockedsearch/$', views.blocked_search, name='mailblockedsearch'),
     url(r'^queues/$', views.queues, name='mailqueues'),

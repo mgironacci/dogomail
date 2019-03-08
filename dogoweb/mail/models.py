@@ -249,7 +249,7 @@ class Mensaje(models.Model):
     dogo = models.ForeignKey(Dogomail, on_delete=models.PROTECT)
     es_local = models.BooleanField('Is Local', default=False, db_index=True)
     es_cliente = models.BooleanField('Is Client', default=False, db_index=True)
-    etapa = models.SmallIntegerField('State', choices=RUN_ETAPA_MSG, default=1, db_index=True)
+    etapa = models.SmallIntegerField('Stage', choices=RUN_ETAPA_MSG, default=1, db_index=True)
     autoregla = models.ForeignKey(AutoReglas, on_delete=models.PROTECT, blank=True, null=True, db_index=True)
     #con_cuerpo = models.BooleanField('Has body', default=True)
 
@@ -257,6 +257,8 @@ class Mensaje(models.Model):
         return '<Mensaje: remitente="%s", asunto="%s">' % (self.sender,self.subject)
 
     def __str__(self):
+        if self.subject is None:
+            return _("Empty")
         return self.subject
 
     class Meta:
@@ -318,6 +320,9 @@ class Destinatario(models.Model):
     class Meta:
         ordering = ["id", "receptor"]
         unique_together = ['dogo', 'rdogoid']
+
+    def get_estado_display(self):
+        return html_estado_mail(self.estado)
 
 
 class TestSpam(models.Model):

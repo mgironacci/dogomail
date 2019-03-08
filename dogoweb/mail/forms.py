@@ -1,6 +1,7 @@
 from django import forms
 from django.utils.translation import gettext as _
 from .models import Server, Dominio, Dogomail, Mensaje, Destinatario, TIPO_SRVS, ESTADO_SRCH
+from seg.models import html_check
 
 
 DATEFMT = ['%Y-%m-%d %H:%M:%S',
@@ -177,3 +178,39 @@ class SearchMailForm(forms.Form):
 
     class Meta:
         localize = '__all__'
+
+
+class MailForm(forms.ModelForm):
+    form_header = {
+        'show': {'title': _('View message'), 'icon': 'icmn-envelop4', 'url': 'mailshow'},
+        'templt': 'mail/form_mail.html',
+    }
+
+    class Meta:
+        model = Mensaje
+        exclude = []
+        localize = '__all__'
+
+    def get_etapa(self):
+        return self.instance.get_etapa_display()
+
+    def get_estado(self):
+        return self.instance.get_estado_display()
+
+    def get_dogo(self):
+        return self.instance.dogo.nombre
+
+    def get_es_cliente(self):
+        return html_check(self.instance.es_cliente)
+
+    def get_es_local(self):
+        return html_check(self.instance.es_local)
+
+    def get_recipients(self):
+        ret = ""
+        for r in self.instance.destinatario_set.all():
+            ret += "<small>" + r.get_estado_display() + "</small>&nbsp;" + r.receptor + "<br/>"
+        return ret
+
+    def get_recipient_count(self):
+        return self.instance.destinatario_set.count()
