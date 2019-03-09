@@ -1,0 +1,102 @@
+{% load seg_tags %}
+{% load i18n %}
+
+<div class="{{ WIDGET_GROUP_CLASS }}{% if field.errors %} {{WIDGET_ERROR_CLASS }}{% endif %}">
+    <label class="{{ WIDGET_BASE_CLASS }}-label{% if field.errors %} {{WIDGET_ERROR_CLASS }}{% endif %}" for="{{ field.id_for_label }}">{% trans field.label %}</label>
+    {% render_field field hidden=true %}
+    <div class="btn-group input-group" data-toggle="buttons" id="{{ field.id_for_label }}_group">
+        <label class="btn btn-ss" id="{{ field.id_for_label }}_yes" onclick="{{ field.id_for_label }}_rd_yes();">
+            <input type="radio" name="{{ field.id_for_label }}_rd" value="2"/>
+            {% trans "Yes" %}
+        </label>
+        <label class="btn btn-ss" id="{{ field.id_for_label }}_null" onclick="{{ field.id_for_label }}_rd_null();">
+            <input type="radio" name="{{ field.id_for_label }}_rd" value="1"/>
+            &nbsp;
+        </label>
+        <label class="btn btn-ss" id="{{ field.id_for_label }}_no" onclick="{{ field.id_for_label }}_rd_no();">
+            <input type="radio" name="{{ field.id_for_label }}_rd" value="3"/>
+            {% trans "No" %}
+        </label>
+    </div>
+    {% if field.errors %}
+    <div class="{{ WIDGET_ERROR_LIST_CLASS }}" data-error-list>
+        <ul>
+            {% for error in field.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    <script>
+        var {{ field.id_for_label }}_rd_reset = function () {
+            if ($('#{{ field.id_for_label }}').val() == '1') {
+                $('#{{ field.id_for_label }}_yes').removeClass('btn-checkbox-outline-yes active');
+                $('#{{ field.id_for_label }}_no').removeClass('btn-checkbox-outline-yes active');
+                $('#{{ field.id_for_label }}_null').removeClass('btn-checkbox-outline-yes');
+                $('#{{ field.id_for_label }}_yes').removeClass('btn-checkbox-outline-no active');
+                $('#{{ field.id_for_label }}_no').removeClass('btn-checkbox-outline-no active');
+                $('#{{ field.id_for_label }}_null').removeClass('btn-checkbox-outline-no');
+                $('#{{ field.id_for_label }}_yes').addClass('btn-default-outline');
+                $('#{{ field.id_for_label }}_no').addClass('btn-default-outline');
+                $('#{{ field.id_for_label }}_null').addClass('btn-default-outline active');
+            } else if ($('#{{ field.id_for_label }}').val() == '2') {
+                $('#{{ field.id_for_label }}_yes').removeClass('btn-default-outline');
+                $('#{{ field.id_for_label }}_no').removeClass('btn-default-outline active');
+                $('#{{ field.id_for_label }}_null').removeClass('btn-default-outline active');
+                $('#{{ field.id_for_label }}_yes').removeClass('btn-checkbox-outline-no');
+                $('#{{ field.id_for_label }}_no').removeClass('btn-checkbox-outline-no active');
+                $('#{{ field.id_for_label }}_null').removeClass('btn-checkbox-outline-no active');
+                $('#{{ field.id_for_label }}_yes').addClass('btn-checkbox-outline-yes active');
+                $('#{{ field.id_for_label }}_no').addClass('btn-checkbox-outline-yes');
+                $('#{{ field.id_for_label }}_null').addClass('btn-checkbox-outline-yes');
+            } else {
+                $('#{{ field.id_for_label }}_yes').removeClass('btn-default-outline active');
+                $('#{{ field.id_for_label }}_no').removeClass('btn-default-outline');
+                $('#{{ field.id_for_label }}_null').removeClass('btn-default-outline active');
+                $('#{{ field.id_for_label }}_yes').removeClass('btn-checkbox-outline-yes active');
+                $('#{{ field.id_for_label }}_no').removeClass('btn-checkbox-outline-yes');
+                $('#{{ field.id_for_label }}_null').removeClass('btn-checkbox-outline-yes active');
+                $('#{{ field.id_for_label }}_yes').addClass('btn-checkbox-outline-no');
+                $('#{{ field.id_for_label }}_no').addClass('btn-checkbox-outline-no active');
+                $('#{{ field.id_for_label }}_null').addClass('btn-checkbox-outline-no');
+            }
+        }
+        {{ field.id_for_label }}_rd_reset();
+        var {{ field.id_for_label }}_rd_yes = function () {
+            $('#{{ field.id_for_label }}').val('2');
+            $('#{{ field.id_for_label }}_yes').removeClass('btn-default-outline');
+            $('#{{ field.id_for_label }}_no').removeClass('btn-default-outline');
+            $('#{{ field.id_for_label }}_null').removeClass('btn-default-outline');
+            $('#{{ field.id_for_label }}_yes').removeClass('btn-checkbox-outline-no');
+            $('#{{ field.id_for_label }}_no').removeClass('btn-checkbox-outline-no');
+            $('#{{ field.id_for_label }}_null').removeClass('btn-checkbox-outline-no');
+            $('#{{ field.id_for_label }}_yes').addClass('btn-checkbox-outline-yes');
+            $('#{{ field.id_for_label }}_no').addClass('btn-checkbox-outline-yes');
+            $('#{{ field.id_for_label }}_null').addClass('btn-checkbox-outline-yes');
+        }
+        var {{ field.id_for_label }}_rd_no = function () {
+            $('#{{ field.id_for_label }}').val('3');
+            $('#{{ field.id_for_label }}_yes').removeClass('btn-default-outline');
+            $('#{{ field.id_for_label }}_no').removeClass('btn-default-outline');
+            $('#{{ field.id_for_label }}_null').removeClass('btn-default-outline');
+            $('#{{ field.id_for_label }}_yes').removeClass('btn-checkbox-outline-yes');
+            $('#{{ field.id_for_label }}_no').removeClass('btn-checkbox-outline-yes');
+            $('#{{ field.id_for_label }}_null').removeClass('btn-checkbox-outline-yes');
+            $('#{{ field.id_for_label }}_yes').addClass('btn-checkbox-outline-no');
+            $('#{{ field.id_for_label }}_no').addClass('btn-checkbox-outline-no');
+            $('#{{ field.id_for_label }}_null').addClass('btn-checkbox-outline-no');
+        }
+        var {{ field.id_for_label }}_rd_null = function () {
+            $('#{{ field.id_for_label }}').val('1');
+            $('#{{ field.id_for_label }}_yes').removeClass('btn-checkbox-outline-yes');
+            $('#{{ field.id_for_label }}_no').removeClass('btn-checkbox-outline-yes');
+            $('#{{ field.id_for_label }}_null').removeClass('btn-checkbox-outline-yes');
+            $('#{{ field.id_for_label }}_yes').removeClass('btn-checkbox-outline-no');
+            $('#{{ field.id_for_label }}_no').removeClass('btn-checkbox-outline-no');
+            $('#{{ field.id_for_label }}_null').removeClass('btn-checkbox-outline-no');
+            $('#{{ field.id_for_label }}_yes').addClass('btn-default-outline');
+            $('#{{ field.id_for_label }}_no').addClass('btn-default-outline');
+            $('#{{ field.id_for_label }}_null').addClass('btn-default-outline');
+        }
+    </script>
+</div>

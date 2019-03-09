@@ -166,14 +166,14 @@ pre {
     padding-top: 0.3rem;
 }
 .panel.panel-compact .col-compact {
-    padding-left: 4px;
-    padding-right: 4px;
+    padding-left: 2px;
+    padding-right: 2px;
 }
 .panel.panel-compact .col-compact-right {
-    padding-left: 4px;
+    padding-left: 2px;
 }
 .panel.panel-compact .col-compact-left {
-    padding-right: 4px;
+    padding-right: 2px;
 }
 
 
@@ -254,11 +254,20 @@ textarea.form-control-required, select.form-control-required,
 }
 
 /* checkboxes lindos */
+.btn.btn-ss {
+    padding: 2px 3px;
+}
+label.btn-default-outline.focus {
+    border-color: #01a8fe;
+}
+label.btn-default-outline.active.focus {
+    border-color: #01a8fe;
+}
 label.btn-checkbox-outline-yes {
     border-color: #3caa7a;
     color: #3caa7a;
 }
-label.btn-checkbox-outline-yes:focus {
+label.btn-checkbox-outline-yes.focus {
     border-color: #01a8fe;
 }
 label.btn-checkbox-outline-yes:hover {
@@ -269,7 +278,25 @@ label.btn-checkbox-outline-yes.active {
     border-color: #3caa7a;
     color: #ffffff;
 }
-label.btn-checkbox-outline-yes.active:focus {
+label.btn-checkbox-outline-yes.active.focus {
+    border-color: #01a8fe; /*#f5797d*/
+}
+label.btn-checkbox-outline-no {
+    border-color: #d9534f;
+    color: #d9534f;
+}
+label.btn-checkbox-outline-no.focus {
+    border-color: #01a8fe;
+}
+label.btn-checkbox-outline-no:hover {
+    border-color: #d9534f;
+}
+label.btn-checkbox-outline-no.active {
+    background: #d9534f;
+    border-color: #d9534f;
+    color: #ffffff;
+}
+label.btn-checkbox-outline-no.active.focus {
     border-color: #01a8fe;
 }
 

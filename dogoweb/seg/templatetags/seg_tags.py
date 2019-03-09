@@ -189,6 +189,12 @@ def render_field_full_checkbox(parser, token):
 
 
 @register.tag
+def render_field_full_checkboxnull(parser, token):
+    form_field, set_attrs, append_attrs = common_field_render(parser, token)
+    return FieldAttributeNode(form_field, set_attrs, append_attrs, full=True, template='tags/field_full_checkboxnull.html')
+
+
+@register.tag
 def render_field_full_email(parser, token):
     form_field, set_attrs, append_attrs = common_field_render(parser, token)
     return FieldAttributeNode(form_field, set_attrs, append_attrs, full=True, template='tags/field_full_email.html')
