@@ -21,7 +21,10 @@
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-lg-6">
-                            <button type="button" class="btn" onclick="document.getElementById('busca_form').reset();jseg.buscar();">{% trans "Clear" %}</button>
+                            <button type="button" class="btn"
+                                    onclick="document.getElementById('busca_form').reset();{{ form.es_local.id_for_label }}_rd_reset();{{ form.es_cliente.id_for_label }}_rd_reset();jseg.buscar();">
+                                {% trans "Clear" %}
+                            </button>
                         </div>
                         <div class="col-lg-6 text-right">
                             <button type="button" class="btn btn-primary" id="id_btn_buscar" onclick="jseg.buscar();">{% trans "Search" %}</button>
@@ -64,14 +67,14 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-6 col-compact-left">
+                        <div class="col-lg-4 col-compact-left">
+                            {% render_field_full_checkboxnull form.es_local %}
+                        </div>
+                        <div class="col-lg-4 col-compact">
+                            {% render_field_full_checkboxnull form.es_cliente %}
+                        </div>
+                        <div class="col-lg-4 col-compact-right">
                             {% render_field_full form.estado %}
-                        </div>
-                        <div class="col-lg-3 col-compact">
-                            {% render_field_full form.es_local %}
-                        </div>
-                        <div class="col-lg-3 col-compact-right">
-                            {% render_field_full form.es_cliente %}
                         </div>
                     </div>
                     <div id="gr_msgsize" class="form-group">

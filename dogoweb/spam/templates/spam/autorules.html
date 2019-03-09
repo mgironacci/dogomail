@@ -21,7 +21,7 @@
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-lg-6">
-                            <button type="button" class="btn" onclick="document.getElementById('busca_form').reset();jobj.buscar();">{% trans "Clear" %}</button>
+                            <button type="button" class="btn" onclick="document.getElementById('busca_form').reset();{{ form.activo.id_for_label }}_rd_reset();{{ form.confirmada.id_for_label }}_rd_reset();jobj.buscar();">{% trans "Clear" %}</button>
                         </div>
                         <div class="col-lg-6 text-right">
                             <button type="button" class="btn btn-primary" id="id_btn_buscar" onclick="jobj.buscar();">{% trans "Search" %}</button>
@@ -44,10 +44,10 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-6 col-compact-left">
-                            {% render_field_full form.confirmada %}
+                            {% render_field_full_checkboxnull form.confirmada %}
                         </div>
                         <div class="col-lg-6 col-compact-right">
-                            {% render_field_full form.activo %}
+                            {% render_field_full_checkboxnull form.activo %}
                         </div>
                     </div>
                     <div id="gr_msgcant" class="form-group">
