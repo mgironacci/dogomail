@@ -214,3 +214,17 @@ class MailForm(forms.ModelForm):
 
     def get_recipient_count(self):
         return self.instance.destinatario_set.count()
+
+    def get_validaciones(self):
+        ret = []
+        for t in self.instance.testspam_set.all():
+            tt = {
+                'modulo': t.modulo.nombre,
+                'resultado': t.result,
+                'descripcion': t.desc_resul,
+                'puntaje': t.puntaje,
+            }
+            if t.modulo.nombre == "SPAMASSASSIN":
+                tt['descripcion'] = "<pre>" + t.desc_resul + "</pre>"
+            ret.append(tt)
+        return ret

@@ -128,25 +128,66 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <div class="height-250 jscroll" style="overflow: auto; height: 250px;">
+                                        <div class="height-250 scroll-vertical">
                                             <div>
                                                 {{ form.get_recipients|safe }}
                                             </div>
                                         </div>
-                                        <script>$('.jscroll').jScrollPane();</script>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="tab-pane" id="validate" role="tabpanel">
-                        <div class="row">
-                            <div class="col-lg-3">
-                                <b>{% trans form.autoregla.label %}:</b>
+                        <div class="height-350 scroll-vertical">
+                            {% if form.autoregla.value is not None %}
+                            <div class="row">
+                                <div class="col-lg-1">
+                                    <b>{% trans form.autoregla.label %}:</b>
+                                </div>
+                                <div class="col-lg-10">
+                                    {{ form.autoregla.value }}
+                                </div>
                             </div>
-                            <div class="col-lg-9">
-                                {{ form.autoregla.value|default_if_none:"" }}
+                            {% endif %}
+                            {% for val in form.get_validaciones %}
+                            <div class="row">
+                                <div class="col-lg-1">
+                                    <b>{% trans "Test" %}:</b>
+                                </div>
+                                <div class="col-lg-5">
+                                    {{ val.modulo }}
+                                </div>
+                                {% if val.puntaje is not None %}
+                                <div class="col-lg-1">
+                                    <b>{% trans "Score" %}:</b>
+                                </div>
+                                <div class="col-lg-5">
+                                    {{ val.puntaje }}
+                                </div>
+                                {% else %}
+                                <div class="col-lg-6"></div>
+                                {% endif %}
                             </div>
+                            <div class="row">
+                                <div class="col-lg-1">
+                                    <b>{% trans "Result" %}:</b>
+                                </div>
+                                <div class="col-lg-10">
+                                    {{ val.resultado }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-1">
+                                    <b>{% trans "Description" %}:</b>
+                                </div>
+                                <div class="col-lg-10">
+                                    {{ val.descripcion|safe }}
+                                </div>
+                                <div class="col-lg-1">
+                                </div>
+                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                     <div class="tab-pane" id="routing" role="tabpanel">
