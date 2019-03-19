@@ -193,9 +193,11 @@
                     <div class="tab-pane" id="routing" role="tabpanel">
                     </div>
                     <div class="tab-pane" id="headers" role="tabpanel">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                {{ form.headers.value|default_if_none:"" }}
+                        <div class="height-350 scroll-vertical">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <pre>{{ form.headers.value|default_if_none:"" }}</pre>
+                                </div>
                             </div>
                         </div>
                     </div>

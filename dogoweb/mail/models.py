@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.contrib.auth.models import User
+import codecs
 from seg.models import DTManager
 from erp.models import Cliente
 from spam.models import Politica, Modulo, AutoReglas
@@ -133,8 +134,21 @@ class CommaSepField(models.CharField):
 
 class CompressedField(models.TextField):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def to_python(self, value):
+        if not value:
+            return value
+        try:
+            return value.decode('base64').decode('gzip').decode('utf-8')
+        except Exception:
+            return value
+
+    def from_db_value(self, value, expression, connection):
+        if not value:
+            return value
+        try:
+            return codecs.decode(codecs.decode(value.encode('utf8'), 'base64'), 'zlib').decode('utf-8')
+        except Exception as e:
+            return value
 
 
 class ShaField(models.CharField):
