@@ -1,0 +1,46 @@
+- model: spam.modulo
+  pk: 1
+  fields: {nombre: SPF, activo: true, config: "ignorarIP=10.0.0.0/8,172.12.0.0/16,192.168.0.0/16\r\
+      \nignorarDOM=itecnis.com.ar"}
+- model: spam.modulo
+  pk: 2
+  fields: {nombre: SRS, activo: true, config: srs=on}
+- model: spam.modulo
+  pk: 3
+  fields: {nombre: DKIM, activo: true, config: dkim=on}
+- model: spam.modulo
+  pk: 4
+  fields: {nombre: DNSBL, activo: true, config: dnsbl=on}
+- model: spam.modulo
+  pk: 5
+  fields: {nombre: GREY, activo: true, config: greylist=off}
+- model: spam.modulo
+  pk: 6
+  fields: {nombre: VerificaREM, activo: true, config: none}
+- model: spam.modulo
+  pk: 7
+  fields: {nombre: VerificaMXA, activo: true, config: "MX=True\r\nA=True"}
+- model: spam.modulo
+  pk: 8
+  fields: {nombre: ListaBlanca, activo: true, config: clave=blanca}
+- model: spam.modulo
+  pk: 9
+  fields: {nombre: ListaNegra, activo: true, config: clave=negra}
+- model: spam.modulo
+  pk: 10
+  fields: {nombre: ListaRapida, activo: true, config: clave=rapida}
+- model: spam.modulo
+  pk: 11
+  fields: {nombre: ListaClientes, activo: true, config: clave=clientes}
+- model: spam.modulo
+  pk: 12
+  fields: {nombre: SPAMASSASSIN, activo: true, config: "HitsRechazar=140\r\nHitsRetener=7\r\
+      \nListaIgnorar=nosa"}
+- model: spam.modulo
+  pk: 13
+  fields: {nombre: AutoReglas, activo: true, config: "tiempo_retardo=2\r\nduracion_regla=1\r\
+      \nmax_cuerpo=10\r\ntiempo_cuerpo=1\r\nmax_ip=10\r\ntiempo_ip=1\r\nmax_asunto=24\r\
+      \ntiempo_asunto=1\r\nmax_destino=10\r\ntiempo_destino=1"}
+- model: spam.modulo
+  pk: 14
+  fields: {nombre: Antivirus, activo: true, config: av=clamd}

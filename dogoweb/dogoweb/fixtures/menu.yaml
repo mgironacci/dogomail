@@ -24,7 +24,7 @@
 - model: seg.pantalla
   pk: 3
   fields: {idm: queues, nombre: Colas, url: /mail/queues, orden: 30, icono: icmn-drawer,
-    permiso: 33, menu: 1, activo: true}
+    permiso: 33, menu: 1, activo: false}
 - model: seg.pantalla
   pk: 4
   fields: {idm: domdash, nombre: Pizarrón, url: /mail/doms, orden: 10, icono: icmn-image4,
@@ -32,14 +32,14 @@
 - model: seg.pantalla
   pk: 5
   fields: {idm: mboxes, nombre: Casillas, url: /mail/mboxes, orden: 20, icono: icmn-mailbox,
-    permiso: 33, menu: 2, activo: true}
+    permiso: 33, menu: 2, activo: false}
 - model: seg.pantalla
   pk: 6
   fields: {idm: dommanage, nombre: Administrar, url: /mail/domadm, orden: 30, icono: icmn-cog2,
     permiso: 33, menu: 2, activo: true}
 - model: seg.pantalla
   pk: 7
-  fields: {idm: servdash, nombre: "Pizarr\xF3n", url: /mail/srvdash, orden: 10, icono: icmn-image4,
+  fields: {idm: servdash, nombre: Pizarrón, url: /mail/srvdash, orden: 10, icono: icmn-image4,
     permiso: 33, menu: 3, activo: true}
 - model: seg.pantalla
   pk: 8
@@ -56,11 +56,11 @@
 - model: seg.pantalla
   pk: 11
   fields: {idm: avirus, nombre: Antivirus, url: /spam/avirus, orden: 30, icono: icmn-syringe2,
-    permiso: 33, menu: 4, activo: true}
+    permiso: 33, menu: 4, activo: false}
 - model: seg.pantalla
   pk: 12
   fields: {idm: rules, nombre: Reglas, url: /spam/rules, orden: 40, icono: icmn-clipboard3,
-    permiso: 33, menu: 4, activo: true}
+    permiso: 33, menu: 4, activo: false}
 - model: seg.pantalla
   pk: 13
   fields: {idm: policies, nombre: Politicas, url: /spam/policies, orden: 50, icono: icmn-clipboard2,
@@ -76,11 +76,23 @@
 - model: seg.pantalla
   pk: 16
   fields: {idm: globalcfg, nombre: Globales, url: /config, orden: 30, icono: icmn-equalizer2,
-    permiso: 33, menu: 5, activo: true}
+    permiso: 33, menu: 5, activo: false}
 - model: seg.pantalla
   pk: 17
   fields: {idm: audit, nombre: Auditoría, url: /seg/audit, orden: 15, icono: icmn-search4,
-    permiso: 33, menu: 5, activo: true}
+    permiso: 33, menu: 5, activo: false}
+- model: seg.pantalla
+  pk: 18
+  fields: {idm: clients, nombre: Clientes, url: /erp/, orden: 17, icono: icmn-users2,
+    permiso: 62, menu: 5, activo: true}
+- model: seg.pantalla
+  pk: 19
+  fields: {idm: autorules, nombre: AutoReglas, url: /spam/autorules, orden: 60, icono: icmn-blog2,
+    permiso: 79, menu: 4, activo: true}
+- model: seg.pantalla
+  pk: 20
+  fields: {idm: dogoadm, nombre: Relevos, url: /mail/dogoadm, orden: 5, icono: icmn-design,
+    permiso: 52, menu: 5, activo: true}
 - model: seg.profile
   pk: 1
   fields: {user: 1}
