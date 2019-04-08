@@ -170,6 +170,7 @@ class Dogomail(models.Model):
     dirdns = models.CharField('DNS Address', unique=True, max_length=70)
     estado = models.CharField('Status', choices=ESTADO_SRVS, max_length=10, default='down')
     tipodm = models.CharField('Type', choices=TIPO_DOGO, max_length=10, default='dogo2')
+    ultvis = models.DateTimeField('Last seen', default=timezone.now)
 
     def __repr__(self):
         return '<Dogomail: nombre="%s">' % self.nombre

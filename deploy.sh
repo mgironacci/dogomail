@@ -40,7 +40,7 @@ workon dogomail
 pip install -r requirements.txt
 python manage.py makemigrations
 python manage.py migrate
-python manage.py loaddata $WEB_FIXTURES
+#python manage.py loaddata $WEB_FIXTURES
 python manage.py collectstatic --noinput
 sudo recarga-uwsgi
 EOF
@@ -55,7 +55,7 @@ workon dogomail
 pip install -r requirements.txt
 python manage.py makemigrations
 python manage.py migrate
-python manage.py loaddata $WEB_FIXTURES
+#python manage.py loaddata $WEB_FIXTURES
 python manage.py collectstatic --noinput
 sudo recarga-uwsgi
 EOF
