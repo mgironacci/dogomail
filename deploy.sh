@@ -1,8 +1,7 @@
 #!/bin/bash
 # Script de despliegue y pruebas
 IP_TEST_SERVER_WEB=186.148.232.30
-IP_PROD_SERVER_WEB=186.148.232.30
-WEB_FIXTURES="dogoweb/fixtures/menu.yaml"
+IP_PROD_SERVER_WEB=186.148.232.50
 
 # Entornos
 ENT=$1
@@ -40,7 +39,6 @@ workon dogomail
 pip install -r requirements.txt
 python manage.py makemigrations
 python manage.py migrate
-#python manage.py loaddata $WEB_FIXTURES
 python manage.py collectstatic --noinput
 sudo recarga-uwsgi
 EOF
@@ -55,7 +53,6 @@ workon dogomail
 pip install -r requirements.txt
 python manage.py makemigrations
 python manage.py migrate
-#python manage.py loaddata $WEB_FIXTURES
 python manage.py collectstatic --noinput
 sudo recarga-uwsgi
 EOF
