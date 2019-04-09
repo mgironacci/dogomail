@@ -104,6 +104,9 @@ WSGI_APPLICATION = 'dogoweb.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DBENGINE = config.get('DB_ENGINE').replace('django.db.backends.','')
+DBOPTIONS = {}
+if DBENGINE == 'mysql':
+    DBOPTIONS = {'sql_mode': 'traditional'}
 DATABASES = {
     'default': {
         'ENGINE': config.get('DB_ENGINE'),
@@ -112,6 +115,7 @@ DATABASES = {
         'PASSWORD': config.get('DB_PASSWORD'),
         'HOST': config.get('DB_HOST'),
         'PORT': config.get('DB_PORT'),
+        'OPTIONS': DBOPTIONS,
     }
 }
 
