@@ -19,7 +19,7 @@ luser = config.get('DB_USER')
 lpass = config.get('DB_PASSWORD')
 lbase = config.get('DB_NAME')
 lhost = config.get('DB_HOST')
-lport = config.get('DB_PORT')
+lport = config.getint('DB_PORT')
 
 DISP_ESTADO = {
     None: 1,
@@ -90,7 +90,7 @@ class HiloSync(threading.Thread):
         self.dogoip = rt[1]
         self.ultvis = rt[2]
         self.sqlusr = rt[3]
-        self.sqlpas = rt[3]
+        self.sqlpas = rt[4]
 
     def run(self):
         lcon = MDB.connect(host=lhost, port=lport, user=luser, passwd=lpass, db=lbase)
@@ -137,7 +137,7 @@ class HiloSync(threading.Thread):
         mensajes = {}
         rcur.execute('''select
              m.id, msgid, fecha_rec, remitente, tamanio, ip_orig, asunto, bodyhash, origen_local, etapa_id, es_cliente, e.headers
-             from run_mensaje m join run_encabezados e on (m.id=e.mensaje_id)
+             from run_mensaje m left join run_encabezados e on (m.id=e.mensaje_id)
              where m.lastupd >= %s
              order by id''', (self.ultvis,))
         for o in rcur.fetchall():
