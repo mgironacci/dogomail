@@ -13,6 +13,6 @@
 # Varios que no deben guardarse
 varios
 # Configuracion de entorno
-entorno.ini
+*.ini
 # Migraciones
 dogoweb/*/migrations/0*.py

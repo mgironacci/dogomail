@@ -1,0 +1,7 @@
+[DEFAULT]
+DB_ENGINE = mysql
+DB_NAME = dogomail_dev
+DB_USER = root
+DB_PASSWORD = ejemplo
+DB_HOST = 127.0.0.1
+DB_PORT = 3306

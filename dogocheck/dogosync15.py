@@ -5,9 +5,21 @@ import threading
 import sys
 import MySQLdb as MDB
 from pid import PidFile, PidFileError, PidFileAlreadyRunningError, PidFileAlreadyLockedError
+import configparser
 
-luser = 'mgironacci'
-lpass = 'x'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+allconf = configparser.ConfigParser()
+allconf.read(BASE_DIR+'/dogosync.ini')
+config = allconf['DEFAULT']
+
+if config.get('DB_ENGINE') != 'mysql':
+    print("Error: Solo soporte mysql por ahora")
+    sys.exit(1)
+luser = config.get('DB_USER')
+lpass = config.get('DB_PASSWORD')
+lbase = config.get('DB_NAME')
+lhost = config.get('DB_HOST')
+lport = config.get('DB_PORT')
 
 DISP_ESTADO = {
     None: 1,
@@ -62,9 +74,9 @@ MOD_TEST = {
 
 def busca_dogos():
     ret = []
-    lcon = MDB.connect(host='localhost', user=luser, passwd=lpass, db='dogomail_2')
+    lcon = MDB.connect(host=lhost, port=lport, user=luser, passwd=lpass, db=lbase)
     lcur = lcon.cursor()
-    lcur.execute("select id, dirip4, ultvis from mail_dogomail where activo=1 and tipodm='dogo1'")
+    lcur.execute("select id, dirip4, ultvis, sqlusr, sqlpas from mail_dogomail where activo=1 and tipodm='dogo1'")
     for d in lcur.fetchall():
         ret.append(d)
     return ret
@@ -77,14 +89,16 @@ class HiloSync(threading.Thread):
         self.dogoid = rt[0]
         self.dogoip = rt[1]
         self.ultvis = rt[2]
+        self.sqlusr = rt[3]
+        self.sqlpas = rt[3]
 
     def run(self):
-        lcon = MDB.connect(host='localhost', user=luser, passwd=lpass, db='dogomail_2')
+        lcon = MDB.connect(host=lhost, port=lport, user=luser, passwd=lpass, db=lbase)
         lcur = lcon.cursor()
         hay_warn = False
         hay_errn = False
         try:
-            rcon = MDB.connect(host=self.dogoip, port=3306, user='dogomail', passwd='dogo123', db='dogomail')
+            rcon = MDB.connect(host=self.dogoip, port=3306, user=self.sqlusr, passwd=self.sqlpas, db='dogomail')
             rcur = rcon.cursor()
         except:
             # Aviso el estado que no pude conectar
