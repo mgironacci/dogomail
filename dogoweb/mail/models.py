@@ -171,6 +171,8 @@ class Dogomail(models.Model):
     estado = models.CharField('Status', choices=ESTADO_SRVS, max_length=10, default='down')
     tipodm = models.CharField('Type', choices=TIPO_DOGO, max_length=10, default='dogo2')
     ultvis = models.DateTimeField('Last seen', default=timezone.now)
+    sqlusr = models.CharField('SQL User', blank=True, null=True, max_length=20)
+    sqlpas = models.CharField('SQL Password', blank=True, null=True, max_length=20)
 
     def __repr__(self):
         return '<Dogomail: nombre="%s">' % self.nombre

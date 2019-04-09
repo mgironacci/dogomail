@@ -77,8 +77,8 @@ class Listas(models.Model):
 
     tipo = models.CharField('Type', max_length=10, choices=TIPO_LISTAS, default='blanca', db_index=True)
     ip = models.CharField('IP', max_length=15, db_index=True)
-    remitente = models.CharField('Sender', max_length=254, db_index=True)
-    destino = models.CharField('Recipient', max_length=254, default='%', db_index=True)
+    remitente = models.CharField('Sender', max_length=180, db_index=True)
+    destino = models.CharField('Recipient', max_length=100, default='%', db_index=True)
     activo = models.BooleanField('Active', default=True)
     creado_el = models.DateTimeField('Created', default=timezone.now)
 
