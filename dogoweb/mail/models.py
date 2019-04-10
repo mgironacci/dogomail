@@ -6,6 +6,7 @@ import codecs
 from seg.models import DTManager
 from erp.models import Cliente
 from spam.models import Politica, Modulo, AutoReglas
+from dogoweb.settings import VERSION, ICO_OK, ICO_WARN, ICO_INFO, ICO_CRIT
 
 
 # Campos seleccionables
@@ -314,6 +315,75 @@ class Mensaje(models.Model):
             self.save()
         return html_estado_mail(self.estado)
 
+    @classmethod
+    def cambiar_estado(cls, pks, request, nuevoestado):
+        data = dict()
+        idpks = [int(idp) for idp in pks.split(',')]
+        hayerror = False
+        if nuevoestado == 'send':
+            # Busco mensajes con etapa 4 y estado no enviado
+            msgs = cls.objects.filter(id__in=idpks).filter(etapa=4).filter(estado__in=[1, 3, 4])
+            for m in msgs:
+                try:
+                    nact = {
+                        'dogo': m.dogo,
+                        'rdogotp': 'run_mensaje',
+                        'rdogoid': m.rdogoid,
+                        'rcampo': 'disposicion',
+                        'rvalor': '6',
+                    }
+                    oact = AccionDogo(**nact)
+                    oact.save()
+                except:
+                    hayerror = True
+            if hayerror:
+                data['mensaje'] = {
+                    'icon': ICO_CRIT,
+                    'msg': _('The emails were not marked to be sent'),
+                    'tipo': 'critical',
+                }
+            else:
+                data['mensaje'] = {
+                    'icon': ICO_OK,
+                    'msg': _('The emails were marked to be sent'),
+                    'tipo': 'success',
+                }
+        elif nuevoestado == 'trash':
+            # Busco mensajes con etapa 4 y estado esperando o bloqueado
+            msgs = cls.objects.filter(id__in=idpks).filter(etapa__in=[3, 4]).filter(estado__in=[1, 4])
+            for m in msgs:
+                try:
+                    nact = {
+                        'dogo': m.dogo,
+                        'rdogotp': 'run_mensaje',
+                        'rdogoid': m.rdogoid,
+                        'rcampo': 'disposicion',
+                        'rvalor': '3',
+                    }
+                    oact = AccionDogo(**nact)
+                    oact.save()
+                except:
+                    hayerror = True
+            if hayerror:
+                data['mensaje'] = {
+                    'icon': ICO_CRIT,
+                    'msg': _('The emails were not marked to be rejected'),
+                    'tipo': 'critical',
+                }
+            else:
+                data['mensaje'] = {
+                    'icon': ICO_OK,
+                    'msg': _('The emails were marked to be rejected'),
+                    'tipo': 'success',
+                }
+        else:
+            data['mensaje'] = {
+                'icon': ICO_CRIT,
+                'msg': _('Unknown new state'),
+                'tipo': 'critical',
+            }
+        return data
+
 
 class Destinatario(models.Model):
     objects=DTManager()
@@ -365,6 +435,8 @@ class AccionDogo(models.Model):
     rdogoid = models.BigIntegerField('dogo ID', db_index=True)
     rcampo = models.CharField(max_length=40)
     rvalor = models.CharField(max_length=200, blank=True, null=True, default=None)
+    creado_el = models.DateTimeField('Created', auto_now_add=True)
+    ejecel = models.DateTimeField('Executed', blank=True, null=True, default=None)
 
     class Meta:
         ordering = ["id"]

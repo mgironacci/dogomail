@@ -3,6 +3,8 @@ var jseg = {};
 $(function(){
     // Ocultamos botones
     $('#showemail').hide();
+    $('#sendemail').hide();
+    $('#trashmail').hide();
 
     // Limpiamos valores
     $("#id_sender").val("");
@@ -93,10 +95,14 @@ $(function(){
         if (evento == 'select') {
             if (dtsc != 0) {
                 $('#showemail').show();
+                $('#sendemail').show();
+                $('#trashmail').show();
             }
         } else if (evento == 'deselect') {
             if (dtsc == 0) {
                 $('#showemail').hide();
+                $('#sendemail').hide();
+                $('#trashmail').hide();
             }
         }
     }
@@ -366,9 +372,52 @@ $(function(){
 
     var buscar = function() {
         $('#mails-table').DataTable().draw();
+        $('#showemail').hide();
+        $('#sendemail').hide();
+        $('#trashmail').hide();
         $("#id_sender").focus();
+    }
+
+    var changeEmail = function(laacc) {
+        var dts =  $('#mails-table').DataTable();
+        var ids = [];
+        var srows = [];
+        // Armo array en el listado con ids
+        if (dts.rows( { selected: true } ).count() != 0) {
+            srows = dts.rows( { selected: true } );
+            for(var i=0; i<srows.count(); i++) {
+                ids.push(srows.data()[i][0]);
+            }
+        } else {
+            return;
+        }
+        var action = '/mail/' + laacc + 'email/' + ids.join();
+        $.ajax({
+            url: action,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                if (data.mensaje) {
+                    $.notify({
+                        icon: data.mensaje.icon,
+                        title: ' ',
+                        message: data.mensaje.msg
+                    },{
+                        type: data.mensaje.tipo,
+                        placement: {
+                            from: "bottom",
+                            align: "center"
+                        },
+                        newest_on_top: true,
+                        mouse_over: 'pause'
+                    });
+                }
+            }
+        });
+
     }
 
     jseg.buscar = buscar;
     jseg.saltaEdit = saltaEdit;
+    jseg.changeEmail = changeEmail;
 });

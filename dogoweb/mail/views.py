@@ -34,6 +34,20 @@ def show(request, ids):
 
 
 @login_required()
+def sendemail(request, ids):
+    ret = Mensaje.cambiar_estado(ids, request, 'send')
+    ret['panel'] = 'mail'
+    return JsonResponse(ret)
+
+
+@login_required()
+def trashemail(request, ids):
+    ret = Mensaje.cambiar_estado(ids, request, 'trash')
+    ret['panel'] = 'mail'
+    return JsonResponse(ret)
+
+
+@login_required()
 def blocked(request):
     form = SearchMailForm()
     return render(request, 'mail/blocked.html', locals())

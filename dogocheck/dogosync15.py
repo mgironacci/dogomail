@@ -253,6 +253,25 @@ class HiloSync(threading.Thread):
             lcur.execute('update mail_dogomail set estado="warning" where id=%s', (self.dogoid,))
         lcon.commit()
 
+        # Aplico acciones en el dogomail
+        lcur.execute("select id,rdogotp,rdogoid,rcampo,rvalor from mail_acciondogo where dogo_id=%s and ejecel is null", (self.dogoid,))
+        for a in lcur.fetchall():
+            if a[1] == 'run_mensaje' and a[3] == 'disposicion':
+                if a[4] == '6':
+                    nuevodisp = 6
+                elif a[4] == '2':
+                    nuevodisp = 2
+                elif a[4] == '3':
+                    nuevodisp = 3
+                else:
+                    continue
+                rcur.execute("update run_destinatario set disposicion_id=%s where mensaje_id=%s", (nuevodisp, int(a[2])))
+                rcon.commit()
+                lcur.execute("update mail_acciondogo set ejecel=NOW() where id=%s", (a[0],))
+                lcon.commit()
+
+        # Aplico cambios en listas
+        #lcur.execute("select id, from spam_listas where ", (self.dogoid,))
 
 try:
     with PidFile('dogosync', '/var/lock'):
