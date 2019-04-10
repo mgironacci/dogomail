@@ -204,6 +204,9 @@ class HiloSync(threading.Thread):
                     es_local=%s
                     where dogo_id=%s and rdogoid=%s
                 ''', dats)
+        # Mensajes sin destinatarios los marco como rechazados
+        if len(mensajesk) > 0:
+            lcur.execute('update mail_mensaje set estado=3 where id in (%s) and estado=0' % (",".join(mensajesk)))
         lcon.commit()
         # Reportes
         if len(mensajesk) > 0:
