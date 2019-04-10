@@ -9,7 +9,7 @@ from spam.models import Politica, Modulo, AutoReglas
 
 
 # Campos seleccionables
-TIPO_SRVS = {
+TIPO_SRVS = (
     ('sendmail', 'Sendmail'),
     ('postfix', 'Postfix'),
     ('zimbra5', 'Zimbra 5'),
@@ -17,22 +17,22 @@ TIPO_SRVS = {
     ('zimbra7', 'Zimbra 7'),
     ('zimbra8', 'Zimbra 8'),
     ('exchange', 'Exchange'),
-}
+)
 
-TIPO_DOGO = {
+TIPO_DOGO = (
     ('dogo0', 'Dogomail 1'),
     ('dogo1', 'Dogomail 1.5'),
     ('dogo2', 'Dogomail 2'),
-}
+)
 
-ESTADO_SRVS = {
+ESTADO_SRVS = (
     ('normal', _('Normal')),
     ('down', _('Down')),
     ('warning', _('Warning')),
     ('critical', _('Critical')),
-}
+)
 
-MAIL_SERVICES = {
+MAIL_SERVICES = (
     ('smtp', 'SMTP'),
     ('smtps', 'SMTPS'),
     ('subm', 'Submission'),
@@ -40,15 +40,15 @@ MAIL_SERVICES = {
     ('imap', 'IMAP'),
     ('pops', 'POPS'),
     ('imaps', 'IMAPS'),
-}
+)
 
-ESTADO_MSG = {
+ESTADO_MSG = (
     (1, _('Queued')),
     (2, _('Delivered')),
     (3, _('Rejected')),
     (4, _('Blocked')),
     (5, _('Erased')),
-}
+)
 
 ESTADO_ICO = {
     0: "icmn-question",
@@ -85,7 +85,7 @@ ESTADO_SRCH = (
 #    (5, '<i class="%s"></i> %s' % (ESTADO_ICO[5], _('Erased'))),
 #}
 
-RUN_DISPOSICION_MSG = {
+RUN_DISPOSICION_MSG = (
     (1,'Mensaje Entregado'),
     (2,'Mensaje Retenido'),
     (3,'Mensaje Rechazado'),
@@ -95,20 +95,20 @@ RUN_DISPOSICION_MSG = {
     (7,'Mensaje Liberado en Tránsito'),
     (8,'Mensaje saliente entregado'),
     (20,'Liberado pero no se encontro cuerpo')
-}
+)
 
-RUN_ETAPA_MSG = {
+RUN_ETAPA_MSG = (
     (1,'Etapa indefinida'),
     (2,'Validacion de remitente'),
     (3,'Validacion de destinatarios'),
     (4,'Examen del cuerpo del mensaje'),
-}
+)
 
-TIPO_AUTH = {
+TIPO_AUTH = (
     ('smtp', 'SMTP'),
     ('pop3', 'POP'),
     ('ldap', 'LDAP'),
-}
+)
 
 
 def html_estado_mail(e):
@@ -356,3 +356,15 @@ class TestSpam(models.Model):
     class Meta:
         ordering = ["id"]
         unique_together = ['dogo', 'rdogoid']
+
+
+class AccionDogo(models.Model):
+    id = models.BigAutoField('ID', primary_key=True)
+    dogo = models.ForeignKey(Dogomail, on_delete=models.PROTECT)
+    rdogotp = models.CharField(max_length=30, db_index=True)
+    rdogoid = models.BigIntegerField('dogo ID', db_index=True)
+    rcampo = models.CharField(max_length=40)
+    rvalor = models.CharField(max_length=200, blank=True, null=True, default=None)
+
+    class Meta:
+        ordering = ["id"]

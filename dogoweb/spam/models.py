@@ -54,13 +54,13 @@ class Politica(models.Model):
 
 
 # Modelo de politicas
-TIPO_LISTAS = {
+TIPO_LISTAS = (
     ('blanca', 'Blanca'),
     ('negra', 'Negra'),
     ('rapida', 'Rápida'),
     ('nosa', 'No SA'),
     ('cliente', 'Cliente'),
-}
+)
 
 TIPO_LISTAS_SRCH = (
     ('', '-'),
@@ -97,12 +97,12 @@ class Listas(models.Model):
         unique_together = ("tipo", "ip", "remitente", "destino")
 
 
-TEST_REGLA = {
+TEST_REGLA = (
     (2, 'por IP'),
     (3, 'por Remitente'),
     (4, 'por Asunto'),
     (5, 'por Cuerpo'),
-}
+)
 
 
 class AutoReglas(models.Model):
