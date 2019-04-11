@@ -3,6 +3,7 @@
 import os
 import threading
 import sys
+import time
 import MySQLdb as MDB
 from pid import PidFile, PidFileError, PidFileAlreadyRunningError, PidFileAlreadyLockedError
 import configparser
@@ -20,6 +21,19 @@ lpass = config.get('DB_PASSWORD')
 lbase = config.get('DB_NAME')
 lhost = config.get('DB_HOST')
 lport = config.getint('DB_PORT')
+
+ACCIONES = True
+DEBUG = False
+try:
+    if sys.argv[1] == '-n':
+        ACCIONES = False
+    elif sys.argv[1] == '-nd' or sys.argv[1] == '-dn':
+        ACCIONES = False
+        DEBUG = True
+    elif sys.argv[1] == '-d':
+        DEBUG = True
+except:
+    pass
 
 DISP_ESTADO = {
     None: 1,
@@ -145,7 +159,8 @@ class HiloSync(threading.Thread):
             dats += o
             dats.append(0)
             dats += o[1:]
-            print(dats)
+            if DEBUG:
+                print(dats)
             lcur.execute('''insert into mail_mensaje
                 (dogo_id,rdogoid,msgids,rcv_time,sender,sizemsg,ip_orig,subject,bodysha,es_local,etapa,es_cliente,headers,estado)
                 values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
@@ -185,7 +200,8 @@ class HiloSync(threading.Thread):
                 dats += [o[4], o[5]]
                 dats.append(DISP_ESTADO[o[3]])
                 dats += [o[4], o[5]]
-                #print(dats)
+                if DEBUG:
+                    print(dats)
                 lcur.execute('''insert into mail_destinatario
                     (dogo_id,rdogoid,mensaje_id,receptor,estado,existe,es_local)
                     values (%s,%s,%s,%s,%s,%s,%s)
@@ -198,6 +214,8 @@ class HiloSync(threading.Thread):
                     lcur.execute("update mail_mensaje set autoregla_id=%s where id=%s" % (arreglas[o[6]], mensajes[o[1]]))
             else:
                 dats = [DISP_ESTADO[o[3]], o[4], o[5], self.dogoid, o[0]]
+                if DEBUG:
+                    print(dats)
                 lcur.execute('''update mail_destinatario set
                     estado=%s,
                     existe=%s,
@@ -257,24 +275,27 @@ class HiloSync(threading.Thread):
         lcon.commit()
 
         # Aplico acciones en el dogomail
-        lcur.execute("select id,rdogotp,rdogoid,rcampo,rvalor from mail_acciondogo where dogo_id=%s and ejecel is null", (self.dogoid,))
-        for a in lcur.fetchall():
-            if a[1] == 'run_mensaje' and a[3] == 'disposicion':
-                if a[4] == '6':
-                    nuevodisp = 6
-                elif a[4] == '2':
-                    nuevodisp = 2
-                elif a[4] == '3':
-                    nuevodisp = 3
-                else:
-                    continue
-                rcur.execute("update run_destinatario set disposicion_id=%s where mensaje_id=%s", (nuevodisp, int(a[2])))
-                rcon.commit()
-                lcur.execute("update mail_acciondogo set ejecel=NOW() where id=%s", (a[0],))
-                lcon.commit()
+        if ACCIONES:
+            time.sleep(5)
+            lcur.execute("select id,rdogotp,rdogoid,rcampo,rvalor from mail_acciondogo where dogo_id=%s and ejecel is null", (self.dogoid,))
+            for a in lcur.fetchall():
+                if a[1] == 'run_mensaje' and a[3] == 'disposicion':
+                    if a[4] == '6':
+                        nuevodisp = 6
+                    elif a[4] == '2':
+                        nuevodisp = 2
+                    elif a[4] == '3':
+                        nuevodisp = 3
+                    else:
+                        continue
+                    rcur.execute("update run_destinatario set disposicion_id=%s where mensaje_id=%s", (nuevodisp, int(a[2])))
+                    rcon.commit()
+                    lcur.execute("update mail_acciondogo set ejecel=NOW() where id=%s", (a[0],))
+                    lcon.commit()
 
-        # Aplico cambios en listas
-        #lcur.execute("select id, from spam_listas where ", (self.dogoid,))
+            # Aplico cambios en listas
+            #lcur.execute("select id, from spam_listas where ", (self.dogoid,))
+
 
 try:
     with PidFile('dogosync', '/var/lock'):
