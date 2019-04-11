@@ -241,11 +241,11 @@ class HiloSync(threading.Thread):
                 order by id''' % (self.ultvis))
         for o in rcur.fetchall():
             if o[1] in mensajes.keys():
-                dats = [self.dogoid, o[0], mensajes[o[1]], MOD_TEST[o[2]]]
-                dats += o[3:]
-                dats.append(o[3])
-                #print(dats)
                 try:
+                    dats = [self.dogoid, o[0], mensajes[o[1]], MOD_TEST[o[2]]]
+                    dats += o[3:]
+                    dats.append(o[3])
+                    # print(dats)
                     lcur.execute('''insert into mail_testspam
                         (dogo_id,rdogoid,mensaje_id,modulo_id,estado,result,puntaje,desc_resul)
                         values (%s,%s,%s,%s,%s,%s,%s,%s)
@@ -253,12 +253,13 @@ class HiloSync(threading.Thread):
                             estado=%s 
                     ''', dats)
                 except Exception as e:
-                    pass
+                    sys.stderr.write(str(o))
+                    sys.stderr.write(str(e))
             else:
-                dats = o[3:]
-                dats += [self.dogoid, o[0], MOD_TEST[o[2]]]
-                #print(dats)
                 try:
+                    dats = o[3:]
+                    dats += [self.dogoid, o[0], MOD_TEST[o[2]]]
+                    # print(dats)
                     lcur.execute('''update mail_testspam set
                         estado=%s,
                         result=%s,
@@ -267,7 +268,8 @@ class HiloSync(threading.Thread):
                         where dogo_id=%s and rdogoid=%s and modulo_id=%s
                     ''', dats)
                 except Exception as e:
-                    pass
+                    sys.stderr.write(str(o))
+                    sys.stderr.write(str(e))
         if hay_errn:
             lcur.execute('update mail_dogomail set estado="critical" where id=%s', (self.dogoid,))
         elif hay_warn:
