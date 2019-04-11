@@ -4,6 +4,7 @@ import os
 import threading
 import sys
 import time
+import datetime
 import MySQLdb as MDB
 from pid import PidFile, PidFileError, PidFileAlreadyRunningError, PidFileAlreadyLockedError
 import configparser
@@ -102,7 +103,7 @@ class HiloSync(threading.Thread):
         threading.Thread.__init__(self)
         self.dogoid = rt[0]
         self.dogoip = rt[1]
-        self.ultvis = rt[2]
+        self.ultvis = rt[2] - datetime.timedelta(minutes=1)
         self.sqlusr = rt[3]
         self.sqlpas = rt[4]
 
@@ -257,7 +258,7 @@ class HiloSync(threading.Thread):
                     sys.stderr.write(str(e))
             else:
                 try:
-                    dats = o[3:]
+                    dats = tuple(o[3:])
                     dats += [self.dogoid, o[0], MOD_TEST[o[2]]]
                     # print(dats)
                     lcur.execute('''update mail_testspam set
