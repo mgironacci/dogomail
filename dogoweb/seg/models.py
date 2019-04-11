@@ -132,7 +132,7 @@ def DTFilter(mmodel, jbody, autodata=True, filter=None, exclude=None):
                 if tipo == 'fks':
                     cbuscar.append((campo.replace("_set", "") + "__" + fkn + "__icontains", cc['search']['value']))
                     cpfetch.append(campo)
-                elif tipo == 'cho':
+                elif tipo == 'cho' or tipo == 'choh':
                     cbuscar.append((campo, cc['search']['value']))
                 elif tipo == 'hb': # Tratamiento de entero
                     imin, imax = str(cc['search']['value']).split("|")
@@ -261,6 +261,8 @@ def DTFilter(mmodel, jbody, autodata=True, filter=None, exclude=None):
                     ao.append(html_estado(getattr(o, ccn), getattr(o, 'get_%s_display' % ccn)()))
                 elif tipo == 'cho':
                     ao.append(getattr(o, 'get_%s_display' % ccn)())
+                elif tipo == 'choh':
+                    ao.append(getattr(o, 'get_%s_html' % ccn)())
                 elif tipo == 'link':
                     ao.append(html_link(getattr(o, ccn)))
                 elif tipo == 'fk':

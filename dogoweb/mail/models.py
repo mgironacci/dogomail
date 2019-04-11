@@ -283,7 +283,7 @@ class Mensaje(models.Model):
         ordering = ["rcv_time"]
         unique_together = ['dogo', 'rdogoid']
 
-    def get_estado_display(self):
+    def get_estado_html(self):
         ahora = self.estado
         cuenta = 0
         diverge = False
@@ -408,7 +408,7 @@ class Destinatario(models.Model):
         ordering = ["id", "receptor"]
         unique_together = ['dogo', 'rdogoid']
 
-    def get_estado_display(self):
+    def get_estado_html(self):
         return html_estado_mail(self.estado)
 
 

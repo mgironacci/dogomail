@@ -228,7 +228,7 @@ $(function(){
         //buttons: true,
         columns: [
             { name: "id", orderable: false, searchable: false },
-            { name: "cho+estado", orderable: false },
+            { name: "choh+estado", orderable: false },
             { name: "datetime+rcv_time" },
             { name: "sender" },
             { name: "count+destinatario_set" },

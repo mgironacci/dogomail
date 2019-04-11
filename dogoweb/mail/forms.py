@@ -195,7 +195,7 @@ class MailForm(forms.ModelForm):
         return self.instance.get_etapa_display()
 
     def get_estado(self):
-        return self.instance.get_estado_display()
+        return self.instance.get_estado_html()
 
     def get_dogo(self):
         return self.instance.dogo.nombre
@@ -209,7 +209,7 @@ class MailForm(forms.ModelForm):
     def get_recipients(self):
         ret = ""
         for r in self.instance.destinatario_set.all():
-            ret += "<small>" + r.get_estado_display() + "</small>&nbsp;" + r.receptor + "<br/>"
+            ret += "<small>" + r.get_estado_html() + "</small>&nbsp;" + r.receptor + "<br/>"
         return ret
 
     def get_recipient_count(self):
