@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^policy/delete/(?P<pks>[\,\d]+)*$', views.policy_delete, name='spam_policy_delete'),
     url(r'^rules$', views.rules, name='spamrules'),
     url(r'^autorules$', views.autorules, name='spamautorules'),
+    url(r'^autorulesp$', views.autorulesp, name='spamautorulesp'),
     url(r'^aurorulessearch/$', views.autorules_search, name='spamautorulesearch'),
     url(r'^autorules/confirm/(?P<ids>[\,\d]+)*$', views.autorules_confirm, name='spam_autorule_confirm'),
     url(r'^autorules/ignore/(?P<ids>[\,\d]+)*$', views.autorules_ignore, name='spam_autorule_ignore'),

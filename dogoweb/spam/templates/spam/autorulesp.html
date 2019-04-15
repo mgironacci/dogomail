@@ -1,0 +1,119 @@
+{% extends "base_menu.html" %}
+{% load i18n %}
+{% load seg_tags %}
+{% block titulo %}{% trans "Pending Autorules" %}{% endblock %}
+
+{% block encabezadomenu %}
+    <script>var noTZ; if ("{% settings_value "DBENGINE" %}" == "mysql") { noTZ=true; } else { noTZ=false; } </script>
+    <script src="/static/spam/js/autorules.js"></script>
+{% endblock %}
+
+{% block contenidomenu %}
+<div class="row row-top-15">
+    <div class="col-lg-2">
+        <section class="panel panel-with-borders panel-compact">
+            <div class="panel-heading">
+                <h5><small><i class="icmn-search"></i></small> {% trans "Search" %}</h5>
+            </div>
+            <div class="panel-body">
+                {% with WIDGET_BASE_CLASS='form-control' WIDGET_GROUP_CLASS='form-group' WIDGET_REQUIRED_CLASS='form-control-required' WIDGET_ERROR_LIST_CLASS='form-control-error' WIDGET_ERROR_CLASS='has-danger' %}
+                <form id='busca_form' method="post">
+                    {% csrf_token %}
+                    <input type="hidden" id="id_confirmada" value="3"/>
+                    <input type="hidden" id="id_activo" value="2"/>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <button type="button" class="btn" onclick="document.getElementById('busca_form').reset();{{ form.activo.id_for_label }}_rd_reset();{{ form.confirmada.id_for_label }}_rd_reset();jobj.buscar();">{% trans "Clear" %}</button>
+                        </div>
+                        <div class="col-lg-6 text-right">
+                            <button type="button" class="btn btn-primary" id="id_btn_buscar" onclick="jobj.buscar();">{% trans "Search" %}</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <input type="text" name="descripcion" class="form-control" id="id_descripcion" placeholder='{% trans "Name" %}'/>
+                                <script>$('#id_descripcion').focus();</script>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <input type="text" name="valor" class="form-control" id="id_valor" placeholder='{% trans "Value" %}'/>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="gr_msgcant" class="form-group">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <label class="form-control-label" for="id_rcv_from">{% trans "Message Count" %}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-compact-left">
+                                    <input type="text" name="mincant" class="form-control" id="id_mincant" placeholder="{% trans 'Min' %}"/>
+                            </div>
+                            <div class="col-lg-6 col-compact-right">
+                                <input type="text" name="maxcant" class="form-control" id="id_maxcant" placeholder="{% trans 'Max' %}"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <label class="form-control-label" for="id_rcv_from">{% trans "Date" %}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <input type="text" name="rcv_from" class="form-control datetimepicker-init" id="id_rcv_from" placeholder='{% trans "From" %}'>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <input type="text" name="rcv_until" class="form-control datetimepicker-init" id="id_rcv_until" placeholder='{% trans "To" %}'>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                {% endwith %}
+            </div>
+        </section>
+    </div>
+    <div class="col-lg-10">
+        <section class="panel panel-with-borders panel-compact">
+            <div class="panel-heading">
+                {% if perms.spam.change_autoreglas %}
+                <button type="button" id="ignorerule" onclick="jobj.changeRule('ignore');" class="btn btn-success btn-sm pull-right panel-buttons-sm width-120"><i class="icmn-forward"></i> {% trans "Ignore rule" %}</button>
+                {% endif %}
+                {% if perms.spam.change_autoreglas %}
+                <button type="button" id="confirmrule" onclick="jobj.changeRule('confirm');" class="btn btn-danger btn-sm pull-right panel-buttons-sm width-120"><i class="icmn-cross2"></i> {% trans "Confirm rule" %}</button>
+                {% endif %}
+                <h5><small><i class="icmn-list"></i></small> {% trans "Autorules" %}</h5>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover nowrap table-compact" style="table-layout: fixed;" id="autorule-table" width="100%">
+                    <thead>
+                    <tr>
+                        <th class="never">ID</th>
+                        <th>{% trans "Confirmed" %}</th>
+                        <th>{% trans "Date" %}</th>
+                        <th>{% trans "Name" %}</th>
+                        <th>{% trans "Value" %}</th>
+                        <th>{% trans "#Msgs" %}</th>
+                        <th>{% trans "Active" %}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}

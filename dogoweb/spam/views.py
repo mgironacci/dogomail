@@ -152,6 +152,12 @@ def autorules(request):
 
 
 @login_required()
+def autorulesp(request):
+    form = AutoReglasSearchForm()
+    return render(request, 'spam/autorulesp.html', locals())
+
+
+@login_required()
 def autorules_search(request):
     if request.is_ajax() and request.method == 'POST':
         jbody = json.loads(request.body.decode(request._encoding))
