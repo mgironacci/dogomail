@@ -310,6 +310,17 @@ class HiloSync(threading.Thread):
                     rcon.commit()
                     lcur.execute("update mail_acciondogo set ejecel=NOW() where id=%s", (a[0],))
                     lcon.commit()
+                elif a[1] == 'reglas' and a[3] == 'activo':
+                    rcur.execute("update reglas set activo=%s where id=%s", (int(a[4]), int(a[2])))
+                    rcon.commit()
+                    lcur.execute("update mail_acciondogo set ejecel=NOW() where id=%s", (a[0],))
+                    lcon.commit()
+                elif a[1] == 'reglas' and a[3] == 'confirmada':
+                    rcur.execute("update reglas set confirmada=%s where id=%s", (int(a[4]), int(a[2])))
+                    rcon.commit()
+                    lcur.execute("update mail_acciondogo set ejecel=NOW() where id=%s", (a[0],))
+                    lcon.commit()
+
 
             # Aplico cambios en listas
             #lcur.execute("select id, from spam_listas where ", (self.dogoid,))

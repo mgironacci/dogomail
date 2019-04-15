@@ -194,7 +194,7 @@ $(function(){
             { name: "cho+activo" },
         ],
         order: [[ 2, "desc" ]],
-        select: 'multi+shift',
+        select: 'os',
         columnDefs: [
             { width: "5%",   "targets": 1 },
             { width: "10%",  "targets": 2 },
@@ -362,8 +362,51 @@ $(function(){
 */
     var buscar = function() {
         $('#autorule-table').DataTable().draw();
+        $('#ignorerule').hide();
+        $('#confirmrule').hide();
         $("#id_sender").focus();
     }
 
+    var changeRule = function(laacc) {
+        var dts =  $('#autorule-table').DataTable();
+        var ids = [];
+        var srows = [];
+        // Armo array en el listado con ids
+        if (dts.rows( { selected: true } ).count() != 0) {
+            srows = dts.rows( { selected: true } );
+            for(var i=0; i<srows.count(); i++) {
+                ids.push(srows.data()[i][0]);
+            }
+        } else {
+            return;
+        }
+        var action = '/spam/autorules/' + laacc + '/' + ids.join();
+        $.ajax({
+            url: action,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                if (data.mensaje) {
+                    $.notify({
+                        icon: data.mensaje.icon,
+                        title: ' ',
+                        message: data.mensaje.msg
+                    },{
+                        type: data.mensaje.tipo,
+                        placement: {
+                            from: "bottom",
+                            align: "center"
+                        },
+                        newest_on_top: true,
+                        mouse_over: 'pause'
+                    });
+                }
+                buscar();
+            }
+        });
+
+    }
+
     jobj.buscar = buscar;
+    jobj.changeRule = changeRule;
 });

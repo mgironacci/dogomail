@@ -22,4 +22,6 @@ urlpatterns = [
     url(r'^rules$', views.rules, name='spamrules'),
     url(r'^autorules$', views.autorules, name='spamautorules'),
     url(r'^aurorulessearch/$', views.autorules_search, name='spamautorulesearch'),
+    url(r'^autorules/confirm/(?P<ids>[\,\d]+)*$', views.autorules_confirm, name='spam_autorule_confirm'),
+    url(r'^autorules/ignore/(?P<ids>[\,\d]+)*$', views.autorules_ignore, name='spam_autorule_ignore'),
 ]

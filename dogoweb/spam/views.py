@@ -162,5 +162,21 @@ def autorules_search(request):
 
 
 @login_required()
+@ajax_permission_required('spam.manage_autorules')
+def autorules_confirm(request, ids):
+    ret = AutoReglas.set_confirmed(ids)
+    ret['panel'] = 'autorule'
+    return JsonResponse(ret)
+
+
+@login_required()
+@ajax_permission_required('spam.manage_autorules')
+def autorules_ignore(request, ids):
+    ret = AutoReglas.set_ignored(ids)
+    ret['panel'] = 'autorule'
+    return JsonResponse(ret)
+
+
+@login_required()
 def config(request):
     return render(request, 'spam/config.html')
