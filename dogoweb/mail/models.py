@@ -325,7 +325,7 @@ class Mensaje(models.Model):
         hayerror = False
         if nuevoestado == 'send':
             # Busco mensajes con etapa 4 y estado no enviado
-            msgs = cls.objects.filter(id__in=idpks).filter(etapa=4).filter(estado__in=[1, 3, 4])
+            msgs = cls.objects.filter(id__in=idpks).filter(etapa=4).filter(estado__in=[0, 1, 3, 4])
             for m in msgs:
                 try:
                     nact = {
@@ -353,7 +353,7 @@ class Mensaje(models.Model):
                 }
         elif nuevoestado == 'trash':
             # Busco mensajes con etapa 4 y estado esperando o bloqueado
-            msgs = cls.objects.filter(id__in=idpks).filter(etapa__in=[3, 4]).filter(estado__in=[1, 4])
+            msgs = cls.objects.filter(id__in=idpks).filter(etapa__in=[3, 4]).filter(estado__in=[0, 1, 4])
             for m in msgs:
                 try:
                     nact = {
