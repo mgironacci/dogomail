@@ -35,14 +35,14 @@ def show(request, ids):
 
 @login_required()
 def sendemail(request, ids):
-    ret = Mensaje.cambiar_estado(ids, request, 'send')
+    ret = Mensaje.cambiar_estado(ids, 'send')
     ret['panel'] = 'mail'
     return JsonResponse(ret)
 
 
 @login_required()
 def trashemail(request, ids):
-    ret = Mensaje.cambiar_estado(ids, request, 'trash')
+    ret = Mensaje.cambiar_estado(ids, 'trash')
     ret['panel'] = 'mail'
     return JsonResponse(ret)
 
