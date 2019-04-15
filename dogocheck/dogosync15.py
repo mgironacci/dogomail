@@ -141,6 +141,7 @@ class HiloSync(threading.Thread):
              (dogo_id,rdogoid,testid,valor,activo,hora,cantidad,descripcion,confirmada,cambiado_el)
              values (%s,%s,%s,%s,%s,%s,%s,%s,%s,NOW())
              on duplicate key update
+                 id=LAST_INSERT_ID(id),
                  activo=%s,
                  cantidad=%s,
                  confirmada=%s,
@@ -166,6 +167,7 @@ class HiloSync(threading.Thread):
                 (dogo_id,rdogoid,msgids,rcv_time,sender,sizemsg,ip_orig,subject,bodysha,es_local,etapa,es_cliente,headers,estado)
                 values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
                 on duplicate key update
+                    id=LAST_INSERT_ID(id),
                     msgids=%s,
                     rcv_time=%s,
                     sender=%s,
@@ -207,6 +209,7 @@ class HiloSync(threading.Thread):
                     (dogo_id,rdogoid,mensaje_id,receptor,estado,existe,es_local)
                     values (%s,%s,%s,%s,%s,%s,%s)
                     on duplicate key update
+                        id=LAST_INSERT_ID(id),
                         estado=%s,
                         existe=%s,
                         es_local=%s
@@ -251,14 +254,21 @@ class HiloSync(threading.Thread):
                         (dogo_id,rdogoid,mensaje_id,modulo_id,estado,result,puntaje,desc_resul)
                         values (%s,%s,%s,%s,%s,%s,%s,%s)
                         on duplicate key update
+                            id=LAST_INSERT_ID(id),
                             estado=%s 
                     ''', dats)
                 except Exception as e:
+                    sys.stderr.write("ERROR: Fallo el INSERT con los siguientes valores:\r\n")
+                    sys.stderr.write(str(dats))
+                    sys.stderr.write("\r\nORIGEN:\r\n")
                     sys.stderr.write(str(o))
+                    sys.stderr.write("\r\nCAUSA:\r\n")
                     sys.stderr.write(str(e))
+                    sys.stderr.write("\r\n")
             else:
                 try:
-                    dats = tuple(o[3:])
+                    dats = []
+                    dats += o[3:]
                     dats += [self.dogoid, o[0], MOD_TEST[o[2]]]
                     # print(dats)
                     lcur.execute('''update mail_testspam set
@@ -269,8 +279,13 @@ class HiloSync(threading.Thread):
                         where dogo_id=%s and rdogoid=%s and modulo_id=%s
                     ''', dats)
                 except Exception as e:
+                    sys.stderr.write("ERROR: Fallo el UPDATE con los siguientes valores:\r\n")
+                    sys.stderr.write(str(dats))
+                    sys.stderr.write("\r\nORIGEN:\r\n")
                     sys.stderr.write(str(o))
+                    sys.stderr.write("\r\nCAUSA:\r\n")
                     sys.stderr.write(str(e))
+                    sys.stderr.write("\r\n")
         if hay_errn:
             lcur.execute('update mail_dogomail set estado="critical" where id=%s', (self.dogoid,))
         elif hay_warn:
