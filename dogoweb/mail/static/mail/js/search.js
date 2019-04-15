@@ -239,7 +239,7 @@ $(function(){
             { name: "fks+destinatario_set+receptor" }
         ],
         order: [[ 2, "desc" ]],
-        select: 'multi+shift',
+        select: 'os',
         columnDefs: [
             { width: "4%",  "targets": 1 },
             { width: "12%", "targets": 2 },

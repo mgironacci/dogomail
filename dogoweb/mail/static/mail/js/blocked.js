@@ -218,7 +218,7 @@ $(function(){
         //buttons: true,
         columns: [
             { name: "id", orderable: false, searchable: false },
-            { name: "cho+estado", orderable: false },
+            { name: "choh+estado", orderable: false },
             { name: "datetime+rcv_time" },
             { name: "sender" },
             { name: "count+destinatario_set" },
@@ -229,7 +229,7 @@ $(function(){
             { name: "fks+destinatario_set+receptor" }
         ],
         order: [[ 2, "desc" ]],
-        select: 'multi+shift',
+        select: 'os',
         columnDefs: [
             { width: "4%",  "targets": 1 },
             { width: "10%", "targets": 2 },
