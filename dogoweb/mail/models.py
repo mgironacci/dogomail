@@ -316,9 +316,12 @@ class Mensaje(models.Model):
         return html_estado_mail(self.estado)
 
     @classmethod
-    def cambiar_estado(cls, pks, request, nuevoestado):
+    def cambiar_estado(cls, pks, nuevoestado):
         data = dict()
-        idpks = [int(idp) for idp in pks.split(',')]
+        if type(pks) == list or type(pks) == tuple:
+            idpks = pks
+        else:
+            idpks = [int(idp) for idp in pks.split(',')]
         hayerror = False
         if nuevoestado == 'send':
             # Busco mensajes con etapa 4 y estado no enviado
