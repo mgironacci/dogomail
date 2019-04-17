@@ -152,7 +152,7 @@ class HiloSync(threading.Thread):
         # Mensajes
         mensajes = {}
         rcur.execute('''select
-             m.id, msgid, fecha_rec, remitente, tamanio, ip_orig, asunto, bodyhash, origen_local, etapa_id, es_cliente, e.headers
+             m.id, msgid, fecha_rec, remitente, tamanio, ip_orig, substring(asunto, 0, 200), bodyhash, origen_local, etapa_id, es_cliente, e.headers
              from run_mensaje m left join run_encabezados e on (m.id=e.mensaje_id)
              where m.lastupd >= %s
              order by id''', (self.ultvis,))
@@ -186,13 +186,13 @@ class HiloSync(threading.Thread):
         # Destinos
         if len(mensajesk) > 0:
             rcur.execute('''select
-                id, mensaje_id, destinatario, disposicion_id, existe, destino_local, regla_rej_id
+                id, mensaje_id, substring(destinatario, 0, 150), disposicion_id, existe, destino_local, regla_rej_id
                 from run_destinatario
                 where mensaje_id in (%s) or lastupd >= '%s'
                 order by id''' % (",".join(mensajesk), self.ultvis))
         else:
             rcur.execute('''select
-                id, mensaje_id, destinatario, disposicion_id, existe, destino_local, regla_rej_id
+                id, mensaje_id, substring(destinatario, 0, 150), disposicion_id, existe, destino_local, regla_rej_id
                 from run_destinatario
                 where lastupd >= '%s'
                 order by id''' % (self.ultvis))
@@ -323,7 +323,33 @@ class HiloSync(threading.Thread):
 
 
             # Aplico cambios en listas
-            #lcur.execute("select id, from spam_listas where ", (self.dogoid,))
+            lcur.execute("select id, tipo, ip, remitente, destino, activo from spam_listas where cambiado_el>=%s", (self.ultvis,))
+            for a in lcur.fetchall():
+                try:
+                    dats = []
+                    dats += a
+                    dats += a
+                    rcur.execute('''insert into listas 
+                        (rdogoid, tipo, ip, remitente, destino, activa, creado_el)
+                        values (%s, %s, %s, %s, %s, %s, NOW())
+                        on duplicate key update
+                            rdogoid=%s,
+                            tipo=%s,
+                            ip=%s,
+                            remitente=%s,
+                            destino=%s,
+                            activa=%s
+                        ''', dats)
+                except Exception as e:
+                    sys.stderr.write("ERROR: Fallo el INSERT/UPDATE de listas con los siguientes valores:\r\n")
+                    sys.stderr.write(str(dats))
+                    sys.stderr.write("\r\nORIGEN:\r\n")
+                    sys.stderr.write(str(a))
+                    sys.stderr.write("\r\nCAUSA:\r\n")
+                    sys.stderr.write(str(e))
+                    sys.stderr.write("\r\n")
+
+            rcon.commit()
 
 
 try:

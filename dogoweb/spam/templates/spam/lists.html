@@ -93,7 +93,7 @@
                 <button type="button" id="edit"   onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','edit.lista');   $('#popup-modal').modal();" class="btn btn-secondary btn-sm pull-right panel-buttons-sm width-100">{% trans "Edit" %}</button>
                 {% endif %}
                 {% if perms.spam.delete_listas %}
-                <button type="button" id="delete" onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','delete.lista'); $('#popup-modal').modal();" class="btn btn-danger btn-sm pull-right panel-buttons-sm width-100">{% trans "Delete" %}</button>
+                <!--button type="button" id="delete" onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','delete.lista'); $('#popup-modal').modal();" class="btn btn-danger btn-sm pull-right panel-buttons-sm width-100">{% trans "Delete" %}</button-->
                 {% endif %}
                 <h4><small><i class="icmn-list"></i></small> {% trans "Lists" %}</h4>
             </div>
