@@ -118,9 +118,9 @@ $(function(){
                     d['columns'][1]['search']['value'] = valor;
                     d['colsearch'] = true;
                 }
-                if ($('#id_activo').val() > 1) {
-                    if($('#id_activo').val() == 2) { d['colhidden'].push(['activo', 1]); }
-                    if($('#id_activo').val() == 3) { d['colhidden'].push(['activo', 0]); }
+                if ($('#id_esactivo').val() > 1) {
+                    if($('#id_esactivo').val() == 2) { d['colhidden'].push(['activo', 1]); }
+                    if($('#id_esactivo').val() == 3) { d['colhidden'].push(['activo', 0]); }
                     d['colsearch'] = true;
                 }
                 var tdtz = getMyTZ(noTZ);

@@ -59,7 +59,7 @@ class ListaSearchForm(forms.Form):
     ip_orig = forms.GenericIPAddressField(label='IP', protocol='IPv4', required=False)
     sender = forms.CharField(label='Sender', required=False)
     recipient = forms.CharField(label='Recipient', required=False)
-    activo = forms.NullBooleanField(label='Active', required=False)
+    esactivo = forms.NullBooleanField(label='Active', required=False)
 
     class Meta:
         localize = '__all__'
