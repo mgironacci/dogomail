@@ -152,7 +152,7 @@ class HiloSync(threading.Thread):
         # Mensajes
         mensajes = {}
         rcur.execute('''select
-             m.id, msgid, fecha_rec, remitente, tamanio, ip_orig, substring(asunto, 0, 200), bodyhash, origen_local, etapa_id, es_cliente, e.headers
+             m.id, msgid, fecha_rec, remitente, tamanio, ip_orig, substring(asunto, 1, 200), bodyhash, origen_local, etapa_id, es_cliente, e.headers
              from run_mensaje m left join run_encabezados e on (m.id=e.mensaje_id)
              where m.lastupd >= %s
              order by id''', (self.ultvis,))
@@ -186,13 +186,13 @@ class HiloSync(threading.Thread):
         # Destinos
         if len(mensajesk) > 0:
             rcur.execute('''select
-                id, mensaje_id, substring(destinatario, 0, 150), disposicion_id, existe, destino_local, regla_rej_id
+                id, mensaje_id, substring(destinatario, 1, 150), disposicion_id, existe, destino_local, regla_rej_id
                 from run_destinatario
                 where mensaje_id in (%s) or lastupd >= '%s'
                 order by id''' % (",".join(mensajesk), self.ultvis))
         else:
             rcur.execute('''select
-                id, mensaje_id, substring(destinatario, 0, 150), disposicion_id, existe, destino_local, regla_rej_id
+                id, mensaje_id, substring(destinatario, 1, 150), disposicion_id, existe, destino_local, regla_rej_id
                 from run_destinatario
                 where lastupd >= '%s'
                 order by id''' % (self.ultvis))
