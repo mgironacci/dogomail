@@ -158,14 +158,14 @@ class HiloSync(threading.Thread):
              order by id''', (self.ultvis,))
         for o in rcur.fetchall():
             dats = [self.dogoid]
-            dats += o
+            dats += o[0:11]
             dats.append(0)
-            dats += o[1:]
+            dats += o[1:11]
             if DEBUG:
                 print(dats)
             lcur.execute('''insert into mail_mensaje
-                (dogo_id,rdogoid,msgids,rcv_time,sender,sizemsg,ip_orig,subject,bodysha,es_local,etapa,es_cliente,headers,estado, creado_el, modifi_el)
-                values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,NOW(),NOW())
+                (dogo_id,rdogoid,msgids,rcv_time,sender,sizemsg,ip_orig,subject,bodysha,es_local,etapa,es_cliente,estado, creado_el, modifi_el)
+                values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,NOW(),NOW())
                 on duplicate key update
                     id=LAST_INSERT_ID(id),
                     msgids=%s,
@@ -178,10 +178,10 @@ class HiloSync(threading.Thread):
                     es_local=%s,
                     etapa=%s,
                     es_cliente=%s,
-                    headers=%s,
                     modifi_el=NOW()
              ''', dats)
             mensajes[o[0]] = lcur.lastrowid
+            lcur.execute('insert into mail_mensajeheader (mensaje_id, headers) values (%s,%s) on duplicate key update headers=%s', [mensajes[o[0]], o[11], o[11]])
         lcon.commit()
         mensajesk = [str(m) for m in mensajes.keys()]
         # Destinos
