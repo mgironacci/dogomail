@@ -228,3 +228,9 @@ class MailForm(forms.ModelForm):
                 tt['descripcion'] = "<pre>" + t.desc_resul + "</pre>"
             ret.append(tt)
         return ret
+
+    def mheaders(self):
+        try:
+            return self.instance.mensajeheader.headers
+        except:
+            return None

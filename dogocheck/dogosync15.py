@@ -164,8 +164,8 @@ class HiloSync(threading.Thread):
             if DEBUG:
                 print(dats)
             lcur.execute('''insert into mail_mensaje
-                (dogo_id,rdogoid,msgids,rcv_time,sender,sizemsg,ip_orig,subject,bodysha,es_local,etapa,es_cliente,headers,estado)
-                values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                (dogo_id,rdogoid,msgids,rcv_time,sender,sizemsg,ip_orig,subject,bodysha,es_local,etapa,es_cliente,headers,estado, creado_el, modifi_el)
+                values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,NOW(),NOW())
                 on duplicate key update
                     id=LAST_INSERT_ID(id),
                     msgids=%s,
@@ -178,7 +178,8 @@ class HiloSync(threading.Thread):
                     es_local=%s,
                     etapa=%s,
                     es_cliente=%s,
-                    headers=%s
+                    headers=%s,
+                    modifi_el=NOW()
              ''', dats)
             mensajes[o[0]] = lcur.lastrowid
         lcon.commit()
@@ -206,16 +207,17 @@ class HiloSync(threading.Thread):
                 if DEBUG:
                     print(dats)
                 lcur.execute('''insert into mail_destinatario
-                    (dogo_id,rdogoid,mensaje_id,receptor,estado,existe,es_local)
-                    values (%s,%s,%s,%s,%s,%s,%s)
+                    (dogo_id,rdogoid,mensaje_id,receptor,estado,existe,es_local,creado_el,modifi_el)
+                    values (%s,%s,%s,%s,%s,%s,%s,NOW(),NOW())
                     on duplicate key update
                         id=LAST_INSERT_ID(id),
                         estado=%s,
                         existe=%s,
-                        es_local=%s
+                        es_local=%s,
+                        modifi_el=NOW()
                 ''', dats)
                 if o[6] is not None:
-                    lcur.execute("update mail_mensaje set autoregla_id=%s where id=%s" % (arreglas[o[6]], mensajes[o[1]]))
+                    lcur.execute("update mail_mensaje set autoregla_id=%s, modifi_el=NOW() where id=%s" % (arreglas[o[6]], mensajes[o[1]]))
             else:
                 dats = [DISP_ESTADO[o[3]], o[4], o[5], self.dogoid, o[0]]
                 if DEBUG:
@@ -223,12 +225,13 @@ class HiloSync(threading.Thread):
                 lcur.execute('''update mail_destinatario set
                     estado=%s,
                     existe=%s,
-                    es_local=%s
+                    es_local=%s,
+                    modifi_el=NOW()
                     where dogo_id=%s and rdogoid=%s
                 ''', dats)
         # Mensajes sin destinatarios los marco como rechazados
         if len(mensajesk) > 0:
-            lcur.execute('update mail_mensaje set estado=3 where id in (%s) and estado=0' % (",".join(mensajesk)))
+            lcur.execute('update mail_mensaje set estado=3, modifi_el=NOW() where id in (%s) and estado=0' % (",".join(mensajesk)))
         lcon.commit()
         # Reportes
         if len(mensajesk) > 0:

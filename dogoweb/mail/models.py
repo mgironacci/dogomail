@@ -270,6 +270,8 @@ class Mensaje(models.Model):
     etapa = models.SmallIntegerField('Stage', choices=RUN_ETAPA_MSG, default=1, db_index=True)
     autoregla = models.ForeignKey(AutoReglas, on_delete=models.PROTECT, blank=True, null=True, db_index=True)
     #con_cuerpo = models.BooleanField('Has body', default=True)
+    creado_el = models.DateTimeField('Created', auto_now_add=True)
+    modifi_el = models.DateTimeField('Modified', auto_now=True)
 
     def __repr__(self):
         return '<Mensaje: remitente="%s", asunto="%s">' % (self.sender,self.subject)
@@ -388,6 +390,19 @@ class Mensaje(models.Model):
         return data
 
 
+class MensajeHeader(models.Model):
+    mensaje = models.OneToOneField(Mensaje, on_delete=models.CASCADE, primary_key=True)
+    headers = CompressedField('Headers', blank=True, null=True, default=None)
+
+    def __repr__(self):
+        return '<MensajeHeader: remitente="%s", asunto="%s">' % (self.mensaje.sender,self.mensaje.subject)
+
+    def __str__(self):
+        if self.mensaje.subject is None:
+            return _("Empty")
+        return self.mensaje.subject
+
+
 class Destinatario(models.Model):
     objects=DTManager()
 
@@ -400,6 +415,8 @@ class Destinatario(models.Model):
     dominio = models.ForeignKey(Dominio, on_delete=models.SET_NULL, null=True)
     es_local = models.BooleanField('Is Local', default=False, db_index=True)
     existe = models.BooleanField('Exists', default=False, db_index=True)
+    creado_el = models.DateTimeField('Created', auto_now_add=True)
+    modifi_el = models.DateTimeField('Modified', auto_now=True)
 
     def __repr__(self):
         return '<Destinatario: remitente="%s", destino="%s", asunto="%s">' % (self.mensaje.sender,self.receptor,self.mensaje.subject)
