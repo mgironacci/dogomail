@@ -7,7 +7,7 @@ from django.contrib.auth.signals import user_logged_in, user_logged_out, user_lo
 from django.template.loader import render_to_string
 from django.utils import timezone, formats
 from django.utils.translation import gettext as _
-from dogoweb.settings import VERSION, ICO_OK, ICO_WARN, ICO_INFO, ICO_CRIT
+from dogoweb.settings import VERSION, ICO_OK, ICO_WARN, ICO_INFO, ICO_CRIT, TIME_ZONE
 import hashlib
 import datetime
 import urllib.request
@@ -291,9 +291,9 @@ def DTFilter(mmodel, jbody, autodata=True, filter=None, exclude=None):
                         suf = ' K'
                     ao.append(str(int(val)) + suf)
                 elif tipo=='date':
-                    ao.append(formats.date_format(getattr(o, ccn), format='SHORT_DATE_FORMAT'))
+                    ao.append(formats.date_format(timezone.localtime(getattr(o, ccn)), format='SHORT_DATE_FORMAT'))
                 elif tipo=='datetime':
-                    ao.append(formats.date_format(getattr(o, ccn), format='SHORT_DATETIMESEC_FORMAT'))
+                    ao.append(formats.date_format(timezone.localtime(getattr(o, ccn)), format='SHORT_DATETIMESEC_FORMAT'))
 
             ret['data'].append(ao)
         return ret

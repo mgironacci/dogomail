@@ -91,7 +91,7 @@ def busca_dogos():
     ret = []
     lcon = MDB.connect(host=lhost, port=lport, user=luser, passwd=lpass, db=lbase)
     lcur = lcon.cursor()
-    lcur.execute("select id, dirip4, ultvis, sqlusr, sqlpas from mail_dogomail where activo=1 and tipodm='dogo1'")
+    lcur.execute('select id, dirip4, CONVERT_TZ(ultvis,"+00:00","SYSTEM"), sqlusr, sqlpas from mail_dogomail where activo=1 and tipodm="dogo1"')
     for d in lcur.fetchall():
         ret.append(d)
     return ret
@@ -122,7 +122,7 @@ class HiloSync(threading.Thread):
             return
 
         # Actualizo al estado que pude conectar
-        lcur.execute('update mail_dogomail set estado="normal", ultvis=NOW() where id=%s', (self.dogoid,))
+        lcur.execute('update mail_dogomail set estado="normal", ultvis=CONVERT_TZ(NOW(),"SYSTEM","+00:00") where id=%s', (self.dogoid,))
         lcon.commit()
 
         # AutoReglas
@@ -139,13 +139,13 @@ class HiloSync(threading.Thread):
             #print(dats)
             lcur.execute('''insert into spam_autoreglas
              (dogo_id,rdogoid,testid,valor,activo,hora,cantidad,descripcion,confirmada,cambiado_el)
-             values (%s,%s,%s,%s,%s,%s,%s,%s,%s,NOW())
+             values (%s,%s,%s,%s,%s,%s,%s,%s,%s,CONVERT_TZ(NOW(),"SYSTEM","+00:00"))
              on duplicate key update
                  id=LAST_INSERT_ID(id),
                  activo=%s,
                  cantidad=%s,
                  confirmada=%s,
-                 cambiado_el=NOW()
+                 cambiado_el=CONVERT_TZ(NOW(),"SYSTEM","+00:00")
              ''', dats)
             arreglas[o[0]] = lcur.lastrowid
         lcon.commit()
@@ -165,11 +165,11 @@ class HiloSync(threading.Thread):
                 print(dats)
             lcur.execute('''insert into mail_mensaje
                 (dogo_id,rdogoid,msgids,rcv_time,sender,sizemsg,ip_orig,subject,bodysha,es_local,etapa,es_cliente,estado, creado_el, modifi_el)
-                values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,NOW(),NOW())
+                values (%s,%s,%s,CONVERT_TZ(%s,"SYSTEM","+00:00"),%s,%s,%s,%s,%s,%s,%s,%s,%s,CONVERT_TZ(NOW(),"SYSTEM","+00:00"),CONVERT_TZ(NOW(),"SYSTEM","+00:00"))
                 on duplicate key update
                     id=LAST_INSERT_ID(id),
                     msgids=%s,
-                    rcv_time=%s,
+                    rcv_time=CONVERT_TZ(%s,"SYSTEM","+00:00"),
                     sender=%s,
                     sizemsg=%s,
                     ip_orig=%s,
@@ -178,7 +178,7 @@ class HiloSync(threading.Thread):
                     es_local=%s,
                     etapa=%s,
                     es_cliente=%s,
-                    modifi_el=NOW()
+                    modifi_el=CONVERT_TZ(NOW(),"SYSTEM","+00:00")
              ''', dats)
             mensajes[o[0]] = lcur.lastrowid
             lcur.execute('insert into mail_mensajeheader (mensaje_id, headers) values (%s,%s) on duplicate key update headers=%s', [mensajes[o[0]], o[11], o[11]])
@@ -208,16 +208,16 @@ class HiloSync(threading.Thread):
                     print(dats)
                 lcur.execute('''insert into mail_destinatario
                     (dogo_id,rdogoid,mensaje_id,receptor,estado,existe,es_local,creado_el,modifi_el)
-                    values (%s,%s,%s,%s,%s,%s,%s,NOW(),NOW())
+                    values (%s,%s,%s,%s,%s,%s,%s,CONVERT_TZ(NOW(),"SYSTEM","+00:00"),CONVERT_TZ(NOW(),"SYSTEM","+00:00"))
                     on duplicate key update
                         id=LAST_INSERT_ID(id),
                         estado=%s,
                         existe=%s,
                         es_local=%s,
-                        modifi_el=NOW()
+                        modifi_el=CONVERT_TZ(NOW(),"SYSTEM","+00:00")
                 ''', dats)
                 if o[6] is not None:
-                    lcur.execute("update mail_mensaje set autoregla_id=%s, modifi_el=NOW() where id=%s" % (arreglas[o[6]], mensajes[o[1]]))
+                    lcur.execute('update mail_mensaje set autoregla_id=%s, modifi_el=CONVERT_TZ(NOW(),"SYSTEM","+00:00") where id=%s' % (arreglas[o[6]], mensajes[o[1]]))
             else:
                 dats = [DISP_ESTADO[o[3]], o[4], o[5], self.dogoid, o[0]]
                 if DEBUG:
@@ -226,12 +226,12 @@ class HiloSync(threading.Thread):
                     estado=%s,
                     existe=%s,
                     es_local=%s,
-                    modifi_el=NOW()
+                    modifi_el=CONVERT_TZ(NOW(),"SYSTEM","+00:00")
                     where dogo_id=%s and rdogoid=%s
                 ''', dats)
         # Mensajes sin destinatarios los marco como rechazados
         if len(mensajesk) > 0:
-            lcur.execute('update mail_mensaje set estado=3, modifi_el=NOW() where id in (%s) and estado=0' % (",".join(mensajesk)))
+            lcur.execute('update mail_mensaje set estado=3, modifi_el=CONVERT_TZ(NOW(),"SYSTEM","+00:00") where id in (%s) and estado=0' % (",".join(mensajesk)))
         lcon.commit()
         # Reportes
         if len(mensajesk) > 0:
@@ -309,19 +309,19 @@ class HiloSync(threading.Thread):
                         nuevodisp = 3
                     else:
                         continue
-                    rcur.execute("update run_destinatario set disposicion_id=%s where mensaje_id=%s", (nuevodisp, int(a[2])))
+                    rcur.execute('update run_destinatario set disposicion_id=%s where mensaje_id=%s', (nuevodisp, int(a[2])))
                     rcon.commit()
-                    lcur.execute("update mail_acciondogo set ejecel=NOW() where id=%s", (a[0],))
+                    lcur.execute('update mail_acciondogo set ejecel=CONVERT_TZ(NOW(),"SYSTEM","+00:00") where id=%s', (a[0],))
                     lcon.commit()
                 elif a[1] == 'reglas' and a[3] == 'activo':
-                    rcur.execute("update reglas set activo=%s where id=%s", (int(a[4]), int(a[2])))
+                    rcur.execute('update reglas set activo=%s where id=%s', (int(a[4]), int(a[2])))
                     rcon.commit()
-                    lcur.execute("update mail_acciondogo set ejecel=NOW() where id=%s", (a[0],))
+                    lcur.execute('update mail_acciondogo set ejecel=CONVERT_TZ(NOW(),"SYSTEM","+00:00") where id=%s', (a[0],))
                     lcon.commit()
                 elif a[1] == 'reglas' and a[3] == 'confirmada':
-                    rcur.execute("update reglas set confirmada=%s where id=%s", (int(a[4]), int(a[2])))
+                    rcur.execute('update reglas set confirmada=%s where id=%s', (int(a[4]), int(a[2])))
                     rcon.commit()
-                    lcur.execute("update mail_acciondogo set ejecel=NOW() where id=%s", (a[0],))
+                    lcur.execute('update mail_acciondogo set ejecel=CONVERT_TZ(NOW(),"SYSTEM","+00:00") where id=%s', (a[0],))
                     lcon.commit()
 
 
@@ -334,7 +334,7 @@ class HiloSync(threading.Thread):
                     dats += a
                     rcur.execute('''insert into listas 
                         (rdogoid, tipo, ip, remitente, destino, activa, creado_el)
-                        values (%s, %s, %s, %s, %s, %s, NOW())
+                        values (%s, %s, %s, %s, %s, %s, CONVERT_TZ(NOW(),"SYSTEM","+00:00"))
                         on duplicate key update
                             rdogoid=%s,
                             tipo=%s,

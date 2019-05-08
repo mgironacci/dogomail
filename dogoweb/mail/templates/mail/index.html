@@ -5,6 +5,7 @@
 
 {% block encabezadomenu %}
     <script>var noTZ; if ("{% settings_value "DBENGINE" %}" == "mysql") { noTZ=true; } else { noTZ=false; } </script>
+    <script>noTZ=false; </script>
     <script src="/static/mail/js/search.js"></script>
 {% endblock %}
 
