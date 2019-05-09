@@ -309,5 +309,56 @@ class DogoStat(models.Model):
         return ret
 
     @classmethod
-    def get_top10(cls, jdata):
-        return
+    def get_tops(cls, jbody):
+        ret = {
+            'draw': jbody['draw'],
+            'recordsTotal': 0,
+            'recordsFiltered': 0,
+            'error': "",
+            'data': [],
+        }
+        Mensaje = apps.get_model('mail', 'Mensaje')
+        mms = Mensaje.objects.filter(rcv_time__gte=jbody['desde']).filter(rcv_time__lte=jbody['hasta'])
+
+        i = 0
+        for s in mms.values('sender').annotate(total=models.Count('sender')).order_by('total').reverse():
+            if i == 5:
+                break
+            i += 1
+            dirmail = s['sender']
+            direnvi = mms.filter(estado=2, sender=dirmail).count()
+            dirrech = mms.filter(estado=3, sender=dirmail).count()
+            if s['sender'] == '':
+                dirmail = 'MAILER-DAEMON'
+
+            ret['data'].append([dirmail, s['total'], direnvi, dirrech])
+
+        return ret
+
+    @classmethod
+    def get_topr(cls, jbody):
+        ret = {
+            'draw': jbody['draw'],
+            'recordsTotal': 0,
+            'recordsFiltered': 0,
+            'error': "",
+            'data': [],
+        }
+        Mensaje = apps.get_model('mail', 'Mensaje')
+        Destinatario = apps.get_model('mail', 'Destinatario')
+        mms = Mensaje.objects.filter(rcv_time__gte=jbody['desde']).filter(rcv_time__lte=jbody['hasta'])
+        dms = Destinatario.objects.filter(mensaje__in=mms)
+
+        i = 0
+        for s in dms.values('receptor').annotate(total=models.Count('receptor')).order_by('total').reverse():
+            if i == 5:
+                break
+            i += 1
+            dirmail = s['receptor']
+            direnvi = dms.filter(estado=2, receptor=dirmail).count()
+            dirrech = dms.filter(estado=3, receptor=dirmail).count()
+            if s['receptor'] == '':
+                dirmail = 'MAILER-DAEMON'
+            ret['data'].append([dirmail, s['total'], direnvi, dirrech])
+
+        return ret

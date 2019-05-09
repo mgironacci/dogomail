@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-09 12:33-0300\n"
-"PO-Revision-Date: 2019-05-09 12:36-0300\n"
+"POT-Creation-Date: 2019-05-09 17:40-0300\n"
+"PO-Revision-Date: 2019-05-09 17:41-0300\n"
 "Last-Translator: Andres Gironacci <mgironacci@itecnis.com>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -22,11 +22,13 @@ msgstr ""
 msgid "Queued"
 msgstr "Encolado"
 
-#: stats/models.py:29
+#: stats/models.py:29 stats/templates/stats/pizarron.html:62
+#: stats/templates/stats/pizarron.html:81
 msgid "Delivered"
 msgstr "Entregado"
 
-#: stats/models.py:30
+#: stats/models.py:30 stats/templates/stats/pizarron.html:63
+#: stats/templates/stats/pizarron.html:82
 msgid "Rejected"
 msgstr "Rechazado"
 
@@ -82,13 +84,26 @@ msgstr "Pizarrón"
 msgid "Global mail traffic"
 msgstr "Tráfico global de correo"
 
-#: stats/templates/stats/pizarron.html:55
-msgid "Top servers"
-msgstr "Máximos servidores"
+#: stats/templates/stats/pizarron.html:54
+msgid "Top senders"
+msgstr "Máximos remitentes"
 
-#: stats/templates/stats/pizarron.html:92
+#: stats/templates/stats/pizarron.html:60
+msgid "Sender"
+msgstr "Remitente"
+
+#: stats/templates/stats/pizarron.html:61
+#: stats/templates/stats/pizarron.html:80
+msgid "Total"
+msgstr "Total"
+
+#: stats/templates/stats/pizarron.html:73
 msgid "Top recipients"
 msgstr "Máximos recipientes"
+
+#: stats/templates/stats/pizarron.html:79
+msgid "Recipient"
+msgstr "Recipiente"
 
 #~ msgid "Incoming rejected"
 #~ msgstr "Entrantes rechazados"

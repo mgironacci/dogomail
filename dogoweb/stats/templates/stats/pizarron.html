@@ -34,14 +34,14 @@
             <div class="row">
                 <div class="col-md-6">
                     <section class="panel">
-                        <div class="margin-bottom-25">
+                        <div class="margin-bottom-10 margin-top-5">
                             <div id="piza-status-all" style="height: 160px;"></div>
                         </div>
                     </section>
                 </div>
                 <div class="col-md-6">
                     <section class="panel">
-                        <div class="margin-bottom-25">
+                        <div class="margin-bottom-10 margin-top-5">
                             <div id="piza-rejects-all" style="height: 160px;"></div>
                         </div>
                     </section>
@@ -49,76 +49,40 @@
             </div>
         </div>
         <div class="col-md-6">
-            <section class="panel">
-                <div class="margin-5 margin-bottom-25">
-                    <div align="center" class="margin-bottom-5">
-                        <strong>{% trans "Top servers" %}</strong>
-                    </div>
-                    <table class="table">
-                        <thead class="thead-default">
+            <section class="panel panel-with-borders panel-compact">
+                <div class="panel-heading">
+                    <h5><small><i class="icmn-list"></i></small> {% trans "Top senders" %}</h5>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-hover nowrap table-compact" style="table-layout: fixed;" id="topsender-table" width="100%">
+                        <thead>
                         <tr>
-                            <th>Server</th>
-                            <th>Delivered</th>
-                            <th>Rejected</th>
-                            <th>Top recipient</th>
+                            <th>{% trans "Sender" %}</th>
+                            <th>{% trans "Total" %}</th>
+                            <th>{% trans "Delivered" %}</th>
+                            <th>{% trans "Rejected" %}</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th scope="row">correo.itecnis.com</th>
-                            <td>3000</td>
-                            <td>5000</td>
-                            <td>user1@sender1.com</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">correo.dominio2.com</th>
-                            <td>2000</td>
-                            <td>5000</td>
-                            <td>user2@sender2.com</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">correo.dominio3.com</th>
-                            <td>1000</td>
-                            <td>5000</td>
-                            <td>user3@sender3.com</td>
-                        </tr>
                         </tbody>
                     </table>
                 </div>
             </section>
-            <section class="panel">
-                <div class="margin-5 margin-bottom-25">
-                    <div align="center" class="margin-bottom-5">
-                        <strong>{% trans "Top recipients" %}</strong>
-                    </div>
-                    <table class="table">
-                        <thead class="thead-default">
+            <section class="panel panel-with-borders panel-compact">
+                <div class="panel-heading">
+                    <h5><small><i class="icmn-list"></i></small> {% trans "Top recipients" %}</h5>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-hover nowrap table-compact" style="table-layout: fixed;" id="toprecipient-table" width="100%">
+                        <thead>
                         <tr>
-                            <th>Recipient</th>
-                            <th>Server</th>
-                            <th>Delivered</th>
-                            <th>Rejected</th>
+                            <th>{% trans "Recipient" %}</th>
+                            <th>{% trans "Total" %}</th>
+                            <th>{% trans "Delivered" %}</th>
+                            <th>{% trans "Rejected" %}</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th scope="row">user1@domino1.com</th>
-                            <td>correo.itecnis.com</td>
-                            <td>1000</td>
-                            <td>5000</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">user2@domino2.com</th>
-                            <td>oldmail.trcnet.com</td>
-                            <td>800</td>
-                            <td>4000</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">user3@domino3.com</th>
-                            <td>correo.itecnis.com</td>
-                            <td>500</td>
-                            <td>1100</td>
-                        </tr>
                         </tbody>
                     </table>
                 </div>

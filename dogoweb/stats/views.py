@@ -19,7 +19,6 @@ def pizarron(request):
 
 
 @login_required()
-@ajax_permission_required('ruteo.manage_routers')
 def dogo_grafs(request):
     if request.is_ajax() and request.method == 'POST':
         jbody = json4stats(request)
@@ -29,4 +28,23 @@ def dogo_grafs(request):
     ret = DogoStat.get_stats(jbody)
     return JsonResponse(ret)
 
+
+@login_required()
+def dogo_tops(request):
+    if request.is_ajax() and request.method == 'POST':
+        jbody = json4stats(request)
+    else:
+        return JsonResponse({'error': "Bad request"})
+    ret = DogoStat.get_tops(jbody)
+    return JsonResponse(ret)
+
+
+@login_required()
+def dogo_topr(request):
+    if request.is_ajax() and request.method == 'POST':
+        jbody = json4stats(request)
+    else:
+        return JsonResponse({'error': "Bad request"})
+    ret = DogoStat.get_topr(jbody)
+    return JsonResponse(ret)
 
