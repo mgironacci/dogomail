@@ -289,6 +289,11 @@ class HiloSync(threading.Thread):
                     sys.stderr.write("\r\nCAUSA:\r\n")
                     sys.stderr.write(str(e))
                     sys.stderr.write("\r\n")
+        # Actualizo estados en 0 en base a destinatarios
+        for e in [1, 4, 2, 3, 5]:
+            lcur.execute('update mail_mensaje m, mail_destinatario d set m.estado=%d where m.id=d.mensaje_id and m.estado=0 and d.estado=%d' % (e, e))
+        lcon.commit()
+
         if hay_errn:
             lcur.execute('update mail_dogomail set estado="critical" where id=%s', (self.dogoid,))
         elif hay_warn:
