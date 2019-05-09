@@ -206,7 +206,7 @@ class DogoStat(models.Model):
                 },
                 'plotOptions': {
                     'pie': {
-                        'size': '130%',
+                        'size': '140%',
                         'dataLabels': {
                             'enabled': False,
                             'fontSize': '8px',
@@ -215,7 +215,7 @@ class DogoStat(models.Model):
                         'showInLegend': True,
                         'startAngle': -90,
                         'endAngle': 90,
-                        'center': ['65%', '100%'],
+                        'center': ['65%', '120%'],
                     }
                 },
                 'tooltip': {
