@@ -18,6 +18,10 @@ body {
     min-height: 100%;
 }
 
+h1, h2, h3, h4, h5 {
+    color: #5c5871 !important;
+}
+
 /* Icono que cambia cuando se achica el ancho */
 nav.top-menu .menu-icon-container {
     margin-top: 8px;

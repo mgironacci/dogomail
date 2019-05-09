@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-08 15:46-0300\n"
-"PO-Revision-Date: 2019-03-08 15:48-0300\n"
+"POT-Creation-Date: 2019-05-09 12:33-0300\n"
+"PO-Revision-Date: 2019-05-09 12:39-0300\n"
 "Last-Translator: Andres Gironacci <mgironacci@itecnis.com>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -38,7 +38,7 @@ msgstr "Información"
 msgid "Add domain"
 msgstr "Agregar dominio"
 
-#: mail/forms.py:105 mail/forms.py:110
+#: mail/forms.py:105 mail/forms.py:110 mail/templates/mail/form_mail.html:156
 msgid "Test"
 msgstr "Prueba"
 
@@ -74,127 +74,147 @@ msgstr "Eliminar dogo"
 msgid "View message"
 msgstr "Ver mensaje"
 
-#: mail/models.py:28
+#: mail/models.py:30
 msgid "Normal"
 msgstr "Normal"
 
-#: mail/models.py:29
+#: mail/models.py:31
 msgid "Down"
 msgstr "Abajo"
 
-#: mail/models.py:30
+#: mail/models.py:32
 msgid "Warning"
 msgstr "Atención"
 
-#: mail/models.py:31
+#: mail/models.py:33
 msgid "Critical"
 msgstr "Crítico"
 
-#: mail/models.py:45 mail/models.py:72
+#: mail/models.py:47 mail/models.py:74
 msgid "Queued"
 msgstr "Encolado"
 
-#: mail/models.py:46 mail/models.py:73
+#: mail/models.py:48 mail/models.py:75
 msgid "Delivered"
 msgstr "Entregado"
 
-#: mail/models.py:47 mail/models.py:74
+#: mail/models.py:49 mail/models.py:76
 msgid "Rejected"
 msgstr "Rechazado"
 
-#: mail/models.py:48 mail/models.py:75 mail/templates/mail/blocked.html:4
-#: mail/templates/mail/blocked.html:118
+#: mail/models.py:50 mail/models.py:77 mail/templates/mail/blocked.html:4
+#: mail/templates/mail/blocked.html:122
 msgid "Blocked"
 msgstr "Retenido"
 
-#: mail/models.py:49 mail/models.py:76
+#: mail/models.py:51 mail/models.py:78
 msgid "Erased"
 msgstr "Borrado"
 
-#: mail/models.py:261 mail/templates/mail/form_mail.html:6
+#: mail/models.py:281 mail/models.py:402 mail/templates/mail/form_mail.html:6
 msgid "Empty"
 msgstr "Vacío"
 
-#: mail/templates/mail/blocked.html:16 mail/templates/mail/blocked.html:27
-#: mail/templates/mail/index.html:4 mail/templates/mail/index.html:16
-#: mail/templates/mail/index.html:27
+#: mail/models.py:347
+msgid "The emails were not marked to be sent"
+msgstr "Los correos no fueron marcados para ser enviados"
+
+#: mail/models.py:353
+msgid "The emails were marked to be sent"
+msgstr "Los correos fueron marcados para ser enviados"
+
+#: mail/models.py:375
+msgid "The emails were not marked to be rejected"
+msgstr "Los correos no fueron marcados para ser rechazados"
+
+#: mail/models.py:381
+msgid "The emails were marked to be rejected"
+msgstr "Los correos fueron marcados para ser rechazados"
+
+#: mail/models.py:387
+msgid "Unknown new state"
+msgstr "Nuevo estado desconocido"
+
+#: mail/templates/mail/blocked.html:17 mail/templates/mail/blocked.html:31
+#: mail/templates/mail/index.html:4 mail/templates/mail/index.html:17
+#: mail/templates/mail/index.html:31
 msgid "Search"
 msgstr "Buscar"
 
-#: mail/templates/mail/blocked.html:24 mail/templates/mail/index.html:24
+#: mail/templates/mail/blocked.html:27 mail/templates/mail/index.html:27
 msgid "Clear"
 msgstr "Limpiar"
 
-#: mail/templates/mail/blocked.html:33 mail/templates/mail/blocked.html:127
-#: mail/templates/mail/index.html:33 mail/templates/mail/index.html:133
+#: mail/templates/mail/blocked.html:37 mail/templates/mail/blocked.html:131
+#: mail/templates/mail/index.html:37 mail/templates/mail/index.html:139
 msgid "Sender"
 msgstr "Remitente"
 
-#: mail/templates/mail/blocked.html:41 mail/templates/mail/index.html:41
+#: mail/templates/mail/blocked.html:45 mail/templates/mail/index.html:45
 msgid "Recipient"
 msgstr "Recipiente"
 
-#: mail/templates/mail/blocked.html:48 mail/templates/mail/blocked.html:130
-#: mail/templates/mail/index.html:48 mail/templates/mail/index.html:136
+#: mail/templates/mail/blocked.html:52 mail/templates/mail/blocked.html:134
+#: mail/templates/mail/index.html:52 mail/templates/mail/index.html:142
 msgid "Subject"
 msgstr "Asunto"
 
-#: mail/templates/mail/blocked.html:55 mail/templates/mail/index.html:55
+#: mail/templates/mail/blocked.html:59 mail/templates/mail/index.html:59
 msgid "Origin IP"
 msgstr "IP Origen"
 
-#: mail/templates/mail/blocked.html:62 mail/templates/mail/blocked.html:132
-#: mail/templates/mail/index.html:62 mail/templates/mail/index.html:138
+#: mail/templates/mail/blocked.html:66 mail/templates/mail/blocked.html:136
+#: mail/templates/mail/index.html:66 mail/templates/mail/index.html:144
 msgid "Message IDs"
 msgstr "Mensaje IDs"
 
-#: mail/templates/mail/blocked.html:77 mail/templates/mail/index.html:80
+#: mail/templates/mail/blocked.html:81 mail/templates/mail/index.html:84
 msgid "Message Size"
 msgstr "Tamaño Mensaje"
 
-#: mail/templates/mail/blocked.html:82 mail/templates/mail/index.html:85
+#: mail/templates/mail/blocked.html:86 mail/templates/mail/index.html:89
 msgid "Min"
 msgstr "Mín"
 
-#: mail/templates/mail/blocked.html:85 mail/templates/mail/index.html:88
+#: mail/templates/mail/blocked.html:89 mail/templates/mail/index.html:92
 msgid "Max"
 msgstr "Máx"
 
-#: mail/templates/mail/blocked.html:92 mail/templates/mail/index.html:95
+#: mail/templates/mail/blocked.html:96 mail/templates/mail/index.html:99
 msgid "Received Time"
 msgstr "Fecha Recibido"
 
-#: mail/templates/mail/blocked.html:97 mail/templates/mail/index.html:100
+#: mail/templates/mail/blocked.html:101 mail/templates/mail/index.html:104
 msgid "From"
 msgstr "Desde"
 
-#: mail/templates/mail/blocked.html:106 mail/templates/mail/index.html:109
+#: mail/templates/mail/blocked.html:110 mail/templates/mail/index.html:113
 msgid "To"
 msgstr "Hasta"
 
-#: mail/templates/mail/blocked.html:125 mail/templates/mail/dogoadm.html:36
-#: mail/templates/mail/index.html:131 mail/templates/mail/srvadm.html:26
+#: mail/templates/mail/blocked.html:129 mail/templates/mail/dogoadm.html:36
+#: mail/templates/mail/index.html:137 mail/templates/mail/srvadm.html:26
 msgid "Status"
 msgstr "Estado"
 
-#: mail/templates/mail/blocked.html:126 mail/templates/mail/index.html:132
+#: mail/templates/mail/blocked.html:130 mail/templates/mail/index.html:138
 msgid "Date"
 msgstr "Fecha"
 
-#: mail/templates/mail/blocked.html:128 mail/templates/mail/index.html:134
+#: mail/templates/mail/blocked.html:132 mail/templates/mail/index.html:140
 msgid "#Rcpt"
 msgstr "#Rcpes"
 
-#: mail/templates/mail/blocked.html:129
+#: mail/templates/mail/blocked.html:133
 msgid "Origen"
 msgstr "Origen"
 
-#: mail/templates/mail/blocked.html:131 mail/templates/mail/index.html:137
+#: mail/templates/mail/blocked.html:135 mail/templates/mail/index.html:143
 msgid "Size"
 msgstr "Tamaño"
 
-#: mail/templates/mail/blocked.html:133 mail/templates/mail/form_mail.html:123
-#: mail/templates/mail/index.html:139
+#: mail/templates/mail/blocked.html:137 mail/templates/mail/form_mail.html:123
+#: mail/templates/mail/index.html:145
 msgid "Recipients"
 msgstr "Recipientes"
 
@@ -281,31 +301,51 @@ msgstr "Ruteo"
 msgid "Headers"
 msgstr "Encabezados"
 
-#: mail/templates/mail/index.html:122
+#: mail/templates/mail/form_mail.html:163
+msgid "Score"
+msgstr "Puntaje"
+
+#: mail/templates/mail/form_mail.html:174
+msgid "Result"
+msgstr "Resultado"
+
+#: mail/templates/mail/form_mail.html:182
+msgid "Description"
+msgstr "Descripción"
+
+#: mail/templates/mail/index.html:126
 msgid "View"
 msgstr "Ver"
 
-#: mail/templates/mail/index.html:124
+#: mail/templates/mail/index.html:127
+msgid "Send"
+msgstr "Enviar"
+
+#: mail/templates/mail/index.html:128
+msgid "Reject"
+msgstr "Rechazar"
+
+#: mail/templates/mail/index.html:130
 msgid "Mails"
 msgstr "Correos"
 
-#: mail/templates/mail/index.html:135
+#: mail/templates/mail/index.html:141
 msgid "Origin"
 msgstr "Origen"
 
-#: mail/templates/mail/index.html:156
+#: mail/templates/mail/index.html:162
 msgid "Is Local"
 msgstr "Es Local"
 
-#: mail/templates/mail/index.html:157
+#: mail/templates/mail/index.html:163
 msgid "Is Client"
 msgstr "Es Cliente"
 
-#: mail/templates/mail/index.html:158
+#: mail/templates/mail/index.html:164
 msgid "Body SHA"
 msgstr "Cuerpo SHA"
 
-#: mail/templates/mail/index.html:159
+#: mail/templates/mail/index.html:165
 msgid "Stage"
 msgstr "Etapa"
 
@@ -320,6 +360,3 @@ msgstr "Administrador de Servidor"
 #: mail/templates/mail/srvdash.html:3 mail/templates/mail/srvdash.html:9
 msgid "Dashboard"
 msgstr "Pizarrón"
-
-#~ msgid "Results"
-#~ msgstr "Resultados"

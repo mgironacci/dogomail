@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-20 21:35-0300\n"
-"PO-Revision-Date: 2018-01-14 21:47-0300\n"
+"POT-Creation-Date: 2019-05-09 12:33-0300\n"
+"PO-Revision-Date: 2019-05-09 12:36-0300\n"
 "Last-Translator: Andres Gironacci <mgironacci@itecnis.com>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -16,7 +16,59 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.1.1\n"
+
+#: stats/models.py:28
+msgid "Queued"
+msgstr "Encolado"
+
+#: stats/models.py:29
+msgid "Delivered"
+msgstr "Entregado"
+
+#: stats/models.py:30
+msgid "Rejected"
+msgstr "Rechazado"
+
+#: stats/models.py:31
+msgid "Blocked"
+msgstr "Retenido"
+
+#: stats/models.py:32
+msgid "Erased"
+msgstr "Borrado"
+
+#: stats/models.py:130 stats/models.py:188
+msgid "Unknown"
+msgstr "Desconocido"
+
+#: stats/models.py:142
+msgid "Traffic"
+msgstr "Tráfico"
+
+#: stats/models.py:257
+msgid "All relays"
+msgstr "Todos los relevos"
+
+#: stats/models.py:258
+msgid "mails"
+msgstr "correos"
+
+#: stats/models.py:261
+msgid "Incoming"
+msgstr "Entrantes"
+
+#: stats/models.py:267
+msgid "Outgoing"
+msgstr "Salientes"
+
+#: stats/models.py:282
+msgid "Mail status"
+msgstr "Estado correos"
+
+#: stats/models.py:297
+msgid "Mail rejections"
+msgstr "Rechazos correos"
 
 #: stats/templates/stats/index.html:3 stats/templates/stats/index.html:9
 msgid "Stats"
@@ -26,30 +78,20 @@ msgstr "Estadísticas"
 msgid "Dashboard"
 msgstr "Pizarrón"
 
-#: stats/templates/stats/pizarron.html:29
-msgid "Emails"
-msgstr "Correos"
+#: stats/templates/stats/pizarron.html:26
+msgid "Global mail traffic"
+msgstr "Tráfico global de correo"
 
-#: stats/templates/stats/pizarron.html:32
-msgid "Incoming"
-msgstr "Entrantes"
-
-#: stats/templates/stats/pizarron.html:36
-msgid "Outgoing"
-msgstr "Salientes"
-
-#: stats/templates/stats/pizarron.html:54
-msgid "Incoming rejected"
-msgstr "Entrantes rechazados"
-
-#: stats/templates/stats/pizarron.html:66
-msgid "Outgoing rejected"
-msgstr "Salientes rechazados"
-
-#: stats/templates/stats/pizarron.html:80
+#: stats/templates/stats/pizarron.html:55
 msgid "Top servers"
 msgstr "Máximos servidores"
 
-#: stats/templates/stats/pizarron.html:117
+#: stats/templates/stats/pizarron.html:92
 msgid "Top recipients"
 msgstr "Máximos recipientes"
+
+#~ msgid "Incoming rejected"
+#~ msgstr "Entrantes rechazados"
+
+#~ msgid "Outgoing rejected"
+#~ msgstr "Salientes rechazados"

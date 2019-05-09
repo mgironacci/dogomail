@@ -56,6 +56,19 @@ def html_link(link):
     return '<a href="%s" target="_blank">%s</a>' % (href, link)
 
 
+def json4stats(request):
+    jbody = json.loads(request.body.decode(request._encoding))
+    try:
+        jbody['desde'] = datetime.datetime.strptime(jbody['desde'],'%Y-%m-%d %H:%M %z')
+    except:
+        jbody['desde'] = datetime.datetime.strptime(jbody['desde'],'%Y-%m-%d %H:%M: %z')
+    try:
+        jbody['hasta'] = datetime.datetime.strptime(jbody['hasta'],'%Y-%m-%d %H:%M %z')
+    except:
+        jbody['hasta'] = datetime.datetime.strptime(jbody['hasta'],'%Y-%m-%d %H:%M: %z')
+    return jbody
+
+
 def DTFilter(mmodel, jbody, autodata=True, filter=None, exclude=None):
     ret = {
         'draw': jbody['draw'],

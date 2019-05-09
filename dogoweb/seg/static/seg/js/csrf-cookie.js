@@ -37,3 +37,27 @@ function getMyTZ(notz) {
     if(dtz < -9)             { tdtz = "+"  + dtz; }
     return tdtz;
 }
+
+function getTZ() {
+    var dtz = new Date().getTimezoneOffset();
+    var rtz = '+';
+    if (dtz > 0) { rtz = '-'; }
+    var hdtz = parseInt(dtz/60);
+    var mdtz = dtz%60;
+    if (hdtz < 10) { rtz += '0'; }
+    rtz += hdtz;
+    if (mdtz < 10) { rtz += '0'; }
+    rtz += mdtz;
+    return rtz;
+}
+
+function getFullDate(fecha) {
+    return fecha.getFullYear() + '-' +
+           ('0' + (fecha.getMonth()+1)).slice(-2) + '-' +
+           ('0' + fecha.getDate()).slice(-2);
+}
+
+function getSimpleTime(fecha) {
+    return ('0' + fecha.toLocaleTimeString()).slice(-8).substr(0,5);
+}
+

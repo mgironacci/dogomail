@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-08 15:46-0300\n"
+"POT-Creation-Date: 2019-05-09 12:33-0300\n"
 "PO-Revision-Date: 2019-03-08 14:49-0300\n"
 "Last-Translator: Andres Gironacci <mgironacci@itecnis.com>\n"
 "Language-Team: \n"
@@ -78,23 +78,23 @@ msgstr "Eliminar pantalla"
 msgid "None"
 msgstr "Nada"
 
-#: seg/models.py:314 seg/models.py:487
+#: seg/models.py:329 seg/models.py:502
 msgid "The item was successfully created"
 msgstr "El ítem fue creado exitosamente"
 
-#: seg/models.py:321 seg/models.py:398 seg/models.py:494
+#: seg/models.py:336 seg/models.py:413 seg/models.py:509
 msgid "The item had a problem, please review"
 msgstr "El ítem tuvo un problema, por favor revisar"
 
-#: seg/models.py:391
+#: seg/models.py:406
 msgid "The item was successfully saved"
 msgstr "El ítem fue guardado exitósamente"
 
-#: seg/models.py:431
+#: seg/models.py:446
 msgid "The items where successfully deleted"
 msgstr "Los ítems fueron eliminados correctamente"
 
-#: seg/models.py:438
+#: seg/models.py:453
 msgid "There was a problem deleting the items"
 msgstr "Hubo un problema eliminando los ítems"
 
@@ -375,10 +375,12 @@ msgid "Description"
 msgstr "Descripción"
 
 #: seg/templates/tags/field_full_checkbox.html:10
+#: seg/templates/tags/field_full_checkboxnull.html:10
 msgid "Yes"
 msgstr "Si"
 
 #: seg/templates/tags/field_full_checkbox.html:14
+#: seg/templates/tags/field_full_checkboxnull.html:18
 msgid "No"
 msgstr "No"
 
