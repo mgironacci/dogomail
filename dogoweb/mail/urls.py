@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^mboxes/$', views.mboxes, name='mailmboxes'),
     url(r'^domadm/$', views.domadm, name='maildomadm'),
     url(r'^domains$', views.domains, name='mail_domains'),
+    url(r'^domains/show/(?P<pk>[\d]+)*/$', views.domain_show, name='mail_domain_show'),
     url(r'^domains/create/$', views.domain_create, name='mail_domain_create'),
     url(r'^domains/smail/$', views.domain_smail, name='mail_domain_sendmail'),
     url(r'^domains/update/(?P<pks>[\,\d]+)*$', views.domain_update, name='mail_domain_update'),

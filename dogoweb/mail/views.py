@@ -159,6 +159,22 @@ def domains(request):
 
 
 @login_required()
+@ajax_permission_required('mail.view_domains')
+def domain_show(request, pk):
+    ret = {}
+    try:
+        obj = Dominio.objects.get(id=pk)
+        ret.update(obj.html_show(request))
+    except Exception as e:
+        ret['mensaje'] = {
+            'icon': ICO_CRIT,
+            'msg': _('The item had a problem, please review'),
+            'tipo': 'danger',
+        }
+    return JsonResponse(ret)
+
+
+@login_required()
 @ajax_permission_required('mail.add_domain')
 def domain_create(request):
     ret = Dominio.objects.dt_wizard(request, DOM_STEPS)

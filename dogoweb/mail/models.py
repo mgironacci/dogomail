@@ -304,6 +304,20 @@ class Server(models.Model):
 
         return ret
 
+    def lista_casillas(self, dominio):
+        if self.activo and self.estado == 'normal' and self.tipo_s in ('zimbra5', 'zimbra6', 'zimbra7', 'zimbra8', ):
+            try:
+                z = ZimbraAdminClient(self.dirdns)
+                z.login(self.adminusr, self.adminpas)
+                doms = z.get_all_domains()
+                for d in doms:
+                    if dominio == d.name:
+                        return z.get_all_accounts(domain=d)
+            except Exception as e:
+                self.estado = 'critical'
+                self.save()
+        return []
+
     @classmethod
     def sincronizar(cls):
         # Reviso el estado de todos los servidores
@@ -339,11 +353,48 @@ class Dominio(models.Model):
             ("manage_domains", "Manage domains"),
         )
 
+    def html_show(self, request):
+        ret = {}
+        context = {
+            'pk': self.id,
+            'name': self.nombre,
+            'cliente': self.cliente,
+            'servidor': self.server,
+            'numcas': self.numcas,
+            'cas': self.lista_casillas(),
+        }
+        ret['html_form'] = render_to_string('mail/form_show_domain.html', context, request=request)
+        return ret
+
     def validar_casilla(self):
         return False
 
     def enviarPrueba(self, destino):
         return True
+
+    def update_numcas(self):
+        if self.activo and self.server:
+            self.server.check_estado()
+            cas = self.server.lista_casillas(self.nombre)
+            self.numcas = len(cas)
+            self.save()
+
+    def lista_casillas(self):
+        ret = []
+        if self.activo:
+            self.server.check_estado()
+            cas = self.server.lista_casillas(self.nombre)
+            self.numcas = len(cas)
+            self.save()
+
+            for c in cas:
+                cc = {
+                    'id': c.id,
+                    'nombre': c.name,
+                }
+                ret.append(cc)
+
+        return ret
 
 
 class Mensaje(models.Model):

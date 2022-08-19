@@ -1,0 +1,43 @@
+{% load seg_tags %}
+{% load i18n %}
+
+                <div class="nav-tabs-horizontal">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="javascript: void(0);" data-toggle="tab" data-target="#srvinfo" role="tab">
+                                <i class="icmn-info"></i>
+                                {% trans "Info" %}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript: void(0);" data-toggle="tab" data-target="#srvmbox" role="tab">
+                                <i class="icmn-mailbox"></i>
+                                {% trans "Mailboxes" %}
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content padding-vertical-20">
+                        <div class="tab-pane active" id="srvinfo" role="tabpanel">
+                            <p><b>{% trans "Server" %}:</b> {{ servidor }}</p>
+                            <p><b>{% trans "Client" %}:</b> {{ cliente }}</p>
+                        </div>
+                        <div class="tab-pane" id="srvmbox" role="tabpanel">
+                            <table class="table table-hover nowrap" id="mbox-table" width="100%">
+                                <thead>
+                                <tr>
+                                    <th class="never">ID</th>
+                                    <th>{% trans "Name" %}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for c in cas %}
+                                    <tr>
+                                        <td>{{ c.id }}</td>
+                                        <td>{{ c.nombre }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
