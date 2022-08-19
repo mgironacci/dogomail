@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^srvdash/$', views.srvdash, name='mailsrvdash'),
     url(r'^srvadm/$', views.srvadm, name='mailsrvadm'),
     url(r'^servers$', views.servers, name='mail_servers'),
+    url(r'^servers/show/(?P<pk>[\d]+)*/$', views.server_show, name='mail_server_show'),
     url(r'^servers/create/$', views.server_create, name='mail_server_create'),
     url(r'^servers/update/(?P<pks>[\,\d]+)*$', views.server_update, name='mail_server_update'),
     url(r'^servers/delete/(?P<pks>[\,\d]+)*$', views.server_delete, name='mail_server_delete'),

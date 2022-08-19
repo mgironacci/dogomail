@@ -9,13 +9,59 @@ $(function(){
         var evento = et.split(".")[0];
         var tabla = et.split(".")[1];
         if (evento == 'select') {
+            if (dtsc == 0) { return; }
+            var dtid = dts.rows({selected:true}).data()[0][0];
             var dtsn = dts.rows({selected:true}).data()[0][1];
             var dtsd = dts.rows({selected:true}).data()[0][2];
-            var dtse = dts.rows({selected:true}).data()[0][3];
-            $('#server-name').html(dtsn);
-            $('#server-dns').html(dtsd);
-            $('#server-stat').html(dtse);
-            $('#server-panel').show();
+            var dtse = dts.rows({selected:true}).data()[0][4];
+            $.ajax({
+                url: '/mail/servers/show/' + dtid + '/',
+                type: 'GET',
+                dataType: 'json',
+            })
+            .done(function (data) {
+                if (data.mensaje) {
+                    $.notify({
+                        icon: data.mensaje.icon,
+                        title: ' ',
+                        message: data.mensaje.msg
+                    },{
+                        type: data.mensaje.tipo,
+                        placement: {
+                            from: "bottom",
+                            align: "center"
+                        },
+                        newest_on_top: true,
+                        mouse_over: 'pause'
+                    });
+                } else {
+                    $("#server-name").html(dtsn);
+                    $("#server-datos").html(data.html_form);
+                    $('#server-panel').show();
+                    $('#doms-table').DataTable({
+                        responsive: true,
+                        serverSide: false,
+                        language: DTlang,
+                        order: [[ 1, "asc" ]],
+                        select: false,
+                    });
+                }
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                $.notify({
+                    icon: 'icmn-notification',
+                    title: ' ',
+                    message: 'Ajax error!'
+                },{
+                    type: 'danger',
+                    placement: {
+                        from: "bottom",
+                        align: "center"
+                    },
+                    newest_on_top: true,
+                    mouse_over: 'pause'
+                });
+            });
         } else if (evento == 'deselect') {
             $('#server-panel').hide();
         }
@@ -42,6 +88,7 @@ $(function(){
             { name: "id", orderable: false, searchable: false },
             { name: "nombre" },
             { name: "link+dirdns" },
+            { name: "numdoms" },
             { name: "est+estado" },
             { name: "check+activo", searchable: false, orderable: false }
         ],

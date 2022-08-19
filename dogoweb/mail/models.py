@@ -1,12 +1,15 @@
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext as _
+from django.template.loader import render_to_string
 from django.contrib.auth.models import User
 import codecs
-from seg.models import DTManager
+from seg.models import DTManager, html_check
 from erp.models import Cliente
 from spam.models import Politica, Modulo, AutoReglas
 from dogoweb.settings import VERSION, ICO_OK, ICO_WARN, ICO_INFO, ICO_CRIT
+import subprocess as sp
+from zimsoap.client import ZimbraAdminClient
 
 
 # Campos seleccionables
@@ -204,6 +207,7 @@ class Server(models.Model):
     servicios = models.CharField('Services', choices=MAIL_SERVICES, default='smtp', max_length=35)
     adminusr = models.CharField('Admin User', blank=True, max_length=100)
     adminpas = models.CharField('Admin Password', blank=True, max_length=100)
+    numdoms = models.PositiveIntegerField('Domains', blank=True, null=True, default=None)
 
     def __repr__(self):
         return '<Server: nombre="%s", tipo="%s">' % (self.nombre, self.tipo_s)
@@ -218,6 +222,96 @@ class Server(models.Model):
             ("manage_servers", "Manage servers"),
         )
 
+    def html_show(self, request):
+        ret = {}
+        context = {
+            'pk': self.id,
+            'name': self.nombre,
+            'dirdns': self.dirdns,
+            'doms': self.lista_dominios(),
+        }
+        ret['html_form'] = render_to_string('mail/form_show_server.html', context, request=request)
+        return ret
+
+    def check_estado(self):
+        # Si no estoy activo directo down
+        if not self.activo:
+            self.estado = 'down'
+            self.save()
+            return
+        # Probamos ping
+        if self.dirip4:
+            status, result = sp.getstatusoutput("ping -c1 -w2 " + str(self.dirip4))
+        else:
+            status, result = sp.getstatusoutput("ping -c1 -w2 " + str(self.dirdns))
+        if status != 0:
+            self.estado = 'down'
+            self.save()
+            return
+        # Probamos autenticar si es zimbra
+        if self.tipo_s in ('zimbra5', 'zimbra6', 'zimbra7', 'zimbra8', ):
+            try:
+                z = ZimbraAdminClient(self.dirdns)
+                z.login(self.adminusr, self.adminpas)
+            except:
+                self.estado = 'critical'
+                self.save()
+                return
+        # Esta bien, pongo normal
+        self.estado = 'normal'
+        self.save()
+
+    def update_numdoms(self):
+        if self.activo and self.estado == 'normal' and self.tipo_s in ('zimbra5', 'zimbra6', 'zimbra7', 'zimbra8', ):
+            try:
+                z = ZimbraAdminClient(self.dirdns)
+                z.login(self.adminusr, self.adminpas)
+                doms = z.get_all_domains()
+                self.numdoms = len(doms)
+            except:
+                self.estado = 'critical'
+            self.save()
+
+    def lista_dominios(self):
+        ret = []
+        if self.activo and self.estado == 'normal' and self.tipo_s in ('zimbra5', 'zimbra6', 'zimbra7', 'zimbra8', ):
+            try:
+                z = ZimbraAdminClient(self.dirdns)
+                z.login(self.adminusr, self.adminpas)
+                doms = z.get_all_domains()
+                self.numdoms = len(doms)
+                self.save()
+            except:
+                self.estado = 'critical'
+                self.save()
+
+            for d in doms:
+                dd = {
+                    'id': d.id,
+                    'nombre': d.name,
+                    'cliente': '',
+                    'manejado': html_check(False),
+                    'numcas': '-',
+                }
+                try:
+                    od = Dominio.objects.get(nombre=d.name)
+                    dd['cliente'] = str(od.cliente)
+                    dd['manejado'] = html_check(True)
+                    dd['numcas'] = od.numcas
+                except Exception as e:
+                    pass
+                ret.append(dd)
+
+        return ret
+
+    @classmethod
+    def sincronizar(cls):
+        # Reviso el estado de todos los servidores
+        for s in cls.objects.all():
+            s.check_estado()
+        for s in cls.objects.filter(estado='normal'):
+            s.update_numdoms()
+
 
 class Dominio(models.Model):
     objects=DTManager()
@@ -229,6 +323,8 @@ class Dominio(models.Model):
     politica = models.ForeignKey(Politica, on_delete=models.PROTECT)
     autentica = models.CharField('Authentication', choices=TIPO_AUTH, default='smtp', max_length=6)
     admins = models.ManyToManyField(User, blank=True)
+    zid = models.CharField('ZimbraID', max_length=40, unique=True, blank=True, null=True, default=None)
+    numcas = models.PositiveIntegerField('Mailboxs', blank=True, null=True, default=None)
 
     def __repr__(self):
         return '<Dominio: nombre="%s">' % self.nombre

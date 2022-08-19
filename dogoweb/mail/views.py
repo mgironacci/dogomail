@@ -92,6 +92,7 @@ def srvdash(request):
 @login_required()
 @permission_required('mail.manage_servers')
 def srvadm(request):
+    Server.sincronizar()
     return render(request, 'mail/srvadm.html')
 
 
@@ -103,6 +104,22 @@ def servers(request):
     else:
         return JsonResponse({'error': "Bad request"})
     ret = Server.objects.dt_filter(jbody)
+    return JsonResponse(ret)
+
+
+@login_required()
+@ajax_permission_required('mail.view_servers')
+def server_show(request, pk):
+    ret = {}
+    try:
+        obj = Server.objects.get(id=pk)
+        ret.update(obj.html_show(request))
+    except Exception as e:
+        ret['mensaje'] = {
+            'icon': ICO_CRIT,
+            'msg': _('The item had a problem, please review'),
+            'tipo': 'danger',
+        }
     return JsonResponse(ret)
 
 
