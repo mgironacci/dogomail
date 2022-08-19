@@ -36,7 +36,7 @@ def html_estado(stat, disp):
         'secundary': 'secundary',
         'info': 'info',
         'warning': 'warning',
-        'critical': 'critical',
+        'critical': 'danger',
         'default': 'default',
         # propios
         'normal': 'success',
