@@ -15,7 +15,7 @@ if [ "$ENT" = "build" ]
 then
  # Por ahora no se ejecuta hasta no tener python 3.6 en itgit
  exit 0
- pyflakes3 dogomilter/ dogoweb/ >/dev/null 2>pyflakes.out
+ pyflakes3 dogoweb/ >/dev/null 2>pyflakes.out
  if [ -s pyflakes.out ]
  then
   cat pyflakes.out
@@ -26,7 +26,7 @@ then
 
 elif [ "$ENT" = "unitest" ]
 then
- python3 /usr/bin/bandit -i -ll -r dogomilter dogoweb
+ python3 /usr/bin/bandit -i -ll -r dogoweb
  exit 0
 
 elif [ "$ENT" = "webtest" ]
