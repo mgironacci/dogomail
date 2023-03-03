@@ -1,4 +1,0 @@
-# This package will not be rewritten in another language as being in Python is
-# a core part of the package, so the language extension will not be a problem.
-dogomilter: script-with-language-extension usr/bin/dogomilter.py
-
