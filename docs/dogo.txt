@@ -1,7 +1,5 @@
 Backend:
-* Poner pasaje de Run a Historico (10 días)
-* Borrar contenido mensajes (30 días o mas)
-* Borrar historial (6 meses o mas)
+* Usar particionado para mejorar rendimiento y eliminar registros viejos (365 dias)
 * Rechazar retenidos SA (5 días o mas)
 * Hacer stats en cron y no en pizarron
 Web:
@@ -25,6 +23,7 @@ Web:
 
 
 Resumen modulos:
+- HELO correcto
 - SPF/SRS
 - DKIM
 - GOSSIP / personalización reputación de dominios?
@@ -35,10 +34,11 @@ Resumen modulos:
 - Lista negra DNS
 - Regulación de mensajes (Throttling)
 - Trampas spam
-- Validación de correos repetidos
+- Validación de correos repetidos (retardo en cola)
 - Antivirus
 - SpamAssassin
 - Palabras mencionadas
+- Lista negra URLs
 - Acciones personalizadas
 
 Subconjunto inicial
