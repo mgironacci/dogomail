@@ -22,6 +22,8 @@ def search(request):
         jbody = json.loads(request.body.decode(request._encoding))
     else:
         return JsonResponse({'error': "Bad request"})
+    filtro = Mensaje.filtro_usuario(request)
+    jbody.update(filtro)
     ret = Mensaje.objects.dt_filter(jbody)
     return JsonResponse(ret)
 
@@ -103,6 +105,8 @@ def servers(request):
         jbody = json.loads(request.body.decode(request._encoding))
     else:
         return JsonResponse({'error': "Bad request"})
+    filtro = Server.filtro_usuario(request)
+    jbody.update(filtro)
     ret = Server.objects.dt_filter(jbody)
     return JsonResponse(ret)
 
@@ -154,6 +158,8 @@ def domains(request):
         jbody = json.loads(request.body.decode(request._encoding))
     else:
         return JsonResponse({'error': "Bad request"})
+    filtro = Dominio.filtro_usuario(request)
+    jbody.update(filtro)
     ret = Dominio.objects.dt_filter(jbody)
     return JsonResponse(ret)
 

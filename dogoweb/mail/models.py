@@ -241,9 +241,9 @@ class Server(models.Model):
             return
         # Probamos ping
         if self.dirip4:
-            status, result = sp.getstatusoutput("ping -c1 -w2 " + str(self.dirip4))
+            status, result = sp.getstatusoutput("ping -c3 -W2 " + str(self.dirip4))
         else:
-            status, result = sp.getstatusoutput("ping -c1 -w2 " + str(self.dirdns))
+            status, result = sp.getstatusoutput("ping -c3 -W2 " + str(self.dirdns))
         if status != 0:
             self.estado = 'down'
             self.save()
@@ -252,7 +252,7 @@ class Server(models.Model):
         if self.tipo_s in ('zimbra5', 'zimbra6', 'zimbra7', 'zimbra8', ):
             try:
                 z = ZimbraAdminClient(self.dirdns)
-                z.login(self.adminusr, self.adminpas)
+                # z.login(self.adminusr, self.adminpas)
             except:
                 self.estado = 'critical'
                 self.save()
@@ -265,8 +265,9 @@ class Server(models.Model):
         if self.activo and self.estado == 'normal' and self.tipo_s in ('zimbra5', 'zimbra6', 'zimbra7', 'zimbra8', ):
             try:
                 z = ZimbraAdminClient(self.dirdns)
-                z.login(self.adminusr, self.adminpas)
-                doms = z.get_all_domains()
+                # z.login(self.adminusr, self.adminpas)
+                # doms = z.get_all_domains()
+                doms = 0
                 self.numdoms = len(doms)
             except:
                 self.estado = 'critical'
@@ -325,6 +326,26 @@ class Server(models.Model):
             s.check_estado()
         for s in cls.objects.filter(estado='normal'):
             s.update_numdoms()
+
+    @classmethod
+    def filtro_usuario(self, request):
+        ret = {}
+        if request.user.groups.count() > 0:
+            clients = False
+            operator = False
+            for g in request.user.groups.all():
+                if g.name == 'clients':
+                    clients = True
+                if g.name == 'operator':
+                    operator = True
+            if clients or operator:
+                # Busco servidores de dominios administrados del usuario
+                clis = set()
+                for d in request.user.dominio_set.all():
+                    clis.add(d.cliente.id)
+                if len(clis) > 0:
+                    ret = {'colhidden': [['cliente', str(clis.pop())],], 'colsearch': ['cliente']}
+        return ret
 
 
 class Dominio(models.Model):
@@ -396,6 +417,26 @@ class Dominio(models.Model):
 
         return ret
 
+    @classmethod
+    def filtro_usuario(self, request):
+        ret = {}
+        if request.user.groups.count() > 0:
+            clients = False
+            operator = False
+            for g in request.user.groups.all():
+                if g.name == 'clients':
+                    clients = True
+                if g.name == 'operator':
+                    operator = True
+            if clients or operator:
+                # Busco servidores de dominios administrados del usuario
+                clis = set()
+                for d in request.user.dominio_set.all():
+                    clis.add(d.cliente.id)
+                if len(clis) > 0:
+                    ret = {'colhidden': [['cliente', str(clis.pop())],], 'colsearch': ['cliente']}
+        return ret
+
 
 class Mensaje(models.Model):
     objects=DTManager()
@@ -414,6 +455,7 @@ class Mensaje(models.Model):
     dogo = models.ForeignKey(Dogomail, on_delete=models.PROTECT)
     es_local = models.BooleanField('Is Local', default=False, db_index=True)
     es_cliente = models.BooleanField('Is Client', default=False, db_index=True)
+    cliente = models.ForeignKey(Cliente, on_delete=models.SET_NULL, null=True, default=None)
     etapa = models.SmallIntegerField('Stage', choices=RUN_ETAPA_MSG, default=1, db_index=True)
     autoregla = models.ForeignKey(AutoReglas, on_delete=models.PROTECT, blank=True, null=True, db_index=True)
     #con_cuerpo = models.BooleanField('Has body', default=True)
@@ -536,10 +578,31 @@ class Mensaje(models.Model):
             }
         return data
 
+    @classmethod
+    def filtro_usuario(self, request):
+        ret = {}
+        if request.user.groups.count() > 0:
+            clients = False
+            operator = False
+            for g in request.user.groups.all():
+                if g.name == 'clients':
+                    clients = True
+                if g.name == 'operator':
+                    operator = True
+            if clients or operator:
+                # Busco los clientes que tiene asignado el usuario por dominio
+                clis = set()
+                for d in request.user.dominio_set.all():
+                    clis.add(d.cliente.id)
+                if len(clis) > 0:
+                    ret = {'colhidden': [['cliente', str(clis.pop())],], 'colsearch': ['cliente']}
+        return ret
+
 
 class MensajeHeader(models.Model):
     mensaje = models.OneToOneField(Mensaje, on_delete=models.CASCADE, primary_key=True)
     headers = CompressedField('Headers', blank=True, null=True, default=None)
+    creado_el = models.DateTimeField('Created', auto_now_add=True)
 
     def __repr__(self):
         return '<MensajeHeader: remitente="%s", asunto="%s">' % (self.mensaje.sender,self.mensaje.subject)
@@ -589,6 +652,7 @@ class TestSpam(models.Model):
     result = models.CharField(max_length=255)
     puntaje = models.FloatField(blank=True, null=True, default=None)
     desc_resul = models.TextField()
+    creado_el = models.DateTimeField('Created', auto_now_add=True)
 
     class Meta:
         ordering = ["id"]

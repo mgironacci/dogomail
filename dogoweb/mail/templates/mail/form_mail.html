@@ -78,14 +78,6 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-3">
-                                        <b>{% trans form.es_cliente.label %}:</b>
-                                    </div>
-                                    <div class="col-lg-9">
-                                        {{ form.get_es_cliente|safe }}
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-3">
                                         <b>{% trans form.bodysha.label %}:</b>
                                     </div>
                                     <div class="col-lg-9">
@@ -108,6 +100,22 @@
                                     </div>
                                     <div class="col-lg-9">
                                         {{ form.msgids.value|default_if_none:"" }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <b>{% trans form.es_cliente.label %}:</b>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        {{ form.get_es_cliente|safe }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <b>{% trans form.cliente.label %}:</b>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        {{ form.get_cliente|default_if_none:"" }}
                                     </div>
                                 </div>
                                 <div class="row">
