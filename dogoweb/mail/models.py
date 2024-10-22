@@ -402,18 +402,18 @@ class Dominio(models.Model):
 
     def lista_casillas(self):
         ret = []
-        if self.activo:
-            self.server.check_estado()
-            cas = self.server.lista_casillas(self.nombre)
-            self.numcas = len(cas)
-            self.save()
-
-            for c in cas:
-                cc = {
-                    'id': c.id,
-                    'nombre': c.name,
-                }
-                ret.append(cc)
+        # if self.activo:
+        #     self.server.check_estado()
+        #     cas = self.server.lista_casillas(self.nombre)
+        #     self.numcas = len(cas)
+        #     self.save()
+        #
+        #     for c in cas:
+        #         cc = {
+        #             'id': c.id,
+        #             'nombre': c.name,
+        #         }
+        #         ret.append(cc)
 
         return ret
 
