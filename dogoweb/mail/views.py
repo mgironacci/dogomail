@@ -61,6 +61,8 @@ def blocked_search(request):
         jbody = json.loads(request.body.decode(request._encoding))
     else:
         return JsonResponse({'error': "Bad request"})
+    filtro = Mensaje.filtro_usuario(request)
+    jbody.update(filtro)
     ret = Mensaje.objects.dt_filter(jbody)
     return JsonResponse(ret)
 
