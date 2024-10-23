@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.translation import gettext as _
-from .models import Modulo, Politica, Listas, TIPO_LISTAS_SRCH
+from .models import Modulo, Politica, Listas, Regla, TIPO_LISTAS_SRCH, ACCION_REGLA_SRCH
 
 
 class ModuloForm(forms.ModelForm):
@@ -60,6 +60,51 @@ class ListaSearchForm(forms.Form):
     sender = forms.CharField(label='Sender', required=False)
     recipient = forms.CharField(label='Recipient', required=False)
     esactivo = forms.NullBooleanField(label='Active', required=False)
+
+    class Meta:
+        localize = '__all__'
+
+
+class ReglaForm(forms.ModelForm):
+    form_header = {
+        'create': {'title': _('Add rule'),    'icon': 'icmn-plus-circle',  'url': 'spam_rule_create'},
+        'update': {'title': _('Change rule'), 'icon': 'icmn-pencil7',      'url': 'spam_rule_update'},
+        'delete': {'title': _('Delete rule'), 'icon': 'icmn-minus-circle', 'url': 'spam_rule_delete'},
+        'templt': 'spam/form_regla.html',
+    }
+
+    class Meta:
+        model = Regla
+        fields = ('orden', 'nombre', 'accion', 'ip', 'remitente', 'destino', 'activo', 'dominios', 'asunto', 'cuerpo')
+
+    # Sobrecargamos el __init__ para aceptar el request.user
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)  # Capturamos el usuario
+        super(ReglaForm, self).__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        obj = super(ReglaForm, self).save(commit=False)
+        if self.user:
+            if not hasattr(obj, 'creado_por'):
+                obj.creado_por = self.user
+            if not hasattr(obj, 'cliente') or obj.cliente is None:
+                for d in self.user.dominio_set.all():
+                    obj.cliente = d.cliente
+                    break
+        if commit:
+            obj.save()
+        return obj
+
+
+class ReglasSearchForm(forms.Form):
+    sch_nombre = forms.CharField(label='Name', required=False)
+    sch_accion = forms.ChoiceField(label='Action', choices=ACCION_REGLA_SRCH, required=False, initial=0)
+    sch_activo = forms.NullBooleanField(label='Active', required=False)
+    sch_ip = forms.CharField(label='IP', required=False)
+    sch_remitente = forms.CharField(label='Sender', required=False)
+    sch_destino = forms.CharField(label='Recipient', required=False)
+    sch_asunto = forms.CharField(label='Subject', required=False)
+    sch_cuerpo = forms.CharField(label='Body', required=False)
 
     class Meta:
         localize = '__all__'

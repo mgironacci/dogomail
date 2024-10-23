@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-09 12:33-0300\n"
-"PO-Revision-Date: 2019-05-09 12:37-0300\n"
+"POT-Creation-Date: 2024-10-23 18:57-0300\n"
+"PO-Revision-Date: 2024-10-23 18:59-0300\n"
 "Last-Translator: Andres Gironacci <mgironacci@itecnis.com>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.1.1\n"
+"X-Generator: Poedit 3.4\n"
 
 #: spam/forms.py:8
 msgid "Add module"
@@ -54,112 +54,135 @@ msgstr "Cambiar lista"
 msgid "Delete list"
 msgstr "Eliminar lista"
 
-#: spam/models.py:175
+#: spam/forms.py:70
+msgid "Add rule"
+msgstr "Agregar regla"
+
+#: spam/forms.py:71
+msgid "Change rule"
+msgstr "Cambiar regla"
+
+#: spam/forms.py:72
+msgid "Delete rule"
+msgstr "Eliminar regla"
+
+#: spam/models.py:177
 msgid "The rules were not marked to be ignored"
 msgstr "Las reglas no fueron marcada para ser ignorada"
 
-#: spam/models.py:181
+#: spam/models.py:183
 msgid "The rules were marked to be ignored"
 msgstr "Las reglas fueron marcadas para ser ignoradas"
 
-#: spam/models.py:216
+#: spam/models.py:218
 msgid "The rules were not marked to be confirmed"
 msgstr "Las reglas no fueron marcadas para confirmar"
 
-#: spam/models.py:222
+#: spam/models.py:224
 msgid "The rules were marked to be confirmed"
 msgstr "Las reglas fueron marcadas para confirmar"
 
-#: spam/templates/spam/autorules.html:4 spam/templates/spam/autorules.html:104
-#: spam/templates/spam/autorulesp.html:101
+#: spam/models.py:232 spam/models.py:239 spam/models.py:245
+msgid "Accept"
+msgstr "Aceptar"
+
+#: spam/models.py:233 spam/models.py:240 spam/models.py:246
+msgid "Block"
+msgstr "Retener"
+
+#: spam/models.py:234 spam/models.py:241 spam/models.py:247
+msgid "Reject"
+msgstr "Rechazar"
+
+#: spam/templates/spam/autorules.html:4 spam/templates/spam/autorules.html:103
+#: spam/templates/spam/autorulesp.html:97
 msgid "Autorules"
 msgstr "Autoreglas"
 
-#: spam/templates/spam/autorules.html:17 spam/templates/spam/autorules.html:28
-#: spam/templates/spam/autorulesp.html:17
-#: spam/templates/spam/autorulesp.html:30 spam/templates/spam/lists.html:16
-#: spam/templates/spam/lists.html:27
+#: spam/templates/spam/autorules.html:16 spam/templates/spam/autorules.html:27
+#: spam/templates/spam/autorulesp.html:16
+#: spam/templates/spam/autorulesp.html:29 spam/templates/spam/lists.html:16
+#: spam/templates/spam/lists.html:27 spam/templates/spam/rules.html:16
+#: spam/templates/spam/rules.html:27
 msgid "Search"
 msgstr "Buscar"
 
-#: spam/templates/spam/autorules.html:25 spam/templates/spam/autorulesp.html:27
-#: spam/templates/spam/lists.html:24
+#: spam/templates/spam/autorules.html:24 spam/templates/spam/autorulesp.html:26
+#: spam/templates/spam/lists.html:24 spam/templates/spam/rules.html:24
 msgid "Clear"
 msgstr "Limpiar"
 
-#: spam/templates/spam/autorules.html:34 spam/templates/spam/autorules.html:113
-#: spam/templates/spam/autorulesp.html:36
-#: spam/templates/spam/autorulesp.html:110 spam/templates/spam/modules.html:31
-#: spam/templates/spam/policies.html:31
+#: spam/templates/spam/autorules.html:33 spam/templates/spam/autorules.html:112
+#: spam/templates/spam/autorulesp.html:35
+#: spam/templates/spam/autorulesp.html:106 spam/templates/spam/modules.html:31
+#: spam/templates/spam/policies.html:31 spam/templates/spam/rules.html:33
+#: spam/templates/spam/rules.html:120
 msgid "Name"
 msgstr "Nombre"
 
-#: spam/templates/spam/autorules.html:42 spam/templates/spam/autorules.html:114
-#: spam/templates/spam/autorulesp.html:44
-#: spam/templates/spam/autorulesp.html:111
+#: spam/templates/spam/autorules.html:41 spam/templates/spam/autorules.html:113
+#: spam/templates/spam/autorulesp.html:43
+#: spam/templates/spam/autorulesp.html:107
 msgid "Value"
 msgstr "Valor"
 
-#: spam/templates/spam/autorules.html:57 spam/templates/spam/autorulesp.html:51
+#: spam/templates/spam/autorules.html:56 spam/templates/spam/autorulesp.html:50
 msgid "Message Count"
 msgstr "Cantidad Mensajes"
 
-#: spam/templates/spam/autorules.html:62 spam/templates/spam/autorulesp.html:56
+#: spam/templates/spam/autorules.html:61 spam/templates/spam/autorulesp.html:55
 msgid "Min"
 msgstr "Mín"
 
-#: spam/templates/spam/autorules.html:65 spam/templates/spam/autorulesp.html:59
+#: spam/templates/spam/autorules.html:64 spam/templates/spam/autorulesp.html:58
 msgid "Max"
 msgstr "Máx"
 
-#: spam/templates/spam/autorules.html:72 spam/templates/spam/autorules.html:112
-#: spam/templates/spam/autorulesp.html:66
-#: spam/templates/spam/autorulesp.html:109
+#: spam/templates/spam/autorules.html:71 spam/templates/spam/autorules.html:111
+#: spam/templates/spam/autorulesp.html:65
+#: spam/templates/spam/autorulesp.html:105
 msgid "Date"
 msgstr "Fecha"
 
-#: spam/templates/spam/autorules.html:77 spam/templates/spam/autorulesp.html:71
+#: spam/templates/spam/autorules.html:76 spam/templates/spam/autorulesp.html:70
 #: spam/templates/spam/lists.html:68
 msgid "From"
 msgstr "Desde"
 
-#: spam/templates/spam/autorules.html:86 spam/templates/spam/autorulesp.html:80
+#: spam/templates/spam/autorules.html:85 spam/templates/spam/autorulesp.html:79
 #: spam/templates/spam/lists.html:77
 msgid "To"
 msgstr "Hasta"
 
-#: spam/templates/spam/autorules.html:99 spam/templates/spam/autorulesp.html:96
+#: spam/templates/spam/autorules.html:98 spam/templates/spam/autorulesp.html:92
 msgid "Ignore rule"
 msgstr "Ignorar regla"
 
-#: spam/templates/spam/autorules.html:102
-#: spam/templates/spam/autorulesp.html:99
+#: spam/templates/spam/autorules.html:101
+#: spam/templates/spam/autorulesp.html:95
 msgid "Confirm rule"
 msgstr "Confirmar regla"
 
-#: spam/templates/spam/autorules.html:111
-#: spam/templates/spam/autorulesp.html:108
+#: spam/templates/spam/autorules.html:110
+#: spam/templates/spam/autorulesp.html:104
 msgid "Confirmed"
 msgstr "Confirmada"
 
-#: spam/templates/spam/autorules.html:115
-#: spam/templates/spam/autorulesp.html:112
+#: spam/templates/spam/autorules.html:114
+#: spam/templates/spam/autorulesp.html:108
 msgid "#Msgs"
 msgstr "#Msjs"
 
-#: spam/templates/spam/autorules.html:116
-#: spam/templates/spam/autorulesp.html:113 spam/templates/spam/lists.html:109
+#: spam/templates/spam/autorules.html:115
+#: spam/templates/spam/autorulesp.html:109 spam/templates/spam/lists.html:109
 #: spam/templates/spam/modules.html:32 spam/templates/spam/policies.html:32
+#: spam/templates/spam/rules.html:119
 msgid "Active"
 msgstr "Activo"
 
 #: spam/templates/spam/autorulesp.html:4
 msgid "Pending Autorules"
 msgstr "Autoreglas pendientes"
-
-#: spam/templates/spam/autorulesp.html:93
-msgid "View rule"
-msgstr "Ver regla"
 
 #: spam/templates/spam/avirus.html:3 spam/templates/spam/avirus.html:9
 msgid "Antivirus"
@@ -178,14 +201,17 @@ msgid "Lists"
 msgstr "Listas"
 
 #: spam/templates/spam/lists.html:33 spam/templates/spam/lists.html:107
+#: spam/templates/spam/rules.html:58 spam/templates/spam/rules.html:123
 msgid "Sender"
 msgstr "Remitente"
 
 #: spam/templates/spam/lists.html:41 spam/templates/spam/lists.html:108
+#: spam/templates/spam/rules.html:65 spam/templates/spam/rules.html:124
 msgid "Recipient"
 msgstr "Recipiente"
 
 #: spam/templates/spam/lists.html:48 spam/templates/spam/lists.html:106
+#: spam/templates/spam/rules.html:51 spam/templates/spam/rules.html:122
 msgid "IP"
 msgstr "IP"
 
@@ -194,17 +220,17 @@ msgid "Created"
 msgstr "Creado el"
 
 #: spam/templates/spam/lists.html:90 spam/templates/spam/modules.html:16
-#: spam/templates/spam/policies.html:16
+#: spam/templates/spam/policies.html:16 spam/templates/spam/rules.html:103
 msgid "Add"
 msgstr "Agregar"
 
 #: spam/templates/spam/lists.html:93 spam/templates/spam/modules.html:19
-#: spam/templates/spam/policies.html:19
+#: spam/templates/spam/policies.html:19 spam/templates/spam/rules.html:106
 msgid "Edit"
 msgstr "Editar"
 
 #: spam/templates/spam/lists.html:96 spam/templates/spam/modules.html:22
-#: spam/templates/spam/policies.html:22
+#: spam/templates/spam/policies.html:22 spam/templates/spam/rules.html:109
 msgid "Delete"
 msgstr "Eliminar"
 
@@ -220,6 +246,38 @@ msgstr "Módulos"
 msgid "Policies"
 msgstr "Políticas"
 
-#: spam/templates/spam/rules.html:3 spam/templates/spam/rules.html:9
+#: spam/templates/spam/rules.html:4 spam/templates/spam/rules.html:111
 msgid "Rules"
 msgstr "Reglas"
+
+#: spam/templates/spam/rules.html:72 spam/templates/spam/rules.html:125
+msgid "Subject"
+msgstr ""
+
+#: spam/templates/spam/rules.html:79 spam/templates/spam/rules.html:126
+msgid "Body"
+msgstr "Cuerpo"
+
+#: spam/templates/spam/rules.html:86 spam/templates/spam/rules.html:127
+msgid "Client"
+msgstr "Cliente"
+
+#: spam/templates/spam/rules.html:99
+msgid "Down rule"
+msgstr "Bajar regla"
+
+#: spam/templates/spam/rules.html:100
+msgid "Up rule"
+msgstr "Subir regla"
+
+#: spam/templates/spam/rules.html:118
+msgid "Order"
+msgstr "Orden"
+
+#: spam/templates/spam/rules.html:121
+msgid "Action"
+msgstr "Acción"
+
+#: spam/templates/spam/rules.html:128
+msgid "Matched"
+msgstr "Usada"

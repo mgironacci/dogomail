@@ -1,0 +1,39 @@
+{% load seg_tags %}
+{% load i18n %}
+
+<div class="row">
+    <div class="col-lg-6">
+        {% render_field_full form.nombre %}
+        {{ form.nombre|set_focus }}
+    </div>
+    <div class="col-lg-2">
+        {% render_field_full form.orden %}
+    </div>
+    <div class="col-lg-2">
+        {% render_field_full form.accion %}
+    </div>
+    <div class="col-lg-2">
+        {% render_field_full_checkbox form.activo %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        {% render_field_full form.remitente %}
+    </div>
+    <div class="col-lg-6">
+        {% render_field_full form.destino %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        {% render_field_full form.ip %}
+    </div>
+    <div class="col-lg-6">
+        {% render_field_full form.asunto %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        {% render_field_full form.cuerpo %}
+    </div>
+</div>

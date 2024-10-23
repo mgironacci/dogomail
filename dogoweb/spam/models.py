@@ -2,7 +2,9 @@ from django.db import models
 from django.apps import apps
 from django.utils import timezone
 from django.utils.translation import gettext as _
+from django.contrib.auth.models import User
 from seg.models import DTManager, html_check
+from erp.models import Cliente
 from dogoweb.settings import VERSION, ICO_OK, ICO_WARN, ICO_INFO, ICO_CRIT
 
 
@@ -223,3 +225,87 @@ class AutoReglas(models.Model):
                 'tipo': 'success',
             }
         return data
+
+
+# Modelo de politicas
+ACCION_REGLA = (
+    ('accept', _('Accept')),
+    ('block', _('Block')),
+    ('reject', _('Reject')),
+)
+
+ACCION_REGLA_SRCH = (
+    ('', '-'),
+    ('accept', _('Accept')),
+    ('block', _('Block')),
+    ('reject', _('Reject')),
+)
+
+ACCION_REGLA_SHOW = {
+    'accept': _('Accept'),
+    'block': _('Block'),
+    'reject': _('Reject'),
+}
+
+
+class Regla(models.Model):
+    objects = DTManager()
+
+    nombre = models.CharField('Name', max_length=50, unique=True)
+    orden = models.PositiveIntegerField('Order', default=1)
+    accion = models.CharField('Action', max_length=10, choices=ACCION_REGLA, default='accept', db_index=True)
+    ip = models.CharField('IP', max_length=15, db_index=True, null=True, default=None, blank=True)
+    remitente = models.CharField('Sender', max_length=180, db_index=True, null=True, default=None, blank=True)
+    destino = models.CharField('Recipient', max_length=100, db_index=True, null=True, default=None, blank=True)
+    dominios = models.ManyToManyField('mail.Dominio', blank=True)
+    cliente = models.ForeignKey(Cliente, blank=True, on_delete=models.PROTECT, null=True, default=None, db_index=True)
+    asunto = models.CharField('Subject', max_length=250, null=True, default=None, db_index=True, blank=True)
+    cuerpo = models.CharField('Body', max_length=250, null=True, default=None, db_index=True, blank=True)
+    activo = models.BooleanField('Active', default=True)
+    creado_el = models.DateTimeField('Created', auto_now_add=True)
+    cambiado_el = models.DateTimeField('Updated', auto_now=True)
+    creado_por = models.ForeignKey(User, on_delete=models.PROTECT)
+    maches = models.PositiveIntegerField('Matched', default=0)
+
+    def __repr__(self):
+        return '<Regla: nombre="%s", accion="%s", ip="%s", rem="%s", dest="%s">' % (self.nombre, self.accion, self.ip, self.remitente, self.destino)
+
+    def __str__(self):
+        return self.nombre
+
+    class Meta:
+        ordering = ["orden", ]
+        permissions = (
+            ("view_regla", "View menu rules"),
+            ("manage_regla", "Manage rules"),
+        )
+
+    def get_activo_display(self):
+        return html_check(bool(self.activo))
+
+    def get_accion_display(self):
+        return ACCION_REGLA_SHOW[self.accion]
+
+    @classmethod
+    def filtro_usuario(self, user, jbody):
+        if user.groups.count() > 0:
+            clients = False
+            operator = False
+            for g in user.groups.all():
+                if g.name == 'clients':
+                    clients = True
+                if g.name == 'operator':
+                    operator = True
+            if clients or operator:
+                # Busco los clientes que tiene asignado el usuario por dominio
+                clis = set()
+                for d in user.dominio_set.all():
+                    clis.add(d.cliente.id)
+                if len(clis) > 0:
+                    if 'colhidden' in jbody:
+                        jbody['colhidden'].append(['cliente', str(clis.pop())])
+                        jbody['colsearch'] = True
+                    else:
+                        jbody['colhidden'] = [['cliente', str(clis.pop())],]
+                        jbody['colsearch'] = True
+        return jbody

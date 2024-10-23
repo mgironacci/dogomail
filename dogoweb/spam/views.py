@@ -3,8 +3,8 @@ from django.http import HttpResponse, JsonResponse
 from django.utils.translation import gettext as _
 from django.contrib.auth.decorators import login_required, permission_required
 from seg.views import ajax_permission_required
-from .models import Modulo, Politica, Listas, AutoReglas
-from .forms import ModuloForm, PoliticaForm, ListaForm, AutoReglasSearchForm, ListaSearchForm
+from .models import Modulo, Politica, Listas, AutoReglas, Regla
+from .forms import ModuloForm, PoliticaForm, ListaForm, AutoReglasSearchForm, ListaSearchForm, ReglasSearchForm, ReglaForm
 import json
 
 
@@ -36,7 +36,7 @@ def lista(request):
 
 
 @login_required()
-@ajax_permission_required('spam.add_lists')
+@ajax_permission_required('spam.add_listas')
 def lista_create(request):
     ret = Listas.objects.dt_create(request, ListaForm)
     ret['panel'] = 'lista'
@@ -44,7 +44,7 @@ def lista_create(request):
 
 
 @login_required()
-@ajax_permission_required('spam.change_lists')
+@ajax_permission_required('spam.change_listas')
 def lista_update(request, pks):
     ret = Listas.objects.dt_update(pks, request, ListaForm)
     ret['panel'] = 'lista'
@@ -52,7 +52,7 @@ def lista_update(request, pks):
 
 
 @login_required()
-@ajax_permission_required('spam.delete_lists')
+@ajax_permission_required('spam.delete_listas')
 def lista_delete(request, pks):
     ret = Listas.objects.dt_delete(pks, request, ListaForm)
     ret['panel'] = 'lista'
@@ -142,7 +142,43 @@ def policy_delete(request, pks):
 
 @login_required()
 def rules(request):
-    return render(request, 'spam/rules.html')
+    form = ReglasSearchForm()
+    return render(request, 'spam/rules.html', locals())
+
+
+@login_required()
+def rules_search(request):
+    if request.is_ajax() and request.method == 'POST':
+        jbody = json.loads(request.body.decode(request._encoding))
+    else:
+        return JsonResponse({'error': "Bad request"})
+    jbody = Regla.filtro_usuario(request.user, jbody)
+    ret = Regla.objects.dt_filter(jbody)
+    return JsonResponse(ret)
+
+
+@login_required()
+@ajax_permission_required('spam.add_regla')
+def rules_create(request):
+    ret = Regla.objects.dt_create(request, ReglaForm)
+    ret['panel'] = 'regla'
+    return JsonResponse(ret)
+
+
+@login_required()
+@ajax_permission_required('spam.change_regla')
+def rules_update(request, pks):
+    ret = Regla.objects.dt_update(pks, request, ReglaForm)
+    ret['panel'] = 'regla'
+    return JsonResponse(ret)
+
+
+@login_required()
+@ajax_permission_required('spam.delete_regla')
+def rules_delete(request, pks):
+    ret = Regla.objects.dt_delete(pks, request, ReglaForm)
+    ret['panel'] = 'regla'
+    return JsonResponse(ret)
 
 
 @login_required()
