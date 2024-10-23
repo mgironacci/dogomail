@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-09 12:33-0300\n"
+"POT-Creation-Date: 2024-10-23 18:57-0300\n"
 "PO-Revision-Date: 2019-05-09 12:39-0300\n"
 "Last-Translator: Andres Gironacci <mgironacci@itecnis.com>\n"
 "Language-Team: \n"
@@ -23,14 +23,17 @@ msgid "Add server"
 msgstr "Agregar servidor"
 
 #: mail/forms.py:47 mail/templates/mail/dogoadm.html:31
-#: mail/templates/mail/domadm.html:24 mail/templates/mail/domadm.html:74
-#: mail/templates/mail/srvadm.html:24 mail/templates/mail/srvadm.html:77
-#: mail/templates/mail/srvadm.html:90
+#: mail/templates/mail/domadm.html:24
+#: mail/templates/mail/form_show_domain.html:29
+#: mail/templates/mail/form_show_server.html:34
+#: mail/templates/mail/form_show_server.html:58
+#: mail/templates/mail/srvadm.html:24
 msgid "Name"
 msgstr "Nombre"
 
-#: mail/forms.py:52 mail/forms.py:100 mail/templates/mail/domadm.html:54
-#: mail/templates/mail/srvadm.html:51
+#: mail/forms.py:52 mail/forms.py:100
+#: mail/templates/mail/form_show_domain.html:9
+#: mail/templates/mail/form_show_server.html:9
 msgid "Info"
 msgstr "Información"
 
@@ -38,7 +41,7 @@ msgstr "Información"
 msgid "Add domain"
 msgstr "Agregar dominio"
 
-#: mail/forms.py:105 mail/forms.py:110 mail/templates/mail/form_mail.html:156
+#: mail/forms.py:105 mail/forms.py:110 mail/templates/mail/form_mail.html:164
 msgid "Test"
 msgstr "Prueba"
 
@@ -74,64 +77,64 @@ msgstr "Eliminar dogo"
 msgid "View message"
 msgstr "Ver mensaje"
 
-#: mail/models.py:30
+#: mail/models.py:33
 msgid "Normal"
 msgstr "Normal"
 
-#: mail/models.py:31
+#: mail/models.py:34
 msgid "Down"
 msgstr "Abajo"
 
-#: mail/models.py:32
+#: mail/models.py:35
 msgid "Warning"
 msgstr "Atención"
 
-#: mail/models.py:33
+#: mail/models.py:36
 msgid "Critical"
 msgstr "Crítico"
 
-#: mail/models.py:47 mail/models.py:74
+#: mail/models.py:50 mail/models.py:77
 msgid "Queued"
 msgstr "Encolado"
 
-#: mail/models.py:48 mail/models.py:75
+#: mail/models.py:51 mail/models.py:78
 msgid "Delivered"
 msgstr "Entregado"
 
-#: mail/models.py:49 mail/models.py:76
+#: mail/models.py:52 mail/models.py:79
 msgid "Rejected"
 msgstr "Rechazado"
 
-#: mail/models.py:50 mail/models.py:77 mail/templates/mail/blocked.html:4
+#: mail/models.py:53 mail/models.py:80 mail/templates/mail/blocked.html:4
 #: mail/templates/mail/blocked.html:122
 msgid "Blocked"
 msgstr "Retenido"
 
-#: mail/models.py:51 mail/models.py:78
+#: mail/models.py:54 mail/models.py:81
 msgid "Erased"
 msgstr "Borrado"
 
-#: mail/models.py:281 mail/models.py:402 mail/templates/mail/form_mail.html:6
+#: mail/models.py:478 mail/models.py:624 mail/templates/mail/form_mail.html:6
 msgid "Empty"
 msgstr "Vacío"
 
-#: mail/models.py:347
+#: mail/models.py:544
 msgid "The emails were not marked to be sent"
 msgstr "Los correos no fueron marcados para ser enviados"
 
-#: mail/models.py:353
+#: mail/models.py:550
 msgid "The emails were marked to be sent"
 msgstr "Los correos fueron marcados para ser enviados"
 
-#: mail/models.py:375
+#: mail/models.py:572
 msgid "The emails were not marked to be rejected"
 msgstr "Los correos no fueron marcados para ser rechazados"
 
-#: mail/models.py:381
+#: mail/models.py:578
 msgid "The emails were marked to be rejected"
 msgstr "Los correos fueron marcados para ser rechazados"
 
-#: mail/models.py:387
+#: mail/models.py:584
 msgid "Unknown new state"
 msgstr "Nuevo estado desconocido"
 
@@ -193,7 +196,7 @@ msgid "To"
 msgstr "Hasta"
 
 #: mail/templates/mail/blocked.html:129 mail/templates/mail/dogoadm.html:36
-#: mail/templates/mail/index.html:137 mail/templates/mail/srvadm.html:26
+#: mail/templates/mail/index.html:137 mail/templates/mail/srvadm.html:27
 msgid "Status"
 msgstr "Estado"
 
@@ -213,7 +216,7 @@ msgstr "Origen"
 msgid "Size"
 msgstr "Tamaño"
 
-#: mail/templates/mail/blocked.html:137 mail/templates/mail/form_mail.html:123
+#: mail/templates/mail/blocked.html:137 mail/templates/mail/form_mail.html:131
 #: mail/templates/mail/index.html:145
 msgid "Recipients"
 msgstr "Recipientes"
@@ -228,16 +231,19 @@ msgid "Add"
 msgstr "Agregar"
 
 #: mail/templates/mail/dogoadm.html:19 mail/templates/mail/domadm.html:44
-#: mail/templates/mail/srvadm.html:41
+#: mail/templates/mail/srvadm.html:43
 msgid "Edit"
 msgstr "Editar"
 
 #: mail/templates/mail/dogoadm.html:22 mail/templates/mail/domadm.html:41
-#: mail/templates/mail/srvadm.html:40
+#: mail/templates/mail/srvadm.html:42
 msgid "Delete"
 msgstr "Eliminar"
 
-#: mail/templates/mail/dogoadm.html:32 mail/templates/mail/srvadm.html:25
+#: mail/templates/mail/dogoadm.html:32
+#: mail/templates/mail/form_show_server.html:27
+#: mail/templates/mail/form_show_server.html:73
+#: mail/templates/mail/srvadm.html:25
 msgid "DNS"
 msgstr "DNS"
 
@@ -254,8 +260,8 @@ msgid "IP6"
 msgstr "IP6"
 
 #: mail/templates/mail/dogoadm.html:37 mail/templates/mail/domadm.html:28
-#: mail/templates/mail/domadm.html:75 mail/templates/mail/srvadm.html:27
-#: mail/templates/mail/srvadm.html:78 mail/templates/mail/srvadm.html:91
+#: mail/templates/mail/form_show_server.html:59
+#: mail/templates/mail/srvadm.html:28
 msgid "Active"
 msgstr "Activo"
 
@@ -264,10 +270,13 @@ msgid "Domain Admin"
 msgstr "Administrador de Dominio"
 
 #: mail/templates/mail/domadm.html:25
+#: mail/templates/mail/form_show_domain.html:21
 msgid "Server"
 msgstr "Servidor"
 
 #: mail/templates/mail/domadm.html:26
+#: mail/templates/mail/form_show_domain.html:22
+#: mail/templates/mail/form_show_server.html:35
 msgid "Client"
 msgstr "Cliente"
 
@@ -275,13 +284,9 @@ msgstr "Cliente"
 msgid "Policy"
 msgstr "Política"
 
-#: mail/templates/mail/domadm.html:60 mail/templates/mail/mboxes.html:3
-#: mail/templates/mail/mboxes.html:9 mail/templates/mail/srvadm.html:63
-msgid "Mailboxes"
-msgstr "Casillas"
-
 #: mail/templates/mail/doms.html:3 mail/templates/mail/doms.html:9
-#: mail/templates/mail/srvadm.html:57
+#: mail/templates/mail/form_show_server.html:15
+#: mail/templates/mail/srvadm.html:26
 msgid "Domains"
 msgstr "Dominios"
 
@@ -301,17 +306,34 @@ msgstr "Ruteo"
 msgid "Headers"
 msgstr "Encabezados"
 
-#: mail/templates/mail/form_mail.html:163
+#: mail/templates/mail/form_mail.html:171
 msgid "Score"
 msgstr "Puntaje"
 
-#: mail/templates/mail/form_mail.html:174
+#: mail/templates/mail/form_mail.html:182
 msgid "Result"
 msgstr "Resultado"
 
-#: mail/templates/mail/form_mail.html:182
+#: mail/templates/mail/form_mail.html:190
 msgid "Description"
 msgstr "Descripción"
+
+#: mail/templates/mail/form_show_domain.html:15
+#: mail/templates/mail/form_show_server.html:21
+#: mail/templates/mail/form_show_server.html:37
+#: mail/templates/mail/mboxes.html:3 mail/templates/mail/mboxes.html:9
+msgid "Mailboxes"
+msgstr "Casillas"
+
+#: mail/templates/mail/form_show_server.html:36
+msgid "Handled"
+msgstr ""
+
+#: mail/templates/mail/form_show_server.html:69
+#, fuzzy
+#| msgid "Mails"
+msgid "Details"
+msgstr "Correos"
 
 #: mail/templates/mail/index.html:126
 msgid "View"
@@ -360,3 +382,7 @@ msgstr "Administrador de Servidor"
 #: mail/templates/mail/srvdash.html:3 mail/templates/mail/srvdash.html:9
 msgid "Dashboard"
 msgstr "Pizarrón"
+
+#: mail/views.py:123 mail/views.py:175
+msgid "The item had a problem, please review"
+msgstr ""

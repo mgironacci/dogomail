@@ -328,24 +328,28 @@ class Server(models.Model):
             s.update_numdoms()
 
     @classmethod
-    def filtro_usuario(self, request):
-        ret = {}
-        if request.user.groups.count() > 0:
+    def filtro_usuario(self, user, jbody):
+        if user.groups.count() > 0:
             clients = False
             operator = False
-            for g in request.user.groups.all():
+            for g in user.groups.all():
                 if g.name == 'clients':
                     clients = True
                 if g.name == 'operator':
                     operator = True
             if clients or operator:
-                # Busco servidores de dominios administrados del usuario
+                # Busco los clientes que tiene asignado el usuario por dominio
                 clis = set()
-                for d in request.user.dominio_set.all():
+                for d in user.dominio_set.all():
                     clis.add(d.cliente.id)
                 if len(clis) > 0:
-                    ret = {'colhidden': [['cliente', str(clis.pop())],], 'colsearch': ['cliente']}
-        return ret
+                    if 'colhidden' in jbody:
+                        jbody['colhidden'].append(['cliente', str(clis.pop())])
+                        jbody['colsearch'] = True
+                    else:
+                        jbody['colhidden'] = [['cliente', str(clis.pop())],]
+                        jbody['colsearch'] = True
+        return jbody
 
 
 class Dominio(models.Model):
@@ -418,24 +422,28 @@ class Dominio(models.Model):
         return ret
 
     @classmethod
-    def filtro_usuario(self, request):
-        ret = {}
-        if request.user.groups.count() > 0:
+    def filtro_usuario(self, user, jbody):
+        if user.groups.count() > 0:
             clients = False
             operator = False
-            for g in request.user.groups.all():
+            for g in user.groups.all():
                 if g.name == 'clients':
                     clients = True
                 if g.name == 'operator':
                     operator = True
             if clients or operator:
-                # Busco servidores de dominios administrados del usuario
+                # Busco los clientes que tiene asignado el usuario por dominio
                 clis = set()
-                for d in request.user.dominio_set.all():
+                for d in user.dominio_set.all():
                     clis.add(d.cliente.id)
                 if len(clis) > 0:
-                    ret = {'colhidden': [['cliente', str(clis.pop())],], 'colsearch': ['cliente']}
-        return ret
+                    if 'colhidden' in jbody:
+                        jbody['colhidden'].append(['cliente', str(clis.pop())])
+                        jbody['colsearch'] = True
+                    else:
+                        jbody['colhidden'] = [['cliente', str(clis.pop())],]
+                        jbody['colsearch'] = True
+        return jbody
 
 
 class Mensaje(models.Model):
@@ -579,12 +587,11 @@ class Mensaje(models.Model):
         return data
 
     @classmethod
-    def filtro_usuario(self, request):
-        ret = {}
-        if request.user.groups.count() > 0:
+    def filtro_usuario(self, user, jbody):
+        if user.groups.count() > 0:
             clients = False
             operator = False
-            for g in request.user.groups.all():
+            for g in user.groups.all():
                 if g.name == 'clients':
                     clients = True
                 if g.name == 'operator':
@@ -592,11 +599,16 @@ class Mensaje(models.Model):
             if clients or operator:
                 # Busco los clientes que tiene asignado el usuario por dominio
                 clis = set()
-                for d in request.user.dominio_set.all():
+                for d in user.dominio_set.all():
                     clis.add(d.cliente.id)
                 if len(clis) > 0:
-                    ret = {'colhidden': [['cliente', str(clis.pop())],], 'colsearch': ['cliente']}
-        return ret
+                    if 'colhidden' in jbody:
+                        jbody['colhidden'].append(['cliente', str(clis.pop())])
+                        jbody['colsearch'] = True
+                    else:
+                        jbody['colhidden'] = [['cliente', str(clis.pop())],]
+                        jbody['colsearch'] = True
+        return jbody
 
 
 class MensajeHeader(models.Model):

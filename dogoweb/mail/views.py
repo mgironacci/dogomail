@@ -22,8 +22,7 @@ def search(request):
         jbody = json.loads(request.body.decode(request._encoding))
     else:
         return JsonResponse({'error': "Bad request"})
-    filtro = Mensaje.filtro_usuario(request)
-    jbody.update(filtro)
+    jbody = Mensaje.filtro_usuario(request.user, jbody)
     ret = Mensaje.objects.dt_filter(jbody)
     return JsonResponse(ret)
 
@@ -61,8 +60,7 @@ def blocked_search(request):
         jbody = json.loads(request.body.decode(request._encoding))
     else:
         return JsonResponse({'error': "Bad request"})
-    filtro = Mensaje.filtro_usuario(request)
-    jbody.update(filtro)
+    jbody = Mensaje.filtro_usuario(request.user, jbody)
     ret = Mensaje.objects.dt_filter(jbody)
     return JsonResponse(ret)
 
@@ -107,8 +105,7 @@ def servers(request):
         jbody = json.loads(request.body.decode(request._encoding))
     else:
         return JsonResponse({'error': "Bad request"})
-    filtro = Server.filtro_usuario(request)
-    jbody.update(filtro)
+    jbody = Server.filtro_usuario(request.user, jbody)
     ret = Server.objects.dt_filter(jbody)
     return JsonResponse(ret)
 
@@ -160,8 +157,7 @@ def domains(request):
         jbody = json.loads(request.body.decode(request._encoding))
     else:
         return JsonResponse({'error': "Bad request"})
-    filtro = Dominio.filtro_usuario(request)
-    jbody.update(filtro)
+    jbody = Dominio.filtro_usuario(request.user, jbody)
     ret = Dominio.objects.dt_filter(jbody)
     return JsonResponse(ret)
 
