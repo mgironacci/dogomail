@@ -309,3 +309,34 @@ class Regla(models.Model):
                         jbody['colhidden'] = [['cliente', str(clis.pop())],]
                         jbody['colsearch'] = True
         return jbody
+
+    @classmethod
+    def ordenar(cls, dire, pks):
+        data = dict()
+        fallo = False
+        idpks = [int(idp) for idp in pks.split(',')]
+        try:
+            rules = cls.objects.filter(id__in=idpks)
+            for r in rules:
+                if dire == 'down':
+                    r.orden += 1
+                elif r.orden > 0:
+                    r.orden -= 1
+                else:
+                    r.orden = 0
+                r.save()
+        except:
+            fallo = True
+        if fallo:
+            data['mensaje'] = {
+                'icon': ICO_CRIT,
+                'msg': _('The rules were not changed'),
+                'tipo': 'critical',
+            }
+        else:
+            data['mensaje'] = {
+                'icon': ICO_OK,
+                'msg': _('The rules were changed successfully'),
+                'tipo': 'success',
+            }
+        return data

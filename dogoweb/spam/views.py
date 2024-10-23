@@ -182,6 +182,22 @@ def rules_delete(request, pks):
 
 
 @login_required()
+@ajax_permission_required('spam.change_regla')
+def rules_up(request, ids):
+    ret = Regla.ordenar('up', ids)
+    ret['panel'] = 'regla'
+    return JsonResponse(ret)
+
+
+@login_required()
+@ajax_permission_required('spam.change_regla')
+def rules_down(request, ids):
+    ret = Regla.ordenar('down', ids)
+    ret['panel'] = 'regla'
+    return JsonResponse(ret)
+
+
+@login_required()
 def autorules(request):
     form = AutoReglasSearchForm()
     return render(request, 'spam/autorules.html', locals())
