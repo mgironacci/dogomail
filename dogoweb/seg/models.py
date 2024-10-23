@@ -43,6 +43,9 @@ def html_estado(stat, disp):
         'down': 'secondary',
         'ok': 'success',
         'disabled': 'default',
+        'accept': 'success',
+        'block': 'warning',
+        'reject': 'danger',
     }
     ret = '<span class="label label-%s">%s</span>' % (ESTADOS[stat], disp)
     return ret
@@ -145,6 +148,12 @@ def DTFilter(mmodel, jbody, autodata=True, filter=None, exclude=None):
                 if tipo == 'fks':
                     cbuscar.append((campo.replace("_set", "") + "__" + fkn + "__icontains", cc['search']['value']))
                     cpfetch.append(campo)
+                elif tipo == 'fk':
+                    fkclass = bobjs.model._meta.get_field(campo).related_model
+                    if hasattr(fkclass._meta, 'ordering') and type(fkclass._meta.ordering) == list:
+                        fknom = fkclass._meta.ordering[0]
+                        fklista = fkclass.objects.filter(**{f'{fknom}__icontains': cc['search']['value']})
+                        cbuscar.append((campo + "__in", fklista))
                 elif tipo == 'cho' or tipo == 'choh':
                     cbuscar.append((campo, cc['search']['value']))
                 elif tipo == 'hb': # Tratamiento de entero
@@ -280,9 +289,15 @@ def DTFilter(mmodel, jbody, autodata=True, filter=None, exclude=None):
                     ao.append(html_link(getattr(o, ccn)))
                 elif tipo == 'fk':
                     if fko:
-                        ao.append(getattr(getattr(o, ccn),fko))
+                        if getattr(o, ccn) is None:
+                            ao.append('')
+                        else:
+                            ao.append(getattr(getattr(o, ccn), fko))
                     else:
-                        ao.append(str(getattr(o, ccn)))
+                        if getattr(o, ccn) is None:
+                            ao.append('')
+                        else:
+                            ao.append(str(getattr(o, ccn)))
                 elif tipo == 'perm':
                     ao.append(getattr(o, ccn).name)
                 elif tipo == 'count':
@@ -318,7 +333,7 @@ def DTCreate(request, oform, otemplate='seg/modal_form_create.html', *args, **kw
     data = dict()
     if request.method == 'POST':
         data['snext'] = request.POST.get('snext', '')
-        form = oform(request.POST)
+        form = oform(request.POST, user=request.user)
         if form.is_valid():
             form.save()
             data['form_is_valid'] = True
