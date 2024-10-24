@@ -152,7 +152,7 @@ def DTFilter(mmodel, jbody, autodata=True, filter=None, exclude=None):
                     fkclass = bobjs.model._meta.get_field(campo).related_model
                     if hasattr(fkclass._meta, 'ordering') and type(fkclass._meta.ordering) == list:
                         fknom = fkclass._meta.ordering[0]
-                        fklista = fkclass.objects.filter(**{f'{fknom}__icontains': cc['search']['value']})
+                        fklista = fkclass.objects.filter(**{'{}__icontains'.format(fknom): cc['search']['value']})
                         cbuscar.append((campo + "__in", fklista))
                 elif tipo == 'cho' or tipo == 'choh':
                     cbuscar.append((campo, cc['search']['value']))
