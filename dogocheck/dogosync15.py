@@ -233,6 +233,12 @@ class HiloSync(threading.Thread):
         if len(mensajesk) > 0:
             lcur.execute('update mail_mensaje set estado=3, modifi_el=CONVERT_TZ(NOW(),"SYSTEM","+00:00") where id in (%s) and estado=0' % (",".join(mensajesk)))
         lcon.commit()
+        # Asigno cliente segun dominio destinos
+        lcur.execute('select cliente_id,nombre from mail_dominio where cliente_id is not null')
+        domscli = lcur.fetchall()
+        for d in domscli:
+            lcur.execute('update mail_mensaje set cliente_id=%s where id in (SELECT mensaje_id FROM mail_destinatario WHERE LOWER(receptor) LIKE LOWER("%%%s") AND creado_el >= NOW() - INTERVAL 1 DAY)' % (str(d[0]), str(d[1])))
+            lcon.commit()
         # Reportes
         if len(mensajesk) > 0:
             rcur.execute('''select
