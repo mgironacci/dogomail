@@ -317,8 +317,15 @@ class DogoStat(models.Model):
             'error': "",
             'data': [],
         }
+        cli = None
+        if 'colhidden' in jbody:
+            for ch in jbody['colhidden']:
+                if ch[0] == 'cliente':
+                   cli = ch[1]
         Mensaje = apps.get_model('mail', 'Mensaje')
         mms = Mensaje.objects.filter(rcv_time__gte=jbody['desde']).filter(rcv_time__lte=jbody['hasta'])
+        if cli:
+            mms = mms.filter(cliente=cli)
 
         i = 0
         for s in mms.values('sender').annotate(total=models.Count('sender')).order_by('total').reverse():
@@ -344,9 +351,16 @@ class DogoStat(models.Model):
             'error': "",
             'data': [],
         }
+        cli = None
+        if 'colhidden' in jbody:
+            for ch in jbody['colhidden']:
+                if ch[0] == 'cliente':
+                   cli = ch[1]
         Mensaje = apps.get_model('mail', 'Mensaje')
         Destinatario = apps.get_model('mail', 'Destinatario')
         mms = Mensaje.objects.filter(rcv_time__gte=jbody['desde']).filter(rcv_time__lte=jbody['hasta'])
+        if cli:
+            mms = mms.filter(cliente=cli)
         dms = Destinatario.objects.filter(mensaje__in=mms)
 
         i = 0
@@ -362,3 +376,27 @@ class DogoStat(models.Model):
             ret['data'].append([dirmail, s['total'], direnvi, dirrech])
 
         return ret
+
+    @classmethod
+    def filtro_usuario(self, user, jbody):
+        if user.groups.count() > 0:
+            clients = False
+            operator = False
+            for g in user.groups.all():
+                if g.name == 'clients':
+                    clients = True
+                if g.name == 'operator':
+                    operator = True
+            if clients or operator:
+                # Busco los clientes que tiene asignado el usuario por dominio
+                clis = set()
+                for d in user.dominio_set.all():
+                    clis.add(d.cliente.id)
+                if len(clis) > 0:
+                    if 'colhidden' in jbody:
+                        jbody['colhidden'].append(['cliente', str(clis.pop())])
+                        jbody['colsearch'] = True
+                    else:
+                        jbody['colhidden'] = [['cliente', str(clis.pop())],]
+                        jbody['colsearch'] = True
+        return jbody

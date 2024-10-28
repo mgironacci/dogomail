@@ -35,6 +35,7 @@ def dogo_tops(request):
         jbody = json4stats(request)
     else:
         return JsonResponse({'error': "Bad request"})
+    jbody = DogoStat.filtro_usuario(request.user, jbody)
     ret = DogoStat.get_tops(jbody)
     return JsonResponse(ret)
 
@@ -45,6 +46,7 @@ def dogo_topr(request):
         jbody = json4stats(request)
     else:
         return JsonResponse({'error': "Bad request"})
+    jbody = DogoStat.filtro_usuario(request.user, jbody)
     ret = DogoStat.get_topr(jbody)
     return JsonResponse(ret)
 
