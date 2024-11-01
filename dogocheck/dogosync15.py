@@ -126,6 +126,7 @@ class HiloSync(threading.Thread):
         lcon.commit()
 
         # AutoReglas
+        ahora = time.time()
         arreglas = {}
         rcur.execute('''select
             id, test_id, valor, activo, hora, cantidad, descripcion, confirmada
@@ -149,7 +150,9 @@ class HiloSync(threading.Thread):
              ''', dats)
             arreglas[o[0]] = lcur.lastrowid
         lcon.commit()
+        print("Autoreglas: {}".format(time.time()-ahora))
         # Mensajes
+        ahora = time.time()
         mensajes = {}
         rcur.execute('''select
              m.id, msgid, fecha_rec, remitente, tamanio, ip_orig, substring(asunto, 1, 200), bodyhash, origen_local, etapa_id, es_cliente, e.headers
@@ -183,8 +186,10 @@ class HiloSync(threading.Thread):
             mensajes[o[0]] = lcur.lastrowid
             lcur.execute('insert into mail_mensajeheader (mensaje_id, headers) values (%s,%s) on duplicate key update headers=%s', [mensajes[o[0]], o[11], o[11]])
         lcon.commit()
+        print("Mensajes: {}".format(time.time()-ahora))
         mensajesk = [str(m) for m in mensajes.keys()]
         # Destinos
+        ahora = time.time()
         if len(mensajesk) > 0:
             rcur.execute('''select
                 id, mensaje_id, substring(destinatario, 1, 150), disposicion_id, existe, destino_local, regla_rej_id
@@ -233,12 +238,16 @@ class HiloSync(threading.Thread):
         if len(mensajesk) > 0:
             lcur.execute('update mail_mensaje set estado=3, modifi_el=CONVERT_TZ(NOW(),"SYSTEM","+00:00") where id in (%s) and estado=0' % (",".join(mensajesk)))
         lcon.commit()
+        print("Destinos: {}".format(time.time()-ahora))
         # Asigno cliente segun dominio destinos
+        ahora = time.time()
         lcur.execute('select cliente_id,nombre from mail_dominio where cliente_id is not null')
         domscli = lcur.fetchall()
         for d in domscli:
-            lcur.execute('update mail_mensaje set cliente_id=%s where id in (SELECT mensaje_id FROM mail_destinatario WHERE LOWER(receptor) LIKE LOWER("%%%s") AND creado_el >= NOW() - INTERVAL 1 DAY)' % (str(d[0]), str(d[1])))
+            lcur.execute('update mail_mensaje set cliente_id=%s where cliente_id is null and id in (SELECT mensaje_id FROM mail_destinatario WHERE LOWER(receptor) LIKE LOWER("%%%s") AND creado_el >= NOW() - INTERVAL 1 DAY)' % (str(d[0]), str(d[1])))
             lcon.commit()
+        print("Cliente destinos: {}".format(time.time()-ahora))
+        ahora = time.time()
         # Reportes
         if len(mensajesk) > 0:
             rcur.execute('''select
@@ -295,10 +304,13 @@ class HiloSync(threading.Thread):
                     sys.stderr.write("\r\nCAUSA:\r\n")
                     sys.stderr.write(str(e))
                     sys.stderr.write("\r\n")
+        print("Reportes: {}".format(time.time()-ahora))
         # Actualizo estados en 0 en base a destinatarios
+        ahora = time.time()
         for e in [1, 4, 2, 3, 5]:
             lcur.execute('update mail_mensaje m, mail_destinatario d set m.estado=%d where m.id=d.mensaje_id and m.estado=0 and d.estado=%d' % (e, e))
         lcon.commit()
+        print("Estados destinos: {}".format(time.time()-ahora))
 
         if hay_errn:
             lcur.execute('update mail_dogomail set estado="critical" where id=%s', (self.dogoid,))
@@ -306,68 +318,9 @@ class HiloSync(threading.Thread):
             lcur.execute('update mail_dogomail set estado="warning" where id=%s', (self.dogoid,))
         lcon.commit()
 
-        # Aplico acciones en el dogomail
-        if ACCIONES:
-            time.sleep(5)
-            lcur.execute("select id,rdogotp,rdogoid,rcampo,rvalor from mail_acciondogo where dogo_id=%s and ejecel is null", (self.dogoid,))
-            for a in lcur.fetchall():
-                if a[1] == 'run_mensaje' and a[3] == 'disposicion':
-                    if a[4] == '6':
-                        nuevodisp = 6
-                    elif a[4] == '2':
-                        nuevodisp = 2
-                    elif a[4] == '3':
-                        nuevodisp = 3
-                    else:
-                        continue
-                    rcur.execute('update run_destinatario set disposicion_id=%s where mensaje_id=%s', (nuevodisp, int(a[2])))
-                    rcon.commit()
-                    lcur.execute('update mail_acciondogo set ejecel=CONVERT_TZ(NOW(),"SYSTEM","+00:00") where id=%s', (a[0],))
-                    lcon.commit()
-                elif a[1] == 'reglas' and a[3] == 'activo':
-                    rcur.execute('update reglas set activo=%s where id=%s', (int(a[4]), int(a[2])))
-                    rcon.commit()
-                    lcur.execute('update mail_acciondogo set ejecel=CONVERT_TZ(NOW(),"SYSTEM","+00:00") where id=%s', (a[0],))
-                    lcon.commit()
-                elif a[1] == 'reglas' and a[3] == 'confirmada':
-                    rcur.execute('update reglas set confirmada=%s where id=%s', (int(a[4]), int(a[2])))
-                    rcon.commit()
-                    lcur.execute('update mail_acciondogo set ejecel=CONVERT_TZ(NOW(),"SYSTEM","+00:00") where id=%s', (a[0],))
-                    lcon.commit()
-
-
-            # Aplico cambios en listas
-            lcur.execute("select id, tipo, ip, remitente, destino, activo from spam_listas where cambiado_el>=%s", (self.ultvis,))
-            for a in lcur.fetchall():
-                try:
-                    dats = []
-                    dats += a
-                    dats += a
-                    rcur.execute('''insert into listas 
-                        (rdogoid, tipo, ip, remitente, destino, activa, creado_el)
-                        values (%s, %s, %s, %s, %s, %s, CONVERT_TZ(NOW(),"SYSTEM","+00:00"))
-                        on duplicate key update
-                            rdogoid=%s,
-                            tipo=%s,
-                            ip=%s,
-                            remitente=%s,
-                            destino=%s,
-                            activa=%s
-                        ''', dats)
-                except Exception as e:
-                    sys.stderr.write("ERROR: Fallo el INSERT/UPDATE de listas con los siguientes valores:\r\n")
-                    sys.stderr.write(str(dats))
-                    sys.stderr.write("\r\nORIGEN:\r\n")
-                    sys.stderr.write(str(a))
-                    sys.stderr.write("\r\nCAUSA:\r\n")
-                    sys.stderr.write(str(e))
-                    sys.stderr.write("\r\n")
-
-            rcon.commit()
-
 
 try:
-    with PidFile('dogosync', '/var/lock'):
+    with PidFile('dogosync15', '/var/lock'):
         # Buscamos routers a monitorear
         dogos = busca_dogos()
 
