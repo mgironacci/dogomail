@@ -233,6 +233,15 @@ class HiloSync(threading.Thread):
                     rcon.commit()
             except Exception as e:
                 sys.stderr.write("ERROR: Fallo el DELETE de reglas ({})\r\n".format(str(e)))
+
+            # Me traigo los maches
+            try:
+                rcur.execute('SELECT SUM(maches),rdogoid FROM spam_regla GROUP BY rdogoid')
+                maches = rcur.fetchall()
+                lcur.executemany('UPDATE spam_regla set maches=%s WHERE id=%s', maches)
+                lcon.commit()
+            except Exception as e:
+                sys.stderr.write("ERROR: Fallo el update de maches de reglas ({})\r\n".format(str(e)))
             print("Reglas: {}".format(time.time() - ahora))
 
 try:
