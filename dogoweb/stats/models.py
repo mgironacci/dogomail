@@ -59,7 +59,7 @@ class DogoStat(models.Model):
             ahora = hora
         else:
             time.sleep(2)
-            ahora = timezone.now().replace(second=0, microsecond=0)
+            ahora = timezone.now().replace(second=0, microsecond=0) - datetime.timedelta(minutes=10)
         antes = ahora - datetime.timedelta(minutes=5)
         # Buscamos mensajes creados de los ultimos 5 minutos
         for d in Dogomail.objects.filter(activo=True):
