@@ -3,6 +3,8 @@ from django.apps import apps
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.contrib.auth.models import User
+from django.template.loader import render_to_string
+
 from seg.models import DTManager, html_check
 from erp.models import Cliente
 from dogoweb.settings import VERSION, ICO_OK, ICO_WARN, ICO_INFO, ICO_CRIT
@@ -223,6 +225,38 @@ class AutoReglas(models.Model):
                 'icon': ICO_OK,
                 'msg': _('The rules were marked to be confirmed'),
                 'tipo': 'success',
+            }
+        return data
+
+    @classmethod
+    def html_show(cls, pks, request):
+        data = dict()
+        mpks = list()
+        Mensaje = apps.get_model('mail', 'Mensaje')
+        try:
+            idpks = [int(idp) for idp in pks.split(',')]
+            rules = cls.objects.filter(id__in=idpks)
+            for r in rules:
+                mpks+=[idm.id for idm in r.mensaje_set.all()]
+            msgs = list()
+            for m in Mensaje.objects.filter(id__in=mpks):
+                msgs.append({
+                    'estado': m.get_estado_html(),
+                    'rcv_time': m.rcv_time.strftime("%d/%m/%Y %H:%M:%S"),
+                    'sender': m.sender,
+                    'ip_orig': m.ip_orig,
+                    'subject': m.subject,
+                    'recipients': ','.join([r.receptor for r in m.destinatario_set.all()]),
+                })
+            context = {
+                'msgs': msgs,
+            }
+            data['html_form'] = render_to_string('spam/form_show_autorulemsgs.html', context, request=request)
+        except Exception as e:
+            data['mensaje'] = {
+                'icon': ICO_CRIT,
+                'msg': _('The item had a problem, please review'),
+                'tipo': 'critical',
             }
         return data
 

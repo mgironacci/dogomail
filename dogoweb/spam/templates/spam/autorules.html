@@ -96,9 +96,8 @@
             <div class="panel-heading">
                 {% if perms.spam.change_autoreglas %}
                 <button type="button" id="ignorerule" onclick="jobj.changeRule('ignore');" class="btn btn-success btn-sm pull-right panel-buttons-sm width-120"><i class="icmn-forward"></i> {% trans "Ignore rule" %}</button>
-                {% endif %}
-                {% if perms.spam.change_autoreglas %}
                 <button type="button" id="confirmrule" onclick="jobj.changeRule('confirm');" class="btn btn-danger btn-sm pull-right panel-buttons-sm width-120"><i class="icmn-cross2"></i> {% trans "Confirm rule" %}</button>
+                <button type="button" id="showrule" onclick="$('#popup-modal .modal-content').html(''); $('#popup-modal').attr('data-action','show.autorule'); $('#popup-modal').modal();" class="btn btn-info btn-sm pull-right panel-buttons-sm width-120"><i class="icmn-info"></i> {% trans "Show messages" %}</button>
                 {% endif %}
                 <h5><small><i class="icmn-list"></i></small> {% trans "Autorules" %}</h5>
             </div>
@@ -121,5 +120,11 @@
             </div>
         </section>
     </div>
+</div>
+<div class="modal fade modal-size-large" id="popup-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+    </div>
+</div>
 </div>
 {% endblock %}

@@ -3,6 +3,7 @@ var jobj = {};
 $(function(){
     $('#ignorerule').hide();
     $('#confirmrule').hide();
+    $('#showrule').hide();
 
     // Limpiamos valores
     $("#id_descripcion").val("");
@@ -76,11 +77,13 @@ $(function(){
             if (dtsc != 0) {
                 $('#ignorerule').show();
                 $('#confirmrule').show();
+                $('#showrule').show();
             }
         } else if (evento == 'deselect') {
             if (dtsc == 0) {
                 $('#ignorerule').hide();
                 $('#confirmrule').hide();
+                $('#showrule').hide();
             }
         }
     }
@@ -214,7 +217,7 @@ $(function(){
         //"dom": 'Bfrtip',
         cache: false,
     });
-    /*
+
     // Llamado al pedir nuevo menu
     $("#popup-modal").on("shown.bs.modal", function () {
         $("#popup-modal .modal-content").html('');
@@ -229,24 +232,18 @@ $(function(){
         var action = "";
         var ids = [];
         var srows = [];
-        if (btnact == 'add') {
-            if (btnpan == 'mail') {
-                action  = '/mail/domains/create/';
-            }
-        }
         // Busco en el listado correcto si es edit o delete
-        if (btnact == 'edit' || btnact == 'delete' ) {
-            if (btnpan == 'mail') {
+        if (btnact == 'show') {
+            if (btnpan == 'autorule') {
                 if (dts.rows( { selected: true } ).count() != 0) {
-                    action = '/mail/domains/';
+                    action = '/spam/autorules/';
                     srows = dts.rows( { selected: true } );
                     for(var i=0; i<srows.count(); i++) {
                         ids.push(srows.data()[i][0]);
                     }
                 }
             }
-            if (btnact == 'edit')   { action += 'update/'; }
-            if (btnact == 'delete') { action += 'delete/'; }
+            if (btnact == 'show')   { action += 'show/'; }
             if (ids.length > 0)     { action += ids.join(); }
         }
         $.ajax({
@@ -275,6 +272,7 @@ $(function(){
             }
         });
     });
+    /*
     // Llamado al darle submit
     $("#popup-modal").on("submit", function () {
         var form = $('#modal-form');
@@ -364,6 +362,7 @@ $(function(){
         $('#autorule-table').DataTable().draw();
         $('#ignorerule').hide();
         $('#confirmrule').hide();
+        $('#showrule').hide();
         $("#id_sender").focus();
     }
 
