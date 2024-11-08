@@ -87,15 +87,16 @@ class DogoStat(models.Model):
             onis, creado = DogoStat.objects.update_or_create(**nis)
             onis.save()
             # Cambio a ultimas 24 horas
-            mss = Mensaje.objects.filter(rcv_time__gte=ult24, rcv_time__lt=ahora, dogo=d)
+            mss = Mensaje.objects.filter(rcv_time__gte=ult24, rcv_time__lt=ahora, es_local=False, dogo=d)
             # Por estado
-            for e in [1, 2, 3, 4, 5]:
+            tcs = mss.filter(estado__in=[1, 2, 3, 4, 5]).values('estado').annotate(total=Count('id'))
+            for e in tcs:
                 nis = {
                     'tiempo': ahora,
                     'dogo': d,
                     'tipo': 'status',
-                    'clave': ESTADO_MSG[e],
-                    'valor': mss.filter(es_local=False, estado=e).count()
+                    'clave': ESTADO_MSG.get(e['estado'], _('Unknown')),
+                    'valor': e['total'],
                 }
                 onis, creado = DogoStat.objects.update_or_create(**nis)
                 onis.save()
