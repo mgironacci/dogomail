@@ -61,6 +61,7 @@ class DogoStat(models.Model):
             time.sleep(2)
             ahora = timezone.now().replace(second=0, microsecond=0) - datetime.timedelta(minutes=10)
         antes = ahora - datetime.timedelta(minutes=5)
+        ult24 = ahora - datetime.timedelta(hours=24)
         # Buscamos mensajes creados de los ultimos 5 minutos
         for d in Dogomail.objects.filter(activo=True):
             mss = Mensaje.objects.filter(rcv_time__gte=antes, rcv_time__lt=ahora, dogo=d)
@@ -85,6 +86,8 @@ class DogoStat(models.Model):
             }
             onis, creado = DogoStat.objects.update_or_create(**nis)
             onis.save()
+            # Cambio a ultimas 24 horas
+            mss = Mensaje.objects.filter(rcv_time__gte=ult24, rcv_time__lt=ahora, dogo=d)
             # Por estado
             for e in [1, 2, 3, 4, 5]:
                 nis = {
@@ -103,6 +106,18 @@ class DogoStat(models.Model):
                     'tiempo': ahora,
                     'dogo': d,
                     'tipo': 'rejects',
+                    'clave': mods[ts['modulo']],
+                    'valor': ts['total'],
+                }
+                onis, creado = DogoStat.objects.update_or_create(**nis)
+                onis.save()
+            # Por tipo de retenidos
+            tss = TestSpam.objects.filter(mensaje__in=mss.filter(estado=4))
+            for ts in tss.values('modulo').annotate(total=Count('modulo')).order_by('total'):
+                nis = {
+                    'tiempo': ahora,
+                    'dogo': d,
+                    'tipo': 'blocks',
                     'clave': mods[ts['modulo']],
                     'valor': ts['total'],
                 }
@@ -285,11 +300,12 @@ class DogoStat(models.Model):
                 'innerSize': '60%',
                 'data': [],
             }
-            vv = v.values('clave').annotate(total=models.Sum('valor')).order_by('total').reverse()
+            maxt = v.aggregate(max_tiempo=models.Max('tiempo'))['max_tiempo']
+            vv = v.filter(tiempo=maxt).order_by('valor').reverse()
             for i in vv:
-                val = {'name': ESTADO_LABEL[i['clave']], 'y': i['total']}
-                if i['clave'] in ESTADO_COLOR:
-                    val['color'] = ESTADO_COLOR[i['clave']]
+                val = {'name': ESTADO_LABEL[i.clave], 'y': i.valor}
+                if i.clave in ESTADO_COLOR:
+                    val['color'] = ESTADO_COLOR[i.clave]
                 datos['data'].append(val)
             ret['series'].append(datos)
 
@@ -300,9 +316,24 @@ class DogoStat(models.Model):
                 'innerSize': '60%',
                 'data': [],
             }
-            vv = v.values('clave').annotate(total=models.Sum('valor')).order_by('total').reverse()
+            maxt = v.aggregate(max_tiempo=models.Max('tiempo'))['max_tiempo']
+            vv = v.filter(tiempo=maxt).order_by('valor').reverse()
             for i in vv:
-                val = {'name': i['clave'], 'y': i['total']}
+                val = {'name': i.clave, 'y': i.valor}
+                datos['data'].append(val)
+            ret['series'].append(datos)
+
+        elif tgraf == 'blocks':
+            ret['title']['text'] = _('Mail blocks')
+            datos = {
+                'type': 'pie',
+                'innerSize': '60%',
+                'data': [],
+            }
+            maxt = v.aggregate(max_tiempo=models.Max('tiempo'))['max_tiempo']
+            vv = v.filter(tiempo=maxt).order_by('valor').reverse()
+            for i in vv:
+                val = {'name': i.clave, 'y': i.valor}
                 datos['data'].append(val)
             ret['series'].append(datos)
 
