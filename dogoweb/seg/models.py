@@ -172,6 +172,7 @@ def DTFilter(mmodel, jbody, autodata=True, filter=None, exclude=None):
                         cbuscar.append((campo + "__gte", imin))
                     elif imax != '':
                         cbuscar.append((campo + "__lte", imax))
+        cdistinto = False
         if 'colhidden' in jbody:
             for ch in jbody['colhidden']:
                 if str(ch[1]).find("|") >= 0:
@@ -184,6 +185,7 @@ def DTFilter(mmodel, jbody, autodata=True, filter=None, exclude=None):
                         cbuscar.append((ch[0] + "__lte", imax))
                 elif ch[0].find('sk*') >= 0:
                     cbuscar.append((ch[0].replace('sk*', ''), ch[1]))
+                    cdistinto = True
                 else:
                     cbuscar.append((ch[0], ch[1]))
         cfiltro = None
@@ -199,7 +201,10 @@ def DTFilter(mmodel, jbody, autodata=True, filter=None, exclude=None):
                 cfiltro = Q(**fkw)
         # Armo filtro
         if cfiltro:
-            sobjs = bobjs.filter(cfiltro)
+            if cdistinto:
+                sobjs = bobjs.filter(cfiltro).distinct()
+            else:
+                sobjs = bobjs.filter(cfiltro)
             ret['recordsFiltered'] = sobjs.count()
         else:
             sobjs = bobjs
