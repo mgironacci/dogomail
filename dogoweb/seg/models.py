@@ -182,6 +182,8 @@ def DTFilter(mmodel, jbody, autodata=True, filter=None, exclude=None):
                         cbuscar.append((ch[0] + "__gte", imin))
                     elif imax != '':
                         cbuscar.append((ch[0] + "__lte", imax))
+                elif ch[0].find('sk*') >= 0:
+                    cbuscar.append((ch[0].replace('sk*', ''), ch[1]))
                 else:
                     cbuscar.append((ch[0], ch[1]))
         cfiltro = None

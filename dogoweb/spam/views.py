@@ -215,6 +215,7 @@ def autorules_search(request):
         jbody = json.loads(request.body.decode(request._encoding))
     else:
         return JsonResponse({'error': "Bad request"})
+    jbody = AutoReglas.filtro_usuario(request.user, jbody)
     ret = AutoReglas.objects.dt_filter(jbody)
     return JsonResponse(ret)
 

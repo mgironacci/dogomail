@@ -260,6 +260,30 @@ class AutoReglas(models.Model):
             }
         return data
 
+    @classmethod
+    def filtro_usuario(self, user, jbody):
+        if user.groups.count() > 0:
+            clients = False
+            operator = False
+            for g in user.groups.all():
+                if g.name == 'clients':
+                    clients = True
+                if g.name == 'operator':
+                    operator = True
+            if clients or operator:
+                # Busco los clientes que tiene asignado el usuario por dominio
+                clis = set()
+                for d in user.dominio_set.all():
+                    clis.add(d.cliente.id)
+                if len(clis) > 0:
+                    if 'colhidden' in jbody:
+                        jbody['colhidden'].append(['sk*mensaje__cliente_id', str(clis.pop())])
+                        jbody['colsearch'] = True
+                    else:
+                        jbody['colhidden'] = [['sk*mensaje__cliente_id', str(clis.pop())],]
+                        jbody['colsearch'] = True
+        return jbody
+
 
 # Modelo de politicas
 ACCION_REGLA = (
