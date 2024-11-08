@@ -229,6 +229,42 @@ class AutoReglas(models.Model):
         return data
 
     @classmethod
+    def flip(cls, pks):
+        data = dict()
+        fallo = False
+        AccionDogo = apps.get_model('mail', 'AccionDogo')
+        idpks = [int(idp) for idp in pks.split(',')]
+        rules = cls.objects.filter(id__in=idpks)
+        for r in rules:
+            r.activo = not r.activo
+            r.save()
+        try:
+            nact = {
+                'dogo': r.dogo,
+                'rdogotp': 'reglas',
+                'rdogoid': r.rdogoid,
+                'rcampo': 'activo',
+                'rvalor': str(int(r.activo)),
+            }
+            oact = AccionDogo(**nact)
+            oact.save()
+        except:
+            fallo = True
+        if fallo:
+            data['mensaje'] = {
+                'icon': ICO_CRIT,
+                'msg': _('The rules were not fliped'),
+                'tipo': 'critical',
+            }
+        else:
+            data['mensaje'] = {
+                'icon': ICO_OK,
+                'msg': _('The rules were fliped'),
+                'tipo': 'success',
+            }
+        return data
+
+    @classmethod
     def html_show(cls, pks, request):
         data = dict()
         mpks = list()

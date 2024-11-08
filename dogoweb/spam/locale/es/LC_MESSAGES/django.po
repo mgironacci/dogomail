@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-07 21:41-0300\n"
-"PO-Revision-Date: 2024-11-07 21:43-0300\n"
+"POT-Creation-Date: 2024-11-08 01:38-0300\n"
+"PO-Revision-Date: 2024-11-08 01:41-0300\n"
 "Last-Translator: Andres Gironacci <mgironacci@itecnis.com>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -82,32 +82,40 @@ msgstr "Las reglas no fueron marcadas para confirmar"
 msgid "The rules were marked to be confirmed"
 msgstr "Las reglas fueron marcadas para confirmar"
 
-#: spam/models.py:258
+#: spam/models.py:256
+msgid "The rules were not fliped"
+msgstr "Las reglas no fueron cambiadas"
+
+#: spam/models.py:262
+msgid "The rules were fliped"
+msgstr "Las reglas fueron cambiadas"
+
+#: spam/models.py:294
 msgid "The item had a problem, please review"
 msgstr "El ítem tuvo un problema, por favor revisar"
 
-#: spam/models.py:266 spam/models.py:273 spam/models.py:279
+#: spam/models.py:326 spam/models.py:333 spam/models.py:339
 msgid "Accept"
 msgstr "Aceptar"
 
-#: spam/models.py:267 spam/models.py:274 spam/models.py:280
+#: spam/models.py:327 spam/models.py:334 spam/models.py:340
 msgid "Block"
 msgstr "Retener"
 
-#: spam/models.py:268 spam/models.py:275 spam/models.py:281
+#: spam/models.py:328 spam/models.py:335 spam/models.py:341
 msgid "Reject"
 msgstr "Rechazar"
 
-#: spam/models.py:367
+#: spam/models.py:427
 msgid "The rules were not changed"
 msgstr "Las reglas no fueron cambiadas"
 
-#: spam/models.py:373
+#: spam/models.py:433
 msgid "The rules were changed successfully"
 msgstr "Las reglas fueron cambiadas exitosamente"
 
-#: spam/templates/spam/autorules.html:4 spam/templates/spam/autorules.html:102
-#: spam/templates/spam/autorulesp.html:97
+#: spam/templates/spam/autorules.html:4 spam/templates/spam/autorules.html:103
+#: spam/templates/spam/autorulesp.html:96
 msgid "Autorules"
 msgstr "Autoreglas"
 
@@ -124,17 +132,17 @@ msgstr "Buscar"
 msgid "Clear"
 msgstr "Limpiar"
 
-#: spam/templates/spam/autorules.html:33 spam/templates/spam/autorules.html:111
+#: spam/templates/spam/autorules.html:33 spam/templates/spam/autorules.html:112
 #: spam/templates/spam/autorulesp.html:35
-#: spam/templates/spam/autorulesp.html:106 spam/templates/spam/modules.html:31
+#: spam/templates/spam/autorulesp.html:105 spam/templates/spam/modules.html:31
 #: spam/templates/spam/policies.html:31 spam/templates/spam/rules.html:33
 #: spam/templates/spam/rules.html:120
 msgid "Name"
 msgstr "Nombre"
 
-#: spam/templates/spam/autorules.html:41 spam/templates/spam/autorules.html:112
+#: spam/templates/spam/autorules.html:41 spam/templates/spam/autorules.html:113
 #: spam/templates/spam/autorulesp.html:43
-#: spam/templates/spam/autorulesp.html:107
+#: spam/templates/spam/autorulesp.html:106
 msgid "Value"
 msgstr "Valor"
 
@@ -150,9 +158,9 @@ msgstr "Mín"
 msgid "Max"
 msgstr "Máx"
 
-#: spam/templates/spam/autorules.html:71 spam/templates/spam/autorules.html:110
+#: spam/templates/spam/autorules.html:71 spam/templates/spam/autorules.html:111
 #: spam/templates/spam/autorulesp.html:65
-#: spam/templates/spam/autorulesp.html:105
+#: spam/templates/spam/autorulesp.html:104
 #: spam/templates/spam/form_show_autorulemsgs.html:19
 msgid "Date"
 msgstr "Fecha"
@@ -167,30 +175,51 @@ msgstr "Desde"
 msgid "To"
 msgstr "Hasta"
 
+#: spam/templates/spam/autorules.html:98
+msgid "Deactivate rule and send blocked emails"
+msgstr "Desactivar regla y entregar los emails retenidos"
+
 #: spam/templates/spam/autorules.html:98 spam/templates/spam/autorulesp.html:92
 msgid "Ignore rule"
 msgstr "Ignorar regla"
 
-#: spam/templates/spam/autorules.html:99 spam/templates/spam/autorulesp.html:95
+#: spam/templates/spam/autorules.html:99
+msgid "Confirm rule and reject blocked emails"
+msgstr "Confirmar regla y rechazar los emails retenidos"
+
+#: spam/templates/spam/autorules.html:99 spam/templates/spam/autorulesp.html:93
 msgid "Confirm rule"
 msgstr "Confirmar regla"
 
 #: spam/templates/spam/autorules.html:100
+msgid "Turn rule active state"
+msgstr "Cambia el estado activo de la regla"
+
+#: spam/templates/spam/autorules.html:100
+msgid "Flip rule"
+msgstr "Revertir regla"
+
+#: spam/templates/spam/autorules.html:102
+msgid "Show emails linked to this rule"
+msgstr "Muestra los emails vinculados a la regla"
+
+#: spam/templates/spam/autorules.html:102
+#: spam/templates/spam/autorulesp.html:95
 msgid "Show messages"
 msgstr "Mostrar mensajes"
 
-#: spam/templates/spam/autorules.html:109
-#: spam/templates/spam/autorulesp.html:104
+#: spam/templates/spam/autorules.html:110
+#: spam/templates/spam/autorulesp.html:103
 msgid "Confirmed"
 msgstr "Confirmada"
 
-#: spam/templates/spam/autorules.html:113
-#: spam/templates/spam/autorulesp.html:108
+#: spam/templates/spam/autorules.html:114
+#: spam/templates/spam/autorulesp.html:107
 msgid "#Msgs"
 msgstr "#Msjs"
 
-#: spam/templates/spam/autorules.html:114
-#: spam/templates/spam/autorulesp.html:109 spam/templates/spam/lists.html:109
+#: spam/templates/spam/autorules.html:115
+#: spam/templates/spam/autorulesp.html:108 spam/templates/spam/lists.html:109
 #: spam/templates/spam/modules.html:32 spam/templates/spam/policies.html:32
 #: spam/templates/spam/rules.html:119
 msgid "Active"

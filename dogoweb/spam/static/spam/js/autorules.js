@@ -3,6 +3,7 @@ var jobj = {};
 $(function(){
     $('#ignorerule').hide();
     $('#confirmrule').hide();
+    $('#fliprule').hide();
     $('#showrule').hide();
 
     // Limpiamos valores
@@ -77,12 +78,14 @@ $(function(){
             if (dtsc != 0) {
                 $('#ignorerule').show();
                 $('#confirmrule').show();
+                $('#fliprule').show();
                 $('#showrule').show();
             }
         } else if (evento == 'deselect') {
             if (dtsc == 0) {
                 $('#ignorerule').hide();
                 $('#confirmrule').hide();
+                $('#fliprule').hide();
                 $('#showrule').hide();
             }
         }
@@ -362,6 +365,7 @@ $(function(){
         $('#autorule-table').DataTable().draw();
         $('#ignorerule').hide();
         $('#confirmrule').hide();
+        $('#fliprule').hide();
         $('#showrule').hide();
         $("#id_sender").focus();
     }

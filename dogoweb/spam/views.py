@@ -245,5 +245,13 @@ def autorules_show(request, ids):
 
 
 @login_required()
+@ajax_permission_required('spam.manage_autorules')
+def autorules_flip(request, ids):
+    ret = AutoReglas.flip(ids)
+    ret['panel'] = 'autorule'
+    return JsonResponse(ret)
+
+
+@login_required()
 def config(request):
     return render(request, 'spam/config.html')

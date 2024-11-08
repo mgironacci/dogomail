@@ -31,5 +31,6 @@ urlpatterns = [
     url(r'^aurorulessearch/$', views.autorules_search, name='spamautorulesearch'),
     url(r'^autorules/confirm/(?P<ids>[\,\d]+)*$', views.autorules_confirm, name='spam_autorule_confirm'),
     url(r'^autorules/ignore/(?P<ids>[\,\d]+)*$', views.autorules_ignore, name='spam_autorule_ignore'),
+    url(r'^autorules/flip/(?P<ids>[\,\d]+)*$', views.autorules_flip, name='spam_autorule_flip'),
     url(r'^autorules/show/(?P<ids>[\,\d]+)*$', views.autorules_show, name='spam_autorule_show'),
 ]
