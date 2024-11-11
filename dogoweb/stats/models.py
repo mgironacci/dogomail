@@ -43,7 +43,7 @@ class DogoStat(models.Model):
 
     class Meta:
         ordering = ['tiempo', 'dogo']
-        unique_together = (('tiempo', 'dogo', 'tipo', 'clave'),)
+        unique_together = (('tiempo', 'dogo', 'tipo', 'clave', 'cliente'),)
 
     @classmethod
     def actualizar(cls, hora=None):
