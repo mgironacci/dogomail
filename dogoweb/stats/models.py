@@ -39,6 +39,7 @@ class DogoStat(models.Model):
     tipo = models.CharField(max_length=30, db_index=True)
     clave = models.CharField(max_length=50, db_index=True)
     valor = models.IntegerField()
+    cliente = models.ForeignKey('erp.Cliente', on_delete=models.CASCADE, null=True, default=None)
 
     class Meta:
         ordering = ['tiempo', 'dogo']
@@ -50,6 +51,7 @@ class DogoStat(models.Model):
         Dogomail = apps.get_model('mail', 'Dogomail')
         TestSpam = apps.get_model('mail', 'TestSpam')
         Modulo = apps.get_model('spam', 'Modulo')
+        Cliente = apps.get_model('erp', 'Cliente')
         # Modulos
         mods = {}
         for mm in Modulo.objects.all():
@@ -64,68 +66,83 @@ class DogoStat(models.Model):
         ult24 = ahora - datetime.timedelta(hours=24)
         # Buscamos mensajes creados de los ultimos 5 minutos
         for d in Dogomail.objects.filter(activo=True):
-            mss = Mensaje.objects.filter(rcv_time__gte=antes, rcv_time__lt=ahora, dogo=d)
-            # Cantidad de mensajes
-            # Entrantes
-            nis = {
-                'tiempo': ahora,
-                'dogo': d,
-                'tipo': 'total',
-                'clave': 'entrante',
-                'valor': mss.filter(es_local=False).count(),
-            }
-            onis, creado = DogoStat.objects.update_or_create(**nis)
-            onis.save()
-            # Salientes
-            nis = {
-                'tiempo': ahora,
-                'dogo': d,
-                'tipo': 'total',
-                'clave': 'saliente',
-                'valor': mss.filter(es_local=True).count(),
-            }
-            onis, creado = DogoStat.objects.update_or_create(**nis)
-            onis.save()
-            # Cambio a ultimas 24 horas
-            mss = Mensaje.objects.filter(rcv_time__gte=ult24, rcv_time__lt=ahora, es_local=False, dogo=d)
-            # Por estado
-            ESTADOS = [1, 2, 3, 4, 5]
-            tcs = mss.filter(estado__in=ESTADOS).values('estado').annotate(total=Count('id'))
-            conteo = {item['estado']: item['total'] for item in tcs}
-            for e in ESTADOS:
+            # Primero total, y luego por clientes
+            clis = [None, ]
+            clis += Cliente.objects.filter(activo=True)
+            for c in clis:
+                if c:
+                    mss = Mensaje.objects.filter(rcv_time__gte=antes, rcv_time__lt=ahora, dogo=d, cliente=c)
+                else:
+                    mss = Mensaje.objects.filter(rcv_time__gte=antes, rcv_time__lt=ahora, dogo=d)
+                # Cantidad de mensajes
+                # Entrantes
                 nis = {
                     'tiempo': ahora,
                     'dogo': d,
-                    'tipo': 'status',
-                    'clave': ESTADO_MSG.get(e, _('Unknown')),
-                    'valor': conteo.get(e, 0),
+                    'tipo': 'total',
+                    'clave': 'entrante',
+                    'valor': mss.filter(es_local=False).count(),
+                    'cliente': c,
                 }
                 onis, creado = DogoStat.objects.update_or_create(**nis)
                 onis.save()
-            # Por tipo de rechazo
-            tss = TestSpam.objects.filter(mensaje__in=mss.filter(estado=3))
-            for ts in tss.values('modulo').annotate(total=Count('modulo')).order_by('total'):
+                # Salientes
                 nis = {
                     'tiempo': ahora,
                     'dogo': d,
-                    'tipo': 'rejects',
-                    'clave': mods[ts['modulo']],
-                    'valor': ts['total'],
+                    'tipo': 'total',
+                    'clave': 'saliente',
+                    'valor': mss.filter(es_local=True).count(),
+                    'cliente': c,
                 }
                 onis, creado = DogoStat.objects.update_or_create(**nis)
                 onis.save()
-            # Por tipo de retenidos
-            tss = TestSpam.objects.filter(mensaje__in=mss.filter(estado=4))
-            for ts in tss.values('modulo').annotate(total=Count('modulo')).order_by('total'):
-                nis = {
-                    'tiempo': ahora,
-                    'dogo': d,
-                    'tipo': 'blocks',
-                    'clave': mods[ts['modulo']],
-                    'valor': ts['total'],
-                }
-                onis, creado = DogoStat.objects.update_or_create(**nis)
-                onis.save()
+                # Cambio a ultimas 24 horas
+                if c:
+                    mss = Mensaje.objects.filter(rcv_time__gte=ult24, rcv_time__lt=ahora, es_local=False, dogo=d, cliente=c)
+                else:
+                    mss = Mensaje.objects.filter(rcv_time__gte=ult24, rcv_time__lt=ahora, es_local=False, dogo=d)
+                # Por estado
+                ESTADOS = [1, 2, 3, 4, 5]
+                tcs = mss.filter(estado__in=ESTADOS).values('estado').annotate(total=Count('id')).order_by('estado')
+                conteo = {item['estado']: item['total'] for item in tcs}
+                for e in ESTADOS:
+                    nis = {
+                        'tiempo': ahora,
+                        'dogo': d,
+                        'tipo': 'status',
+                        'clave': ESTADO_MSG.get(e, _('Unknown')),
+                        'valor': conteo.get(e, 0),
+                        'cliente': c,
+                    }
+                    onis, creado = DogoStat.objects.update_or_create(**nis)
+                    onis.save()
+                # Por tipo de rechazo
+                tss = TestSpam.objects.filter(mensaje__in=mss.filter(estado=3))
+                for ts in tss.values('modulo').annotate(total=Count('modulo')).order_by('total'):
+                    nis = {
+                        'tiempo': ahora,
+                        'dogo': d,
+                        'tipo': 'rejects',
+                        'clave': mods[ts['modulo']],
+                        'valor': ts['total'],
+                        'cliente': c,
+                    }
+                    onis, creado = DogoStat.objects.update_or_create(**nis)
+                    onis.save()
+                # Por tipo de retenidos
+                tss = TestSpam.objects.filter(mensaje__in=mss.filter(estado=4))
+                for ts in tss.values('modulo').annotate(total=Count('modulo')).order_by('total'):
+                    nis = {
+                        'tiempo': ahora,
+                        'dogo': d,
+                        'tipo': 'blocks',
+                        'clave': mods[ts['modulo']],
+                        'valor': ts['total'],
+                        'cliente': c,
+                    }
+                    onis, creado = DogoStat.objects.update_or_create(**nis)
+                    onis.save()
 
 
     @classmethod
@@ -269,6 +286,13 @@ class DogoStat(models.Model):
             except:
                 return ret
 
+        # Cliente o total
+        cli = None
+        if 'colhidden' in jdata:
+            for ch in jdata['colhidden']:
+                if ch[0] == 'cliente':
+                   cli = ch[1]
+        v = v.filter(cliente=cli)
 
         if tgraf == 'total':
             if dogoid == 'all':
@@ -357,9 +381,7 @@ class DogoStat(models.Model):
                 if ch[0] == 'cliente':
                    cli = ch[1]
         Mensaje = apps.get_model('mail', 'Mensaje')
-        mms = Mensaje.objects.filter(rcv_time__gte=jbody['desde']).filter(rcv_time__lte=jbody['hasta'])
-        if cli:
-            mms = mms.filter(cliente=cli)
+        mms = Mensaje.objects.filter(rcv_time__gte=jbody['desde']).filter(rcv_time__lte=jbody['hasta']).filter(cliente=cli)
 
         i = 0
         for s in mms.values('sender').annotate(total=models.Count('sender')).order_by('total').reverse():
@@ -392,9 +414,7 @@ class DogoStat(models.Model):
                    cli = ch[1]
         Mensaje = apps.get_model('mail', 'Mensaje')
         Destinatario = apps.get_model('mail', 'Destinatario')
-        mms = Mensaje.objects.filter(rcv_time__gte=jbody['desde']).filter(rcv_time__lte=jbody['hasta'])
-        if cli:
-            mms = mms.filter(cliente=cli)
+        mms = Mensaje.objects.filter(rcv_time__gte=jbody['desde']).filter(rcv_time__lte=jbody['hasta']).filter(cliente=cli)
         dms = Destinatario.objects.filter(mensaje__in=mms)
 
         i = 0

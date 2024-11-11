@@ -24,7 +24,7 @@ def dogo_grafs(request):
         jbody = json4stats(request)
     else:
         return JsonResponse({'error': "Bad request"})
-
+    jbody = DogoStat.filtro_usuario(request.user, jbody)
     ret = DogoStat.get_stats(jbody)
     return JsonResponse(ret)
 
