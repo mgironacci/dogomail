@@ -66,6 +66,7 @@ DISP_ESTADO = {
 # 14 |        2 | Sender Policy Framework (SPF)                                         | SPF
 # 15 |        2 | Verificacion casilla remitente                                        | Verif. Remit.
 # 16 |        3 | Lista negra propia                                                    | Lista negra
+# 17 |        3 | Regla propia                                                          | Regla
 
 MOD_TEST = {
     1:  14,
@@ -84,6 +85,7 @@ MOD_TEST = {
     14: 1,
     15: 6,
     16: 9,
+    17: 15,
 }
 
 
