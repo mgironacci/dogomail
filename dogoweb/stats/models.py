@@ -381,7 +381,9 @@ class DogoStat(models.Model):
                 if ch[0] == 'cliente':
                    cli = ch[1]
         Mensaje = apps.get_model('mail', 'Mensaje')
-        mms = Mensaje.objects.filter(rcv_time__gte=jbody['desde']).filter(rcv_time__lte=jbody['hasta']).filter(cliente=cli)
+        mms = Mensaje.objects.filter(rcv_time__gte=jbody['desde']).filter(rcv_time__lte=jbody['hasta'])
+        if cli:
+            mms = mms.filter(cliente=cli)
 
         i = 0
         for s in mms.values('sender').annotate(total=models.Count('sender')).order_by('total').reverse():
@@ -414,7 +416,9 @@ class DogoStat(models.Model):
                    cli = ch[1]
         Mensaje = apps.get_model('mail', 'Mensaje')
         Destinatario = apps.get_model('mail', 'Destinatario')
-        mms = Mensaje.objects.filter(rcv_time__gte=jbody['desde']).filter(rcv_time__lte=jbody['hasta']).filter(cliente=cli)
+        mms = Mensaje.objects.filter(rcv_time__gte=jbody['desde']).filter(rcv_time__lte=jbody['hasta'])
+        if cli:
+            mms = mms.filter(cliente=cli)
         dms = Destinatario.objects.filter(mensaje__in=mms)
 
         i = 0
