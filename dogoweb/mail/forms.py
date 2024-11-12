@@ -204,7 +204,10 @@ class MailForm(forms.ModelForm):
         return html_check(self.instance.es_cliente)
 
     def get_cliente(self):
-        return self.instance.cliente.nombre
+        ret = ''
+        if self.instance.cliente:
+            ret = self.instance.cliente.nombre
+        return ret
 
     def get_es_local(self):
         return html_check(self.instance.es_local)
