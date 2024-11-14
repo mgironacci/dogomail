@@ -110,7 +110,7 @@ class HiloSync(threading.Thread):
         self.sqlpas = rt[4]
 
     def run(self):
-        lcon = MDB.connect(host=lhost, port=lport, user=luser, passwd=lpass, db=lbase, charset="utf8mb4", use_unicode=Tru)
+        lcon = MDB.connect(host=lhost, port=lport, user=luser, passwd=lpass, db=lbase, charset="utf8mb4", use_unicode=True)
         lcur = lcon.cursor()
         hay_warn = False
         hay_errn = False
