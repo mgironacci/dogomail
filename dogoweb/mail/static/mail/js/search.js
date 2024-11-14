@@ -111,6 +111,8 @@ $(function(){
     $('#mails-table')
     .on('select.dt', function ( e, dt, type, indexes ) { clickDTs('select.mail', e, dt, indexes); } )
     .on('deselect.dt', function ( e, dt, type, indexes ) { clickDTs('deselect.mail', e, dt, indexes); } )
+    .on('preXhr.dt', function ( e, settings, data ) { NProgress.start(); } )
+    .on('xhr.dt', function ( e, settings, data ) { NProgress.done(); } )
     .DataTable({
         responsive: true,
         serverSide: true,
