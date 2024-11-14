@@ -251,19 +251,28 @@ class HiloSync(threading.Thread):
         print("Cliente destinos: {}".format(time.time()-ahora))
         ahora = time.time()
         # Reportes
-        if len(mensajesk) > 0:
-            rcur.execute('''select
-                id, mensaje_id, test_id, estado, result, puntaje, desc_resul
-                from run_spam
-                where mensaje_id in (%s) or lastupd >= '%s'
-                order by id''' % (",".join(mensajesk), self.ultvis))
-        else:
-            rcur.execute('''select
-                id, mensaje_id, test_id, estado, result, puntaje, desc_resul
-                from run_spam
-                where lastupd >= '%s'
-                order by id''' % (self.ultvis))
-        for o in rcur.fetchall():
+        reps = []
+        try:
+            if len(mensajesk) > 0:
+                rcur.execute('''select
+                    id, mensaje_id, test_id, estado, result, puntaje, desc_resul
+                    from run_spam
+                    where mensaje_id in (%s) or lastupd >= '%s'
+                    order by id''' % (",".join(mensajesk), self.ultvis))
+            else:
+                rcur.execute('''select
+                    id, mensaje_id, test_id, estado, result, puntaje, desc_resul
+                    from run_spam
+                    where lastupd >= '%s'
+                    order by id''' % (self.ultvis))
+            reps = rcur.fetchall()
+        except Exception as e:
+            sys.stderr.write("ERROR: Fallo el SELECT de tests, con los siguientes valores:\r\n")
+            sys.stderr.write(str(mensajesk))
+            sys.stderr.write("\r\nCAUSA:\r\n")
+            sys.stderr.write(str(e))
+            sys.stderr.write("\r\n")
+        for o in reps:
             if o[1] in mensajes.keys():
                 try:
                     dats = [self.dogoid, o[0], mensajes[o[1]], MOD_TEST[o[2]]]
