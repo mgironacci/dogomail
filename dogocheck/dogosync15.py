@@ -110,12 +110,12 @@ class HiloSync(threading.Thread):
         self.sqlpas = rt[4]
 
     def run(self):
-        lcon = MDB.connect(host=lhost, port=lport, user=luser, passwd=lpass, db=lbase)
+        lcon = MDB.connect(host=lhost, port=lport, user=luser, passwd=lpass, db=lbase, charset="utf8mb4", use_unicode=Tru)
         lcur = lcon.cursor()
         hay_warn = False
         hay_errn = False
         try:
-            rcon = MDB.connect(host=self.dogoip, port=3306, user=self.sqlusr, passwd=self.sqlpas, db='dogomail')
+            rcon = MDB.connect(host=self.dogoip, port=3306, user=self.sqlusr, passwd=self.sqlpas, db='dogomail', charset="utf8", use_unicode=True)
             rcur = rcon.cursor()
         except:
             # Aviso el estado que no pude conectar
