@@ -4,8 +4,10 @@ django-modeltranslation==0.12.1
 django-widget-tweaks==1.4.1
 dnspython==1.15.0
 ipwhois==1.0.0
+ldap3==2.9.1
 mysqlclient==2.1.0
 pid==2.2.3
+pyasn1==0.6.1
 python-zimbra==2.4
 pytz==2018.5
 PyYAML==5.3.1

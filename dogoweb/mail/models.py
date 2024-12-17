@@ -10,6 +10,11 @@ from spam.models import Politica, Modulo, AutoReglas
 from dogoweb.settings import VERSION, ICO_OK, ICO_WARN, ICO_INFO, ICO_CRIT
 import subprocess as sp
 from zimsoap.client import ZimbraAdminClient
+from ldap3 import Server, Connection, ALL
+import smtplib
+import poplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 
 # Campos seleccionables
@@ -392,11 +397,34 @@ class Dominio(models.Model):
         ret['html_form'] = render_to_string('mail/form_show_domain.html', context, request=request)
         return ret
 
-    def validar_casilla(self):
-        return False
+    def validar_casilla(self, casilla):
+        oauth = Autenticador(self.autentica, self.server.dirdns, self.server.adminusr, self.server.adminpas)
+        return oauth.validaCasilla(casilla)
+
+    def validar_dominio(self, casilla):
+        oauth = Autenticador(self.autentica, self.server.dirdns, self.server.adminusr, self.server.adminpas)
+        return oauth.validaDominio(self.nombre)
+
+    def validar_usuario(self, usuario, clave):
+        oauth = Autenticador(self.autentica, self.server.dirdns, self.server.adminusr, self.server.adminpas)
+        return oauth.authUsuario(usuario, clave)
 
     def enviarPrueba(self, destino):
-        return True
+        remitente = 'test@dogomail.itecnis.com'
+        try:
+            mensaje = MIMEMultipart()
+            mensaje["From"] = remitente
+            mensaje["To"] = destino
+            mensaje["Subject"] = "Correo de prueba - Envio SMTP"
+            cuerpo = "Este es un correo de prueba desde Dogomail"
+            mensaje.attach(MIMEText(cuerpo, "plain"))
+
+            # server = smtplib.SMTP(self.server.dirdns, 25)
+            # server.sendmail(remitente, destino, mensaje.as_string())
+            # server.quit()
+            return True
+        except Exception as e:
+            return False
 
     def update_numcas(self):
         if self.activo and self.server:
@@ -684,3 +712,143 @@ class AccionDogo(models.Model):
 
     class Meta:
         ordering = ["id"]
+
+
+class ConectorLDAP(object):
+    host = ''
+    adminDN = ''
+    adminPW = ''
+
+    def __init__(self, host, user, passwd):
+        self.host = host
+        self.adminDN = user
+        self.adminPW = passwd
+
+    def _get_base_dn(self, dominio):
+        return ','.join([f"dc={part}" for part in dominio.split('.')])
+
+    def validaCasilla(self, casilla):
+        try:
+            dominio = casilla.split('@')[-1]
+            base_dn = self._get_base_dn(dominio)
+            server = Server(self.host, get_info=ALL)
+            conn = Connection(server, self.adminDN, self.adminPW, auto_bind=True)
+            search_filter = f"(mail={casilla})"
+            conn.search(base_dn, search_filter, attributes=['mail'])
+            return bool(conn.entries)
+        except Exception:
+            return False
+
+    def validaDominio(self, dominio):
+        try:
+            base_dn = self._get_base_dn(dominio)
+            server = Server(self.host, get_info=ALL)
+            conn = Connection(server, self.adminDN, self.adminPW, auto_bind=True)
+            search_filter = f"(mail=*@{dominio})"
+            conn.search(base_dn, search_filter, attributes=['mail'])
+            return bool(conn.entries)
+        except Exception:
+            return False
+
+    def authUsuario(self, usuario, clave):
+        try:
+            dominio = usuario.split('@')[-1]
+            base_dn = self._get_base_dn(dominio)
+            server = Server(self.host, get_info=ALL)
+            conn = Connection(server, user=f"uid={usuario.split('@')[0]},{base_dn}", password=clave, auto_bind=True)
+            return conn.bound
+        except Exception:
+            return False
+
+
+class ConectorSMTP(object):
+    host = ''
+
+    def __init__(self, host):
+        self.host = host
+
+    def validaCasilla(self, casilla):
+        try:
+            server = smtplib.SMTP(self.host)
+            server.set_debuglevel(0)
+            response, _ = server.mail(casilla)
+            server.quit()
+            return response == 250  # SMTP response code for success
+        except Exception:
+            return False
+
+    def validaDominio(self, dominio):
+        try:
+            server = smtplib.SMTP(self.host)
+            server.set_debuglevel(0)
+            response, _ = server.mail(f"test@{dominio}")
+            server.quit()
+            return response == 250  # SMTP response code for success
+        except Exception:
+            return False
+
+    def authUsuario(self, usuario, clave):
+        try:
+            server = smtplib.SMTP(self.host)
+            server.starttls()
+            server.login(usuario, clave)
+            server.quit()
+            return True
+        except smtplib.SMTPAuthenticationError:
+            return False
+
+
+class ConectorPOP(object):
+    host = ''
+
+    def __init__(self, host):
+        self.host = host
+
+    def validaCasilla(self, casilla):
+        try:
+            server = poplib.POP3(self.host)
+            server.user(casilla)
+            server.quit()
+            return True
+        except poplib.error_proto:
+            return False
+
+    def validaDominio(self, dominio):
+        try:
+            server = poplib.POP3(self.host)
+            server.user(f"test@{dominio}")
+            server.quit()
+            return True
+        except poplib.error_proto:
+            return False
+
+    def authUsuario(self, usuario, clave):
+        try:
+            server = poplib.POP3(self.host)
+            server.user(usuario)
+            server.pass_(clave)
+            server.quit()
+            return True
+        except poplib.error_proto:
+            return False
+
+
+class Autenticador(object):
+    conector = None
+
+    def __init__(self, tipo, host, user=None, passwd=None):
+        if tipo == 'ldap':
+            self.conector = ConectorLDAP(host, user, passwd)
+        elif tipo == 'smtp':
+            self.conector = ConectorSMTP(host)
+        elif tipo == 'pop3':
+            self.conector = ConectorPOP(host)
+
+    def validaCasilla(self, casilla):
+        return self.conector.validaCasilla(casilla)
+
+    def validaDominio(self, dominio):
+        return self.conector.validaDominio(dominio)
+
+    def authUsuario(self, usuario, clave):
+        return self.conector.authUsuario(usuario, clave)
