@@ -190,9 +190,15 @@ def domain_create(request):
 @ajax_permission_required('mail.add_domain')
 def domain_smail(request):
     ret = Dominio.objects.dt_wizard(request, DOM_STEPS)
-    # enviar correo
-    if request.POST.get('mprueba', '') != '':
-        pass
+    # enviar correo de prueba
+    mprueba = request.POST.get('mprueba', '')
+    if mprueba != '':
+        try:
+            domnam = mprueba.split('@')[-1]
+            dominio = Dominio.objects.filter(nombre=domnam)[0]
+            dominio.enviarPrueba(mprueba)
+        except:
+            pass
     ret['panel'] = 'dominio'
     return JsonResponse(ret)
 
