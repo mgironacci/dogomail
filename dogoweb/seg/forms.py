@@ -22,6 +22,7 @@ class UserForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kw):
+        kw.pop('user', None)
         super().__init__(*args, **kw)
         if 'instance' in kw and kw['instance'] is not None and kw['instance'].groups.count() > 0:
             self.fields['grupo'].initial = kw['instance'].groups.first()
